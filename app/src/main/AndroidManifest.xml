@@ -9,16 +9,16 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Dimot_Bekalot2">
-
-        <activity android:name="com.entryActivities.dimot_bekalot.Main_Activity">
+        <activity android:name=".WatchingQueueActivity"></activity>
+        <activity android:name=".Main_Activity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name="com.entryActivities.dimot_bekalot.Login_Activity"></activity>
-        <activity android:name="com.entryActivities.dimot_bekalot.Register_Activity"></activity>
+        <activity android:name=".Login_Activity" />
+        <activity android:name=".Register_Activity" />
     </application>
 
 </manifest>

@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "62151208767",
+    "firebase_url": "https://dimot-bekalot.firebaseio.com",
+    "project_id": "dimot-bekalot",
+    "storage_bucket": "dimot-bekalot.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:62151208767:android:0a1c9ec47a7a1b4f1e6d8a",
+        "android_client_info": {
+          "package_name": "com.example.dimot_bekalot2"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "62151208767-i104v1gj2n4b0rnm594om2b9l027m43v.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDhY8nIWBfe1m_DEqX4EKN78gn7d_NsIZI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "62151208767-i104v1gj2n4b0rnm594om2b9l027m43v.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
