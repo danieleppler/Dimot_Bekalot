@@ -1,4 +1,4 @@
-package InstitueActivity;
+package com.InstitueActivity;
 
 public class Institute {
     private String _name, _location;

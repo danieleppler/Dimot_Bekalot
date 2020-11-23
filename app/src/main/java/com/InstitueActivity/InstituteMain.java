@@ -1,4 +1,4 @@
-package InstitueActivity;
+package com.InstitueActivity;
 
 import android.os.Bundle;
 import android.view.View;
