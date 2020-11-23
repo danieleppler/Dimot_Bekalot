@@ -7,7 +7,7 @@ android {
     buildToolsVersion "30.0.2"
 
     defaultConfig {
-        applicationId "com.example.dimot_bekalot2"
+        applicationId "com.dimot_bekalot"
         minSdkVersion 22
         targetSdkVersion 30
         versionCode 1

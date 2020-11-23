@@ -1,11 +1,11 @@
-package com.example.dimot_bekalot2;
+package com.entryActivities.dimot_bekalot;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
 import android.view.View;
 
-public class RegisterActivity extends AppCompatActivity implements View.OnClickListener{
+public class Register_Activity extends AppCompatActivity implements View.OnClickListener{
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

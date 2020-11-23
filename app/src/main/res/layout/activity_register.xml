@@ -4,41 +4,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".RegisterActivity">
-
-    <Button
-        android:id="@+id/send"
-        android:layout_width="126dp"
-        android:layout_height="82dp"
-        android:layout_weight="1"
-        android:rotationX="-6"
-        android:rotationY="4"
-        android:scaleX="0"
-        android:text="שלח"
-        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-        tools:ignore="MissingConstraints"
-        tools:layout_editor_absoluteX="142dp"
-        tools:layout_editor_absoluteY="324dp" />
-
-    <EditText
-        android:id="@+id/editTextTextPersonName"
-        android:layout_width="152dp"
-        android:layout_height="54dp"
-        android:ems="10"
-        android:inputType="textPersonName"
-        android:text="Name"
-        tools:layout_editor_absoluteX="58dp"
-        tools:layout_editor_absoluteY="129dp" />
-
-    <TextView
-        android:id="@+id/textView"
-        android:layout_width="118dp"
-        android:layout_height="29dp"
-        android:text="שם פרטי"
-        app:layout_constraintBottom_toBottomOf="@+id/editTextTextPersonName"
-        app:layout_constraintTop_toTopOf="@+id/editTextTextPersonName"
-        tools:layout_editor_absoluteX="244dp" />
-
-    android:layout_marginBottom="20dp"
+    tools:context=".Register_Activity">
 
 </androidx.constraintlayout.widget.ConstraintLayout>

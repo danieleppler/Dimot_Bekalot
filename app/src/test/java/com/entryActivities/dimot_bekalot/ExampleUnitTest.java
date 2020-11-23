@@ -1,4 +1,4 @@
-package com.example.dimot_bekalot2;
+package com.entryActivities.dimot_bekalot;
 
 import org.junit.Test;
 
