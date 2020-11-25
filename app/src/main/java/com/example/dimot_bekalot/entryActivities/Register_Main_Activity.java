@@ -1,6 +1,6 @@
 package com.example.dimot_bekalot.entryActivities;
 /**
- * This activity will lead the user to patient reguster
+ * This activity will lead the user to patient register
  * or to institute register
  */
 import androidx.appcompat.app.AppCompatActivity;

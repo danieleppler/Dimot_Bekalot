@@ -8,13 +8,13 @@
     tools:context=".entryActivities.Register_Patient_Activity">
 
     <EditText
-        android:id="@+id/user_user_name_input_register_patient"
+        android:id="@+id/user_ID_input_register_patient"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="34dp"
         android:background="#DAC4DD"
         android:ems="10"
-        android:hint="שם משתמש"
+        android:hint="תעודת זהות"
         android:inputType="text"
         app:layout_constraintBottom_toTopOf="@+id/contact_in_text_view_patient"
         app:layout_constraintEnd_toEndOf="@+id/user_age_input_register_patient"
@@ -178,9 +178,9 @@
         android:hint="E-mail"
         android:inputType="textEmailAddress"
         app:layout_constraintBottom_toBottomOf="@+id/user_living_city_input_register_patient"
-        app:layout_constraintEnd_toEndOf="@+id/user_user_name_input_register_patient"
+        app:layout_constraintEnd_toEndOf="@+id/user_ID_input_register_patient"
         app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="@+id/user_user_name_input_register_patient"
+        app:layout_constraintStart_toStartOf="@+id/user_ID_input_register_patient"
         app:layout_constraintTop_toBottomOf="@+id/contact_in_text_view_patient"
         app:layout_constraintVertical_bias="0.046" />
 
@@ -241,7 +241,7 @@
         app:layout_constraintEnd_toEndOf="@+id/user_password_input_register_patient"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="@+id/user_password_input_register_patient"
-        app:layout_constraintTop_toTopOf="@+id/user_user_name_input_register_patient"
+        app:layout_constraintTop_toTopOf="@+id/user_ID_input_register_patient"
         app:layout_constraintVertical_bias="0.934" />
 
     <ProgressBar
@@ -251,7 +251,7 @@
         android:layout_height="81dp"
         android:visibility="invisible"
         app:layout_constraintBottom_toTopOf="@+id/address_in_text_view_patient"
-        app:layout_constraintEnd_toStartOf="@+id/user_user_name_input_register_patient"
+        app:layout_constraintEnd_toStartOf="@+id/user_ID_input_register_patient"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/personal_in_text_view_patient" />
 

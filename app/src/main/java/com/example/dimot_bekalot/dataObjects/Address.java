@@ -1,4 +1,4 @@
-package com.example.dimot_bekalot.structures;
+package com.example.dimot_bekalot.dataObjects;
 /**
  * This JAVA Class represent a Address Details of a costumer
  * aka Imaging Institutes and patients
@@ -16,6 +16,5 @@ public class Address {
 
     public String getCity_Name() { return City_Name; }
     public String getStreet_Name() { return Street_Name; }
-    public String getHouse_Number() { return House_Number; }
-
+    public String getHouse_Number() {return House_Number; }
 }
