@@ -1,0 +1,258 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/pale_blue_background"
+    tools:context=".entryActivities.Register_Patient_Activity">
+
+    <EditText
+        android:id="@+id/user_user_name_input_register_patient"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="34dp"
+        android:background="#DAC4DD"
+        android:ems="10"
+        android:hint="שם משתמש"
+        android:inputType="text"
+        app:layout_constraintBottom_toTopOf="@+id/contact_in_text_view_patient"
+        app:layout_constraintEnd_toEndOf="@+id/user_age_input_register_patient"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/user_age_input_register_patient"
+        app:layout_constraintTop_toTopOf="@+id/user_age_input_register_patient"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <TextView
+        android:id="@+id/contact_in_text_view_patient"
+        android:layout_width="378dp"
+        android:layout_height="27dp"
+        android:text="פרטי התקשרות :"
+        android:textColor="#150101"
+        android:textSize="15dp"
+        app:layout_constraintBottom_toTopOf="@+id/address_in_text_view_patient"
+        app:layout_constraintEnd_toEndOf="@+id/address_in_text_view_patient"
+        app:layout_constraintStart_toStartOf="@+id/address_in_text_view_patient"
+        app:layout_constraintTop_toBottomOf="@+id/personal_in_text_view_patient"
+        app:layout_constraintVertical_bias="0.535" />
+
+    <EditText
+        android:id="@+id/user_age_input_register_patient"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="44dp"
+        android:background="#DAC4DD"
+        android:ems="10"
+        android:hint="גיל"
+        android:inputType="text"
+        app:layout_constraintEnd_toEndOf="@+id/user_last_name_input_register_patient"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/user_last_name_input_register_patient"
+        app:layout_constraintTop_toBottomOf="@+id/user_first_name_input_register_patient" />
+
+    <TextView
+        android:id="@+id/personal_in_text_view_patient"
+        android:layout_width="378dp"
+        android:layout_height="27dp"
+        android:layout_marginTop="50dp"
+        android:text="פרטים אישיים :"
+        android:textColor="#150101"
+        android:textSize="15dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/address_in_text_view_patient"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/address_in_text_view_patient"
+        app:layout_constraintTop_toTopOf="@+id/fill_in_text_view_patient"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <TextView
+        android:id="@+id/address_in_text_view_patient"
+        android:layout_width="378dp"
+        android:layout_height="27dp"
+        android:text="פרטי מגורים :"
+        android:textColor="#150101"
+        android:textSize="15dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/fill_in_text_view_patient"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="@+id/fill_in_text_view_patient"
+        app:layout_constraintTop_toBottomOf="@+id/fill_in_text_view_patient"
+        app:layout_constraintVertical_bias="0.638" />
+
+    <EditText
+        android:id="@+id/user_house_number_input_register_patient"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:background="#DAC4DD"
+        android:ems="10"
+        android:hint="מספר בית"
+        android:inputType="text"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/user_living_street_input_register_patient"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/user_living_street_input_register_patient"
+        app:layout_constraintTop_toBottomOf="@+id/user_living_street_input_register_patient"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <EditText
+        android:id="@+id/user_living_street_input_register_patient"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:background="#DAC4DD"
+        android:ems="10"
+        android:hint="רחוב"
+        android:inputType="text"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/user_living_city_input_register_patient"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/user_living_city_input_register_patient"
+        app:layout_constraintTop_toBottomOf="@+id/user_living_city_input_register_patient"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <include
+        android:id="@+id/include2"
+        layout="@layout/toolbar" />
+
+    <TextView
+        android:id="@+id/welcome_text_view_patient"
+        android:layout_width="331dp"
+        android:layout_height="82dp"
+        android:text="ברוכים הבאים לעמוד הרשמה לפציאנט חדש !"
+        android:textColor="#150101"
+        android:textSize="30dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.8"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.104" />
+
+    <TextView
+        android:id="@+id/fill_in_text_view_patient"
+        android:layout_width="378dp"
+        android:layout_height="27dp"
+        android:text="מלאו את הפרטים הבאים בתשומות לב :"
+        android:textColor="#150101"
+        android:textSize="20dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/welcome_text_view_patient"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/welcome_text_view_patient"
+        app:layout_constraintVertical_bias="0.023" />
+
+    <EditText
+        android:id="@+id/user_first_name_input_register_patient"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="#DAC4DD"
+        android:ems="10"
+        android:hint="שם פרטי"
+        android:inputType="text"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.92"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/personal_in_text_view_patient" />
+
+    <EditText
+        android:id="@+id/user_last_name_input_register_patient"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="36dp"
+        android:background="#DAC4DD"
+        android:ems="10"
+        android:hint="שם משפחה"
+        android:inputType="text"
+        app:layout_constraintEnd_toEndOf="@+id/user_first_name_input_register_patient"
+        app:layout_constraintStart_toStartOf="@+id/user_first_name_input_register_patient"
+        app:layout_constraintTop_toTopOf="@+id/user_first_name_input_register_patient" />
+
+    <EditText
+        android:id="@+id/user_email_input_register_patient"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="#DAC4DD"
+        android:ems="10"
+        android:hint="E-mail"
+        android:inputType="textEmailAddress"
+        app:layout_constraintBottom_toBottomOf="@+id/user_living_city_input_register_patient"
+        app:layout_constraintEnd_toEndOf="@+id/user_user_name_input_register_patient"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/user_user_name_input_register_patient"
+        app:layout_constraintTop_toBottomOf="@+id/contact_in_text_view_patient"
+        app:layout_constraintVertical_bias="0.046" />
+
+    <EditText
+        android:id="@+id/user_living_city_input_register_patient"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:background="#DAC4DD"
+        android:ems="10"
+        android:hint="עיר מגורים"
+        android:inputType="text"
+        android:linksClickable="false"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/address_in_text_view_patient"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="@+id/user_email_input_register_patient"
+        app:layout_constraintTop_toBottomOf="@+id/address_in_text_view_patient"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <Button
+        android:id="@+id/registr_new_patient_button"
+        android:layout_width="144dp"
+        android:layout_height="69dp"
+        android:text="הרשם !"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.059"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/user_house_number_input_register_patient"
+        app:layout_constraintVertical_bias="0.238" />
+
+    <EditText
+        android:id="@+id/user_password_input_register_patient"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="2dp"
+        android:background="#DAC4DD"
+        android:ems="10"
+        android:hint="סיסמא בת 9 תוים"
+        android:inputType="textPassword"
+        app:layout_constraintBottom_toBottomOf="@+id/user_living_city_input_register_patient"
+        app:layout_constraintEnd_toEndOf="@+id/user_email_input_register_patient"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/user_email_input_register_patient"
+        app:layout_constraintTop_toBottomOf="@+id/user_age_input_register_patient"
+        app:layout_constraintVertical_bias="0.64" />
+
+    <EditText
+        android:id="@+id/user_phone_input_register_patient"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="#DAC4DD"
+        android:ems="10"
+        android:hint="050-5555555"
+        android:inputType="phone"
+        app:layout_constraintBottom_toTopOf="@+id/user_password_input_register_patient"
+        app:layout_constraintEnd_toEndOf="@+id/user_password_input_register_patient"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/user_password_input_register_patient"
+        app:layout_constraintTop_toTopOf="@+id/user_user_name_input_register_patient"
+        app:layout_constraintVertical_bias="0.934" />
+
+    <ProgressBar
+        android:id="@+id/progres_bar_patient"
+        style="?android:attr/progressBarStyle"
+        android:layout_width="75dp"
+        android:layout_height="81dp"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toTopOf="@+id/address_in_text_view_patient"
+        app:layout_constraintEnd_toStartOf="@+id/user_user_name_input_register_patient"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/personal_in_text_view_patient" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

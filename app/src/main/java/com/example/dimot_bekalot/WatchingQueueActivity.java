@@ -1,4 +1,4 @@
-package com.entryActivities.dimot_bekalot;
+package com.example.dimot_bekalot;
 
 import androidx.appcompat.app.AppCompatActivity;
 

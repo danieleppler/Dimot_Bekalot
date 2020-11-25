@@ -1,11 +1,15 @@
-package com.entryActivities.dimot_bekalot;
-
+package com.example.dimot_bekalot.entryActivities;
+/**
+This activity is the START Page of the application
+ */
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+
+import com.example.dimot_bekalot.R;
 
 public class Main_Activity extends AppCompatActivity {
 
@@ -29,7 +33,7 @@ public class Main_Activity extends AppCompatActivity {
         register_button = (Button)findViewById(R.id.register_button);
         register_button.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v){ openRegister_Activity(); }
+            public void onClick(View v){ openMainRegister_Activity(); }
         });
         /*end_Register_button*/
 
@@ -42,9 +46,9 @@ public class Main_Activity extends AppCompatActivity {
         startActivity(open_login);
     }
 
-    /*Activate register activity*/
-    private void openRegister_Activity() {
-        Intent open_register = new Intent(this,Register_Activity.class);
-        startActivity(open_register);
+    /*Activate main register activity*/
+    private void openMainRegister_Activity() {
+        Intent open_main_register = new Intent(this, Register_Main_Activity.class);
+        startActivity(open_main_register);
     }
 }

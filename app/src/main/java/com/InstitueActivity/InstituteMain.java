@@ -7,7 +7,7 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.entryActivities.dimot_bekalot.R;
+import com.example.dimot_bekalot.R;
 
 public class InstituteMain extends AppCompatActivity implements View.OnClickListener {
     Button update, watching;

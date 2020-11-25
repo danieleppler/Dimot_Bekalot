@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.entryActivities.dimot_bekalot">
+    package="com.example.dimot_bekalot">
+
+    <uses-permission android:name="android.permission.INTERNET"/>
 
     <application
         android:allowBackup="true"
@@ -9,16 +11,22 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Dimot_Bekalot2">
-        <activity android:name=".WatchingQueueActivity"></activity>
-        <activity android:name=".Main_Activity">
+        <activity android:name="com.example.dimot_bekalot.entryActivities.Register_Institute_Activity"></activity>
+        <activity android:name="com.example.dimot_bekalot.entryActivities.Register_Main_Activity" />
+        <activity android:name="com.example.dimot_bekalot.WatchingQueueActivity" />
+        <activity android:name="com.example.dimot_bekalot.entryActivities.Main_Activity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".Login_Activity" />
-        <activity android:name=".Register_Activity" />
+        <activity android:name="com.example.dimot_bekalot.entryActivities.Login_Activity" />
+        <activity android:name="com.example.dimot_bekalot.entryActivities.Register_Patient_Activity" />
+
+        <meta-data
+            android:name="preloaded_fonts"
+            android:resource="@array/preloaded_fonts" />
     </application>
 
 </manifest>
