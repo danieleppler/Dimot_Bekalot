@@ -2,7 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.dimot_bekalot">
 
-    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.INTERNET" />
 
     <application
         android:allowBackup="true"
@@ -11,18 +11,20 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Dimot_Bekalot2">
-        <activity android:name="com.example.dimot_bekalot.entryActivities.Register_Institute_Activity"></activity>
-        <activity android:name="com.example.dimot_bekalot.entryActivities.Register_Main_Activity" />
-        <activity android:name="com.example.dimot_bekalot.WatchingQueueActivity" />
-        <activity android:name="com.example.dimot_bekalot.entryActivities.Main_Activity">
+        <activity android:name=".entryActivities.Verification_Activity"></activity>
+        <activity android:name=".connectActivities.Connect_Activity" />
+        <activity android:name=".entryActivities.Register_Institute_Activity" />
+        <activity android:name=".entryActivities.Register_Main_Activity" />
+        <activity android:name=".WatchingQueueActivity" />
+        <activity android:name=".entryActivities.Main_Activity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name="com.example.dimot_bekalot.entryActivities.Login_Activity" />
-        <activity android:name="com.example.dimot_bekalot.entryActivities.Register_Patient_Activity" />
+        <activity android:name=".entryActivities.Login_Activity" />
+        <activity android:name=".entryActivities.Register_Patient_Activity" />
 
         <meta-data
             android:name="preloaded_fonts"

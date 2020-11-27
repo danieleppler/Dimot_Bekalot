@@ -7,7 +7,9 @@
     android:background="@drawable/pale_blue_background"
     tools:context=".entryActivities.Register_Institute_Activity">
 
-    <include layout="@layout/toolbar" />
+    <include
+        android:id="@+id/include5"
+        layout="@layout/toolbar" />
 
     <EditText
         android:id="@+id/user_ID_input_register_institute"
@@ -229,4 +231,4 @@
         app:layout_constraintTop_toBottomOf="@+id/user_ID_input_register_institute"
         app:layout_constraintVertical_bias="0.0" />
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+   </androidx.constraintlayout.widget.ConstraintLayout>

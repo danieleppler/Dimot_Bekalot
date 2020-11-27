@@ -9,6 +9,35 @@ import android.widget.EditText;
 public class validationTools {
 
     /**
+     * This function check if the input at Login Activity is valid and correct
+     * @param ID
+     * @param email
+     * @param password
+     * @param ID_Input
+     * @param email_Input
+     * @param password_input
+     * @return
+     */
+    public static boolean isLoginInputValid(String ID, String password, EditText ID_Input,
+                                    EditText password_input){
+
+        if (TextUtils.isEmpty(ID)) {
+            ID_Input.setError("ת.ז או מספר רישוי הוא שדה חובה");
+            return false;
+        }
+
+        if (TextUtils.isEmpty(password)) {
+            password_input.setError("סיסמא הוא שדה חובה");
+            return false;
+        }
+
+        if (password.length() != 9) {
+            password_input.setError("אורך הסיסמא חייב להיות 9 תווים");
+            return false;
+        }
+        return true;
+    }
+    /**
      * This function make sure the patient fill his first and last name and id.
      * @param firstName
      * @param lastName

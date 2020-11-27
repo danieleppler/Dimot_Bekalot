@@ -1,5 +1,9 @@
 package com.example.dimot_bekalot.entryActivities;
+/**
+ *
+ */
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
@@ -10,43 +14,103 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.example.dimot_bekalot.R;
+import com.example.dimot_bekalot.dataObjects.Login_Input_Data;
+import com.example.dimot_bekalot.tools.validationTools;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
 
 public class Login_Activity extends AppCompatActivity {
 
     private Button registerButton;
     private Button submitLoginButton;
 
-    private String email;
-    private long password;
+    private String ID;
+    private String password;
 
-    private EditText emailInput;
+    private EditText IDinput;
     private EditText passwordInput;
+
+    private FirebaseDatabase dataBase;
+    private DatabaseReference myDataBasePatients;
+    private DatabaseReference myDataBaseInstitutes;
+    private static final String INSTITUTES = "Institutes";
+    private static final String PATIENTS = "Patient";
+    private String INSTITUTEorPATIENT = "NOT";
+    private Login_Input_Data loginCostumer;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        emailInput = (EditText) findViewById(R.id.user_email_input);
-        passwordInput = (EditText) findViewById(R.id.user_password_input);
+        IDinput = (EditText) findViewById(R.id.user_ID_input_login);
+        passwordInput = (EditText) findViewById(R.id.user_password_input_login);
 
-        /*Submit Login Button will start to work*/
+        /*Submit Login Button will connecting from view*/
         submitLoginButton = (Button) findViewById(R.id.LOGIN_Button);
+
+        /*FireBase_connection*/
+        dataBase = FirebaseDatabase.getInstance();
+        myDataBasePatients = dataBase.getReference().getRoot().child(PATIENTS);
+        myDataBaseInstitutes = dataBase.getReference().getRoot().child(INSTITUTES);
+        /*end_FireBase_connection*/
+        //*************************************************************//
+
         submitLoginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (emailInput.getText() == null || passwordInput.getText() == null) {
-                    submitAgainToast();
-                }
-//                email = emailInput.getText().toString();
-//                password = Long.valueOf(passwordInput.getText().toString());
+                String ID = IDinput.getText().toString().trim();
+                String password = passwordInput.getText().toString().trim();
 
+                /*checking if the inputs is valid inputs*/
+                if(!validationTools.isLoginInputValid(ID,password,IDinput,passwordInput)){
+                    return;
+                }
+                /*end_validation_checking*/
+
+                loginCostumer = new Login_Input_Data(ID,password);
+                openVerification_Activity();
+
+                /*checking if it's patient or institute*/
+//                Query IDChekingExistenceInstitutes = myDataBaseInstitutes.orderByChild("id").equalTo(ID);
+//                IDChekingExistenceInstitutes.addListenerForSingleValueEvent(new ValueEventListener() {
+//                    @Override
+//                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+//                        if (snapshot.getChildrenCount()>0){ INSTITUTEorPATIENT = INSTITUTES; }
+//                        else{ return; }
+//                    }
+//                    @Override
+//                    public void onCancelled(@NonNull DatabaseError error) { }
+//                });
+//
+//                Query IDCheckingExistencePatients = myDataBasePatients.orderByChild("id").equalTo(ID);
+//                IDCheckingExistencePatients.addListenerForSingleValueEvent(new ValueEventListener() {
+//                    @Override
+//                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+//                        if (snapshot.getChildrenCount()>0){ INSTITUTEorPATIENT = PATIENTS; }
+//                        else{ return; }
+//                    }
+//                    @Override
+//                    public void onCancelled(@NonNull DatabaseError error) { }
+//                });
+//                /*end_checking_patient_or_institute*/
+//
+//                if(!INSTITUTEorPATIENT.equals("NOT")){
+//
+//                }else{
+//                    Toast.makeText(Login_Activity.this, "אין משתמש כזה, אנא הרשם להתחברות" ,Toast.LENGTH_LONG).show();
+//                }
             }
         });
         /*end_Submit_Login_button*/
 
         /*Register button will start to work*/
-        registerButton = (Button) findViewById(R.id.register_button);
+        registerButton = (Button) findViewById(R.id.register_button_login);
         registerButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -56,7 +120,6 @@ public class Login_Activity extends AppCompatActivity {
         /*end_Register_button*/
     }
 
-
     /************private function that will activate the activities************/
     /*Activate register activity*/
     private void openMainRegister_Activity() {
@@ -64,7 +127,10 @@ public class Login_Activity extends AppCompatActivity {
         startActivity(open_main_register);
     }
 
-    private void submitAgainToast() {
-        Toast.makeText(this, "נתונים שגויים, נסה שנית בבקשה", Toast.LENGTH_SHORT).show();
+    /*Activate verification activity*/
+    private void openVerification_Activity(){
+        Intent open_verification = new Intent(this, Verification_Activity.class);
+        open_verification.putExtra("Login_Input_Data",loginCostumer);
+        startActivity(open_verification);
     }
 }

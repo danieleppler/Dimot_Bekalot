@@ -24,8 +24,12 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
 
 public class Register_Patient_Activity extends AppCompatActivity {
     private EditText first_nameInput, last_nameInput, ageInput;
@@ -38,7 +42,7 @@ public class Register_Patient_Activity extends AppCompatActivity {
     private FirebaseDatabase dataBase;
     private DatabaseReference myDataBase;
     private FirebaseAuth fAuto;
-    private static final String PATIENT = "patient";
+    private static final String PATIENTS = "Patients";
     private static final String TAG = "RegisterPatientActivity";
     private Costumer_Details_Patient costumer_details_patient;
     private Address patientAddress;
@@ -66,7 +70,7 @@ public class Register_Patient_Activity extends AppCompatActivity {
 
         /*FireBase_connection*/
         dataBase = FirebaseDatabase.getInstance();
-        myDataBase = dataBase.getReference(PATIENT);
+        myDataBase = dataBase.getReference(PATIENTS);
         fAuto = FirebaseAuth.getInstance();
         /*end_FireBase_connection*/
         //*************************************************************//
@@ -92,23 +96,38 @@ public class Register_Patient_Activity extends AppCompatActivity {
                 }
                 /*end_validation_checking*/
 
-                /*continue with other inputs after validation*/
-                String age = ageInput.getText().toString().trim();
-                String cityLiving = cityInput.getText().toString().trim();
-                String streetLiving = streetInput.getText().toString().trim();
-                String houseNumber = home_numberInput.getText().toString().trim();
-                /*end_all_inputs*/
+                /*checking if the user is already exist*/
+                Query IDChekingExistence = myDataBase.orderByChild("id").equalTo(patientID);
+                IDChekingExistence.addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        if(snapshot.getChildrenCount()>0){
+                            Toast.makeText(Register_Patient_Activity.this, "משתמש זה כבר רשום, הת.ז קיים" ,Toast.LENGTH_LONG).show();
 
-                /*create a new Patient*/
-                patientAddress = new Address(cityLiving, streetLiving, houseNumber);
-                costumer_details_patient = new Costumer_Details_Patient(email, phone, password,
-                        patientAddress, firstName, lastName, age, patientID);
+                        }else{
+                            /*continue with other inputs after validation*/
+                            String age = ageInput.getText().toString().trim();
+                            String cityLiving = cityInput.getText().toString().trim();
+                            String streetLiving = streetInput.getText().toString().trim();
+                            String houseNumber = home_numberInput.getText().toString().trim();
+                            /*end_all_inputs*/
 
-                /**all the needful details are enters, can move to register
-                 *the user in fireBase
-                 */
-                registerPatient(email, password);
-                progressBar.setVisibility(View.VISIBLE);
+                            /*create a new Patient*/
+                            patientAddress = new Address(cityLiving, streetLiving, houseNumber);
+                            costumer_details_patient = new Costumer_Details_Patient(email, phone, password,
+                                    patientAddress, firstName, lastName, age, patientID);
+
+                            /**all the needful details are enters, can move to register
+                             *the user in fireBase
+                             */
+                            registerPatient(email, password);
+                            progressBar.setVisibility(View.VISIBLE);
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) { }
+                });
             }
         });
     }
