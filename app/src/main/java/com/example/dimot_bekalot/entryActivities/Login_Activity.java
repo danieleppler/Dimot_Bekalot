@@ -16,6 +16,7 @@ import android.widget.Toast;
 import com.example.dimot_bekalot.R;
 import com.example.dimot_bekalot.dataObjects.Login_Input_Data;
 import com.example.dimot_bekalot.tools.validationTools;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -37,9 +38,8 @@ public class Login_Activity extends AppCompatActivity {
     private FirebaseDatabase dataBase;
     private DatabaseReference myDataBasePatients;
     private DatabaseReference myDataBaseInstitutes;
-    private static final String INSTITUTES = "Institutes";
-    private static final String PATIENTS = "Patient";
-    private String INSTITUTEorPATIENT = "NOT";
+    private FirebaseAuth fAuto;
+
     private Login_Input_Data loginCostumer;
 
 
@@ -54,11 +54,6 @@ public class Login_Activity extends AppCompatActivity {
         /*Submit Login Button will connecting from view*/
         submitLoginButton = (Button) findViewById(R.id.LOGIN_Button);
 
-        /*FireBase_connection*/
-        dataBase = FirebaseDatabase.getInstance();
-        myDataBasePatients = dataBase.getReference().getRoot().child(PATIENTS);
-        myDataBaseInstitutes = dataBase.getReference().getRoot().child(INSTITUTES);
-        /*end_FireBase_connection*/
         //*************************************************************//
 
         submitLoginButton.setOnClickListener(new View.OnClickListener() {
@@ -68,43 +63,13 @@ public class Login_Activity extends AppCompatActivity {
                 String password = passwordInput.getText().toString().trim();
 
                 /*checking if the inputs is valid inputs*/
-                if(!validationTools.isLoginInputValid(ID,password,IDinput,passwordInput)){
+                if (!validationTools.isLoginInputValid(ID, password, IDinput, passwordInput)) {
                     return;
                 }
                 /*end_validation_checking*/
 
-                loginCostumer = new Login_Input_Data(ID,password);
+                loginCostumer = new Login_Input_Data(ID, password);
                 openVerification_Activity();
-
-                /*checking if it's patient or institute*/
-//                Query IDChekingExistenceInstitutes = myDataBaseInstitutes.orderByChild("id").equalTo(ID);
-//                IDChekingExistenceInstitutes.addListenerForSingleValueEvent(new ValueEventListener() {
-//                    @Override
-//                    public void onDataChange(@NonNull DataSnapshot snapshot) {
-//                        if (snapshot.getChildrenCount()>0){ INSTITUTEorPATIENT = INSTITUTES; }
-//                        else{ return; }
-//                    }
-//                    @Override
-//                    public void onCancelled(@NonNull DatabaseError error) { }
-//                });
-//
-//                Query IDCheckingExistencePatients = myDataBasePatients.orderByChild("id").equalTo(ID);
-//                IDCheckingExistencePatients.addListenerForSingleValueEvent(new ValueEventListener() {
-//                    @Override
-//                    public void onDataChange(@NonNull DataSnapshot snapshot) {
-//                        if (snapshot.getChildrenCount()>0){ INSTITUTEorPATIENT = PATIENTS; }
-//                        else{ return; }
-//                    }
-//                    @Override
-//                    public void onCancelled(@NonNull DatabaseError error) { }
-//                });
-//                /*end_checking_patient_or_institute*/
-//
-//                if(!INSTITUTEorPATIENT.equals("NOT")){
-//
-//                }else{
-//                    Toast.makeText(Login_Activity.this, "אין משתמש כזה, אנא הרשם להתחברות" ,Toast.LENGTH_LONG).show();
-//                }
             }
         });
         /*end_Submit_Login_button*/
@@ -128,9 +93,9 @@ public class Login_Activity extends AppCompatActivity {
     }
 
     /*Activate verification activity*/
-    private void openVerification_Activity(){
+    private void openVerification_Activity() {
         Intent open_verification = new Intent(this, Verification_Activity.class);
-        open_verification.putExtra("Login_Input_Data",loginCostumer);
+        open_verification.putExtra("Login_Input_Data", loginCostumer);
         startActivity(open_verification);
     }
 }

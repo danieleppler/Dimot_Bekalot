@@ -41,9 +41,7 @@ public class Register_Patient_Activity extends AppCompatActivity {
 
     private FirebaseDatabase dataBase;
     private DatabaseReference myDataBase;
-    private FirebaseAuth fAuto;
     private static final String PATIENTS = "Patients";
-    private static final String TAG = "RegisterPatientActivity";
     private Costumer_Details_Patient costumer_details_patient;
     private Address patientAddress;
 
@@ -71,11 +69,10 @@ public class Register_Patient_Activity extends AppCompatActivity {
         /*FireBase_connection*/
         dataBase = FirebaseDatabase.getInstance();
         myDataBase = dataBase.getReference(PATIENTS);
-        fAuto = FirebaseAuth.getInstance();
         /*end_FireBase_connection*/
         //*************************************************************//
 
-         registerPatient_button.setOnClickListener(new View.OnClickListener() {
+        registerPatient_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 String firstName = first_nameInput.getText().toString().trim();
@@ -87,7 +84,7 @@ public class Register_Patient_Activity extends AppCompatActivity {
 
                 /*checking if the inputs is valid inputs*/
                 if (!validationTools.isPatientNamesIsValid(firstName, lastName, patientID,
-                        first_nameInput,last_nameInput, patientID_Input)) {
+                        first_nameInput, last_nameInput, patientID_Input)) {
                     return;
                 }
                 if (!validationTools.isAllCostumersNeedfulInputIsValid(email, password, phone, emailInput,
@@ -96,15 +93,14 @@ public class Register_Patient_Activity extends AppCompatActivity {
                 }
                 /*end_validation_checking*/
 
-                /*checking if the user is already exist*/
-                Query IDChekingExistence = myDataBase.orderByChild("id").equalTo(patientID);
-                IDChekingExistence.addListenerForSingleValueEvent(new ValueEventListener() {
+                /*checking if the user is already exist, if not added the user*/
+                Query IDCheckingExistence = myDataBase.orderByChild("id").equalTo(patientID);
+                IDCheckingExistence.addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
-                        if(snapshot.getChildrenCount()>0){
-                            Toast.makeText(Register_Patient_Activity.this, "משתמש זה כבר רשום, הת.ז קיים" ,Toast.LENGTH_LONG).show();
-
-                        }else{
+                        if (snapshot.getChildrenCount() > 0) {
+                            Toast.makeText(Register_Patient_Activity.this, "משתמש זה כבר רשום, הת.ז קיים", Toast.LENGTH_LONG).show();
+                        } else {
                             /*continue with other inputs after validation*/
                             String age = ageInput.getText().toString().trim();
                             String cityLiving = cityInput.getText().toString().trim();
@@ -120,13 +116,15 @@ public class Register_Patient_Activity extends AppCompatActivity {
                             /**all the needful details are enters, can move to register
                              *the user in fireBase
                              */
-                            registerPatient(email, password);
+                            registerPatient(costumer_details_patient);
                             progressBar.setVisibility(View.VISIBLE);
+                            openPatientMenu_Activity(costumer_details_patient.getID());
                         }
                     }
 
                     @Override
-                    public void onCancelled(@NonNull DatabaseError error) { }
+                    public void onCancelled(@NonNull DatabaseError error) {
+                    }
                 });
             }
         });
@@ -134,35 +132,18 @@ public class Register_Patient_Activity extends AppCompatActivity {
 
     /**
      * Adding patient to our Firebase DataBase
-     * @param email
-     * @param password
+     *
+     * @param costumer_details_patient
      */
-    private void registerPatient(String email, String password) {
-        fAuto.createUserWithEmailAndPassword(email, password)
-                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-                        if (task.isSuccessful()) {
-                            // Sign in success, update UI with the signed-in user's information
-                            Log.d(TAG, "החשבון נוצר בהצלחה");
-                            FirebaseUser user = fAuto.getCurrentUser();
-                            updateUI(user);
-                        } else {
-                            // If sign in fails, display a message to the user.
-                            Log.w(TAG, "החשבון לא נוצר - תקלה", task.getException());
-                            Toast.makeText(Register_Patient_Activity.this, "החשבון כבר קיים",
-                                    Toast.LENGTH_SHORT).show();
-                            startActivity(new Intent(getApplicationContext(), Login_Activity.class));
-                            finish();
-                        }
-                    }
-                });
+    private void registerPatient(Costumer_Details_Patient costumer_details_patient) {
+        myDataBase.child(costumer_details_patient.getID()).setValue(costumer_details_patient);
     }
 
-    private void updateUI(FirebaseUser currentPatientUser) {
-        //String keyID = myDataBase.push().getKey();
-        myDataBase.child(costumer_details_patient.getID()).setValue(costumer_details_patient);
-        Intent loginPatient = new Intent(this,Login_Activity.class);
-        startActivity(loginPatient);
+    /*Activate Patient Menu activity*/
+    private void openPatientMenu_Activity(String Patient_ID) {
+        Intent open_patient_menu = new Intent(this, Login_Activity.class);
+        //Intent open_institute_menu = new Intent(this,PatientMain.class);
+        //open_institute_menu.putExtra("Patient_ID",Patient_ID);
+        startActivity(open_patient_menu);
     }
 }

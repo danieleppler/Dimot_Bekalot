@@ -1,5 +1,7 @@
 package com.example.dimot_bekalot.dataObjects;
 
+import androidx.annotation.Nullable;
+
 import java.io.Serializable;
 
 /**
@@ -16,6 +18,27 @@ public class Login_Input_Data implements Serializable {
         this.password = password;
     }
 
-    public String getID() { return ID; }
-    public String getPassword() { return password; }
+    public String getID() {
+        return ID;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    /**
+     * This method will help to check users at the login Activity
+     * @param obj
+     * @return
+     */
+    @Override
+    public boolean equals(@Nullable Object obj) {
+        if (obj instanceof Login_Input_Data) {
+            Login_Input_Data login_input_data = (Login_Input_Data) obj;
+            if ((this.ID.equals(login_input_data.getID())) && (this.password.equals(login_input_data.getPassword()))) {
+                return true;
+            }
+        }
+        return false;
+    }
 }

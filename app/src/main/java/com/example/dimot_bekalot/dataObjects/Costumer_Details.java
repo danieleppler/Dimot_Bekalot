@@ -9,6 +9,8 @@ public class Costumer_Details {
     private String password;
     private Address address;
 
+    public Costumer_Details(){}
+
     public Costumer_Details(String email, String phone_number,String password, Address address) {
         this.email = email;
         this.phone_number = phone_number;
