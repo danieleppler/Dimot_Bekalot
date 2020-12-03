@@ -24,8 +24,12 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
 
 public class Register_Patient_Activity extends AppCompatActivity {
     private EditText first_nameInput, last_nameInput, ageInput;
@@ -37,9 +41,7 @@ public class Register_Patient_Activity extends AppCompatActivity {
 
     private FirebaseDatabase dataBase;
     private DatabaseReference myDataBase;
-    private FirebaseAuth fAuto;
-    private static final String PATIENT = "patient";
-    private static final String TAG = "RegisterPatientActivity";
+    private static final String PATIENTS = "Patients";
     private Costumer_Details_Patient costumer_details_patient;
     private Address patientAddress;
 
@@ -66,12 +68,11 @@ public class Register_Patient_Activity extends AppCompatActivity {
 
         /*FireBase_connection*/
         dataBase = FirebaseDatabase.getInstance();
-        myDataBase = dataBase.getReference(PATIENT);
-        fAuto = FirebaseAuth.getInstance();
+        myDataBase = dataBase.getReference(PATIENTS);
         /*end_FireBase_connection*/
         //*************************************************************//
 
-         registerPatient_button.setOnClickListener(new View.OnClickListener() {
+        registerPatient_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 String firstName = first_nameInput.getText().toString().trim();
@@ -83,7 +84,7 @@ public class Register_Patient_Activity extends AppCompatActivity {
 
                 /*checking if the inputs is valid inputs*/
                 if (!validationTools.isPatientNamesIsValid(firstName, lastName, patientID,
-                        first_nameInput,last_nameInput, patientID_Input)) {
+                        first_nameInput, last_nameInput, patientID_Input)) {
                     return;
                 }
                 if (!validationTools.isAllCostumersNeedfulInputIsValid(email, password, phone, emailInput,
@@ -92,58 +93,57 @@ public class Register_Patient_Activity extends AppCompatActivity {
                 }
                 /*end_validation_checking*/
 
-                /*continue with other inputs after validation*/
-                String age = ageInput.getText().toString().trim();
-                String cityLiving = cityInput.getText().toString().trim();
-                String streetLiving = streetInput.getText().toString().trim();
-                String houseNumber = home_numberInput.getText().toString().trim();
-                /*end_all_inputs*/
+                /*checking if the user is already exist, if not added the user*/
+                Query IDCheckingExistence = myDataBase.orderByChild("id").equalTo(patientID);
+                IDCheckingExistence.addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        if (snapshot.getChildrenCount() > 0) {
+                            Toast.makeText(Register_Patient_Activity.this, "משתמש זה כבר רשום, הת.ז קיים", Toast.LENGTH_LONG).show();
+                        } else {
+                            /*continue with other inputs after validation*/
+                            String age = ageInput.getText().toString().trim();
+                            String cityLiving = cityInput.getText().toString().trim();
+                            String streetLiving = streetInput.getText().toString().trim();
+                            String houseNumber = home_numberInput.getText().toString().trim();
+                            /*end_all_inputs*/
 
-                /*create a new Patient*/
-                patientAddress = new Address(cityLiving, streetLiving, houseNumber);
-                costumer_details_patient = new Costumer_Details_Patient(email, phone, password,
-                        patientAddress, firstName, lastName, age, patientID);
+                            /*create a new Patient*/
+                            patientAddress = new Address(cityLiving, streetLiving, houseNumber);
+                            costumer_details_patient = new Costumer_Details_Patient(email, phone, password,
+                                    patientAddress, firstName, lastName, age, patientID);
 
-                /**all the needful details are enters, can move to register
-                 *the user in fireBase
-                 */
-                registerPatient(email, password);
-                progressBar.setVisibility(View.VISIBLE);
+                            /**all the needful details are enters, can move to register
+                             *the user in fireBase
+                             */
+                            registerPatient(costumer_details_patient);
+                            progressBar.setVisibility(View.VISIBLE);
+                            openPatientMenu_Activity(costumer_details_patient.getID());
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+                    }
+                });
             }
         });
     }
 
     /**
      * Adding patient to our Firebase DataBase
-     * @param email
-     * @param password
+     *
+     * @param costumer_details_patient
      */
-    private void registerPatient(String email, String password) {
-        fAuto.createUserWithEmailAndPassword(email, password)
-                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-                        if (task.isSuccessful()) {
-                            // Sign in success, update UI with the signed-in user's information
-                            Log.d(TAG, "החשבון נוצר בהצלחה");
-                            FirebaseUser user = fAuto.getCurrentUser();
-                            updateUI(user);
-                        } else {
-                            // If sign in fails, display a message to the user.
-                            Log.w(TAG, "החשבון לא נוצר - תקלה", task.getException());
-                            Toast.makeText(Register_Patient_Activity.this, "החשבון כבר קיים",
-                                    Toast.LENGTH_SHORT).show();
-                            startActivity(new Intent(getApplicationContext(), Login_Activity.class));
-                            finish();
-                        }
-                    }
-                });
+    private void registerPatient(Costumer_Details_Patient costumer_details_patient) {
+        myDataBase.child(costumer_details_patient.getID()).setValue(costumer_details_patient);
     }
 
-    private void updateUI(FirebaseUser currentPatientUser) {
-        //String keyID = myDataBase.push().getKey();
-        myDataBase.child(costumer_details_patient.getID()).setValue(costumer_details_patient);
-        Intent loginPatient = new Intent(this,Login_Activity.class);
-        startActivity(loginPatient);
+    /*Activate Patient Menu activity*/
+    private void openPatientMenu_Activity(String Patient_ID) {
+        Intent open_patient_menu = new Intent(this, Login_Activity.class);
+        //Intent open_institute_menu = new Intent(this,PatientMain.class);
+        //open_institute_menu.putExtra("Patient_ID",Patient_ID);
+        startActivity(open_patient_menu);
     }
 }

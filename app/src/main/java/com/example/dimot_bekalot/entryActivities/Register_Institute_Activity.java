@@ -25,8 +25,12 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
 
 public class Register_Institute_Activity extends AppCompatActivity {
 
@@ -38,9 +42,7 @@ public class Register_Institute_Activity extends AppCompatActivity {
 
     private FirebaseDatabase dataBase;
     private DatabaseReference myDataBase;
-    private FirebaseAuth fAuto;
-    private static final String INSTITUTE = "institutes";
-    private static final String TAG = "RegisterIns_Activity";
+    private static final String INSTITUTES = "Institutes";
     private Costumer_Details_Institute costumer_details_institute;
     private Address instituteAddress;
 
@@ -65,8 +67,7 @@ public class Register_Institute_Activity extends AppCompatActivity {
 
         /*FireBase_connection*/
         dataBase = FirebaseDatabase.getInstance();
-        myDataBase = dataBase.getReference(INSTITUTE);
-        fAuto = FirebaseAuth.getInstance();
+        myDataBase = dataBase.getReference(INSTITUTES);
         /*end_FireBase_connection*/
         //*************************************************************//
 
@@ -81,8 +82,8 @@ public class Register_Institute_Activity extends AppCompatActivity {
                 String cityLiving = cityInput.getText().toString().trim();
 
                 /*checking if the inputs is valid inputs*/
-                if (!validationTools.isInstituteNamesIsValid(instituteName,instituteID,cityLiving,
-                        cityInput,institute_nameInput, instituteID_Input)) {
+                if (!validationTools.isInstituteNamesIsValid(instituteName, instituteID, cityLiving,
+                        cityInput, institute_nameInput, instituteID_Input)) {
                     return;
                 }
                 if (!validationTools.isAllCostumersNeedfulInputIsValid(email, password, phone,
@@ -91,56 +92,55 @@ public class Register_Institute_Activity extends AppCompatActivity {
                 }
                 /*end_validation_checking*/
 
-                /*continue with other inputs after validation*/
-                String streetLiving = streetInput.getText().toString().trim();
-                String buildingNumber = building_numberInput.getText().toString().trim();
-                /*end_all_inputs*/
+                /*checking if the user is already exist, if not added the user*/
+                Query IDCheckingExistence = myDataBase.orderByChild("instituteID").equalTo(instituteID);
+                IDCheckingExistence.addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        if (snapshot.getChildrenCount() > 0) {
+                            Toast.makeText(Register_Institute_Activity.this, "משתמש זה כבר רשום, מספר הרישוי כבר קיים", Toast.LENGTH_LONG).show();
+                        } else {
+                            /*continue with other inputs after validation*/
+                            String streetLiving = streetInput.getText().toString().trim();
+                            String buildingNumber = building_numberInput.getText().toString().trim();
+                            /*end_all_inputs*/
 
-                /*create a new Patient*/
-                instituteAddress = new Address(cityLiving, streetLiving, buildingNumber);
-                costumer_details_institute = new Costumer_Details_Institute(email, phone,
-                        password, instituteAddress, instituteName, instituteID);
+                            /*create a new Patient*/
+                            instituteAddress = new Address(cityLiving, streetLiving, buildingNumber);
+                            costumer_details_institute = new Costumer_Details_Institute(email, phone,
+                                    password, instituteAddress, instituteName, instituteID);
 
-                /**all the needful details are enters, can move to register
-                 *the user in fireBase
-                 */
-                registerInstitute(email, password);
-                progressBar.setVisibility(View.VISIBLE);
+                            /**all the needful details are enters, can move to register
+                             *the user in fireBase
+                             */
+                            registerInstitute(costumer_details_institute);
+                            progressBar.setVisibility(View.VISIBLE);
+                            openInstituteMenu_Activity(costumer_details_institute.getInstituteID());
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+                    }
+                });
             }
         });
     }
 
     /**
      * Adding patient to our Firebase DataBase
-     * @param email
-     * @param password
+     * @param costumer_details_institute
      */
-    private void registerInstitute(String email, String password) {
-        fAuto.createUserWithEmailAndPassword(email, password)
-                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-                        if (task.isSuccessful()) {
-                            // Sign in success, update UI with the signed-in user's information
-                            Log.d(TAG, "פרטי המכון ניקלטו במערכת, ב ב48 השעות הקרובות" +
-                                    "יעודכן אם המכון תקין ורשום");
-                            FirebaseUser user = fAuto.getCurrentUser();
-                            updateUI(user);
-                        } else {
-                            // If sign in fails, display a message to the user.
-                            Log.w(TAG, "החשבון לא נוצר - תקלה", task.getException());
-                            Toast.makeText(Register_Institute_Activity.this, "החשבון כבר קיים",
-                                    Toast.LENGTH_SHORT).show();
-                            startActivity(new Intent(getApplicationContext(), Login_Activity.class));
-                            finish();                        }
-                    }
-                });
+    private void registerInstitute(Costumer_Details_Institute costumer_details_institute) {
+        myDataBase.child(costumer_details_institute.getInstituteID()).setValue(costumer_details_institute);
     }
 
-    private void updateUI(FirebaseUser currentPatientUser) {
-        //String keyID = myDataBase.push().getKey();
-        myDataBase.child(costumer_details_institute.getInstituteID()).setValue(costumer_details_institute);
-        Intent loginInstitute = new Intent(this, Login_Activity.class);
-        startActivity(loginInstitute);
+    /*Activate Institute Menu activity*/
+    private void openInstituteMenu_Activity(String Institute_ID) {
+        Intent open_institute_menu = new Intent(this, Login_Activity.class);
+        //Intent open_institute_menu = new Intent(this,InstituteMain.class);
+        //open_institute_menu.putExtra("Institute_ID",Institute_ID);
+        startActivity(open_institute_menu);
+
     }
 }
