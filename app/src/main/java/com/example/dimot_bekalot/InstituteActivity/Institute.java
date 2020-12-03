@@ -1,4 +1,4 @@
-package com.InstitueActivity;
+package com.example.dimot_bekalot.InstituteActivity;
 
 public class Institute {
     private String _name, _location;

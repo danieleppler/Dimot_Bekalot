@@ -140,7 +140,7 @@ public class Register_Institute_Activity extends AppCompatActivity {
     private void updateUI(FirebaseUser currentPatientUser) {
         //String keyID = myDataBase.push().getKey();
         myDataBase.child(costumer_details_institute.getInstituteID()).setValue(costumer_details_institute);
-        Intent loginInstitute = new Intent(this,Login_Activity.class);
+        Intent loginInstitute = new Intent(this, Login_Activity.class);
         startActivity(loginInstitute);
     }
 }
