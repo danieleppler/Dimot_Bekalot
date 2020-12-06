@@ -151,16 +151,16 @@ public class login_Verification_Activity extends AppCompatActivity {
 
     /*Activate Patient Menu activity*/
     private void openPatientMenu_Activity(String Patient_ID) {
-        Intent open_patient_menu = new Intent(this, temp_from_login_Activity_PA.class);
-//        Intent open_patient_menu = new Intent(this,Main_Client_View.class);
+        //Intent open_patient_menu = new Intent(this, temp_from_login_Activity_PA.class);
+        Intent open_patient_menu = new Intent(this,Main_Client_View.class);
 //        open_patient_menu.putExtra("id",Patient_ID);
         startActivity(open_patient_menu);
     }
 
     /*Activate Institute Menu activity*/
     private void openInstituteMenu_Activity(String Institute_ID) {
-        Intent open_institute_menu = new Intent(this, temp_from_login_Activity_IN.class);
-        //Intent open_institute_menu = new Intent(this,InstituteMain.class);
+        //Intent open_institute_menu = new Intent(this, temp_from_login_Activity_IN.class);
+        Intent open_institute_menu = new Intent(this,InstituteMain.class);
         //open_institute_menu.putExtra("Institute_ID",Institute_ID);
         startActivity(open_institute_menu);
     }
