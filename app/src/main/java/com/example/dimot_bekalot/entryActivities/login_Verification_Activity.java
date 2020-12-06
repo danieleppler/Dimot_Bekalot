@@ -31,9 +31,10 @@ public class Verification_Activity extends AppCompatActivity {
 
     private Intent retrieveFromLogin;
 
+    private FirebaseAuth emailCheck;
+
     private FirebaseDatabase dataBase;
     private DatabaseReference myDataBase;
-    private DatabaseReference myDataBaseInstitutes;
 
     private static final String INSTITUTES = "Institutes";
     private static final String PATIENTS = "Patients";
@@ -50,20 +51,22 @@ public class Verification_Activity extends AppCompatActivity {
         /*FireBase_connection*/
         dataBase = FirebaseDatabase.getInstance();
         myDataBase = dataBase.getReference();
-        myDataBaseInstitutes = dataBase.getReference(INSTITUTES);
+        emailCheck = FirebaseAuth.getInstance();
         /*end_FireBase_connection*/
         //*************************************************************//
 
         myDataBase.addValueEventListener(new ValueEventListener() {
-
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
+                /**
+                 * if the input details is match to Patient details, move to Patient Menu activity
+                 */
                 if (snapshot.child(PATIENTS).child(inputUser.getID()).exists()) {
                     String SingInID = snapshot.child(PATIENTS).child(inputUser.getID()).child("id").getValue().toString();
                     String SingInPassword = snapshot.child(PATIENTS).child(inputUser.getID()).child("password").getValue().toString();
 
-                    Login_Input_Data retrieveLoginData = new Login_Input_Data(SingInID, SingInPassword);
-                    if (inputUser.equals(retrieveLoginData)) {
+                    Login_Input_Data backFromDB_LOGINdata = new Login_Input_Data(SingInID, SingInPassword);
+                    if (inputUser.equals(backFromDB_LOGINdata)) {
                         Toast.makeText(Verification_Activity.this, "ברוכים הבאים !", Toast.LENGTH_LONG).show();
                         openPatientMenu_Activity(inputUser.getID());
                     } else {
@@ -72,20 +75,17 @@ public class Verification_Activity extends AppCompatActivity {
                     }
                 }
                 /**
-                 * if the input details is match to Patient details, move to Patient Menu activity
+                 * if the input details is match to institute details, move to Institute Menu activity
                  */
                 else if (snapshot.child(INSTITUTES).child(inputUser.getID()).exists()) {
                     String SingInID = snapshot.child(INSTITUTES).child(inputUser.getID()).child("instituteID").getValue().toString();
                     String SingInPassword = snapshot.child(INSTITUTES).child(inputUser.getID()).child("password").getValue().toString();
 
-                    Login_Input_Data retrieveLoginData = new Login_Input_Data(SingInID, SingInPassword);
-                    if (inputUser.equals(retrieveLoginData)) {
+                    Login_Input_Data backFromDB_LOGINdata = new Login_Input_Data(SingInID, SingInPassword);
+                    if (inputUser.equals(backFromDB_LOGINdata)) {
                         Toast.makeText(Verification_Activity.this, "ברוכים הבאים !", Toast.LENGTH_LONG).show();
                         openInstituteMenu_Activity(inputUser.getID());
                     }
-                    /**
-                     * if the input details is match to institute details, move to Institute Menu activity
-                     */
                     else {
                         Toast.makeText(Verification_Activity.this, "פרטים שגויים, התחל שוב", Toast.LENGTH_LONG).show();
                         goBackToLogin_Activity();
@@ -109,7 +109,7 @@ public class Verification_Activity extends AppCompatActivity {
 
     //*************************************************************//
 
-    /************private function that will activate the activities************/
+    /************private function************/
     /*Activate login activity*/
     private void goBackToLogin_Activity() {
         Intent open_login = new Intent(this, Login_Activity.class);
@@ -119,8 +119,8 @@ public class Verification_Activity extends AppCompatActivity {
     /*Activate Patient Menu activity*/
     private void openPatientMenu_Activity(String Patient_ID) {
         Intent open_patient_menu = new Intent(this, Login_Activity.class);
-        //Intent open_institute_menu = new Intent(this,PatientMain.class);
-        //open_institute_menu.putExtra("Patient_ID",Patient_ID);
+//        Intent open_patient_menu = new Intent(this,Main_Client_View.class);
+//        open_patient_menu.putExtra("Patient_ID",Patient_ID);
         startActivity(open_patient_menu);
     }
 
