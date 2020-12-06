@@ -6,23 +6,28 @@ package com.example.dimot_bekalot.tools;
 
 import android.text.TextUtils;
 import android.widget.EditText;
+
 public class validationTools {
 
     /**
      * This function check if the input at Login Activity is valid and correct
+     *
      * @param ID
-     * @param email
      * @param password
      * @param ID_Input
-     * @param email_Input
      * @param password_input
      * @return
      */
     public static boolean isLoginInputValid(String ID, String password, EditText ID_Input,
-                                    EditText password_input){
+                                            EditText password_input) {
 
         if (TextUtils.isEmpty(ID)) {
             ID_Input.setError("ת.ז או מספר רישוי הוא שדה חובה");
+            return false;
+        }
+
+        if(ID.length() != 9){
+            ID_Input.setError("ת.ז או מספר רישוי אמור להיות באורך 9 ספרות");
             return false;
         }
 
@@ -31,14 +36,16 @@ public class validationTools {
             return false;
         }
 
-        if (password.length() != 9) {
-            password_input.setError("אורך הסיסמא חייב להיות 9 תווים");
+        if (password.length() != 10) {
+            password_input.setError("אורך הסיסמא חייב להיות 10 תווים");
             return false;
         }
         return true;
     }
+
     /**
      * This function make sure the patient fill his first and last name and id.
+     *
      * @param firstName
      * @param lastName
      * @param patientId
@@ -48,8 +55,9 @@ public class validationTools {
      * @return
      */
     public static boolean isPatientNamesIsValid(String firstName, String lastName,
-                                                String patientId, EditText first_nameInput,
-                                                EditText last_nameInput, EditText patientID_input) {
+                                                String patientId, String age, EditText first_nameInput,
+                                                EditText last_nameInput, EditText patientID_input,
+                                                EditText ageInput) {
 
         if (TextUtils.isEmpty(firstName)) {
             first_nameInput.setError("שם פרטי הוא שדה חובה");
@@ -66,12 +74,24 @@ public class validationTools {
             return false;
         }
 
+        if (Long.valueOf(patientId) > 999999999 || Long.valueOf(patientId) < 100000000) {
+            patientID_input.setError("ת.ז לא תקין");
+            return false;
+        }
+
+        if (Integer.valueOf(age) > 120) {
+            ageInput.setError("גיל לא תקין");
+            return false;
+        }
+
+
         return true;
     }
 
     /**
      * This function make sure the patient fill his institute name, instituteID,
      * what city provided the services currently
+     *
      * @param InstituteName
      * @param instituteID
      * @param cityLiving
@@ -80,7 +100,7 @@ public class validationTools {
      * @param instituteID_Input
      * @return
      */
-    public static boolean isInstituteNamesIsValid(String InstituteName,String instituteID,
+    public static boolean isInstituteNamesIsValid(String InstituteName, String instituteID,
                                                   String cityLiving, EditText cityInput,
                                                   EditText institute_nameInput, EditText instituteID_Input) {
 
@@ -106,6 +126,7 @@ public class validationTools {
      * This function make sure the patient and the institute fill there email, password and
      * phone number currently
      * This function
+     *
      * @param email
      * @param password
      * @param phone
@@ -138,10 +159,31 @@ public class validationTools {
         }
 
         if (password.length() != 9) {
-            passwordInput.setError("סיסמא חייבת להיות באורך של 9 תווים");
+            passwordInput.setError("הכנס 9 תווים, התו הראשון כבר הוכנס אוטומטי");
             return false;
         }
 
+        return true;
+    }
+
+    /**
+     * Cheking if input string is a long Or integer or not
+     * @param Num
+     * @param input_Num
+     * @return
+     */
+    public static boolean CheckIfNumber(String Num, EditText input_Num) {
+        if (TextUtils.isEmpty(Num)) {
+            input_Num.setError("שדה זה הוא חובה");
+            return false;
+        }
+
+        try {
+            Long.parseLong(Num);
+        } catch (NumberFormatException ex) {
+            input_Num.setError("חייב להית מספר");
+            return false;
+        }
         return true;
     }
 }

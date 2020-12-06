@@ -12,19 +12,23 @@ public class Login_Input_Data implements Serializable {
 
     private String ID;
     private String password;
+    private String email;
 
-    public Login_Input_Data(String ID, String password) {
+    public Login_Input_Data(){}
+
+    public Login_Input_Data(String ID, String password, String email) {
         this.ID = ID;
         this.password = password;
+        this.email=email;
     }
 
     public String getID() {
         return ID;
     }
-
     public String getPassword() {
         return password;
     }
+    public String getEmail() { return email; }
 
     /**
      * This method will help to check users at the login Activity

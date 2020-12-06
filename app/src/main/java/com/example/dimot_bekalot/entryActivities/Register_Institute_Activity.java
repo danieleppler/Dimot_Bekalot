@@ -8,7 +8,6 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -18,7 +17,6 @@ import android.widget.Toast;
 import com.example.dimot_bekalot.R;
 import com.example.dimot_bekalot.dataObjects.Address;
 import com.example.dimot_bekalot.dataObjects.Costumer_Details_Institute;
-import com.example.dimot_bekalot.dataObjects.Costumer_Details_Patient;
 import com.example.dimot_bekalot.tools.validationTools;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -34,14 +32,15 @@ import com.google.firebase.database.ValueEventListener;
 
 public class Register_Institute_Activity extends AppCompatActivity {
 
-    EditText institute_nameInput, instituteID_Input, emailInput, phone_numberInput;
-    EditText passwordInput, cityInput, streetInput, building_numberInput;
+    private EditText institute_nameInput, instituteID_Input, emailInput, phone_numberInput;
+    private EditText passwordInput, cityInput, streetInput, building_numberInput;
 
-    Button registerInstitute_button;
-    ProgressBar progressBar;
+    private Button registerInstitute_button;
+    private ProgressBar progressBar;
 
     private FirebaseDatabase dataBase;
     private DatabaseReference myDataBase;
+    private FirebaseAuth fAuto;
     private static final String INSTITUTES = "Institutes";
     private Costumer_Details_Institute costumer_details_institute;
     private Address instituteAddress;
@@ -68,6 +67,7 @@ public class Register_Institute_Activity extends AppCompatActivity {
         /*FireBase_connection*/
         dataBase = FirebaseDatabase.getInstance();
         myDataBase = dataBase.getReference(INSTITUTES);
+        fAuto=FirebaseAuth.getInstance();
         /*end_FireBase_connection*/
         //*************************************************************//
 
@@ -82,14 +82,12 @@ public class Register_Institute_Activity extends AppCompatActivity {
                 String cityLiving = cityInput.getText().toString().trim();
 
                 /*checking if the inputs is valid inputs*/
+                if (!validationTools.CheckIfNumber(instituteID, instituteID_Input)) { return; }
+                if (!validationTools.CheckIfNumber(phone, phone_numberInput)) { return; }
                 if (!validationTools.isInstituteNamesIsValid(instituteName, instituteID, cityLiving,
-                        cityInput, institute_nameInput, instituteID_Input)) {
-                    return;
-                }
+                        cityInput, institute_nameInput, instituteID_Input)) { return; }
                 if (!validationTools.isAllCostumersNeedfulInputIsValid(email, password, phone,
-                        emailInput, passwordInput, phone_numberInput)) {
-                    return;
-                }
+                        emailInput, passwordInput, phone_numberInput)) { return; }
                 /*end_validation_checking*/
 
                 /*checking if the user is already exist, if not added the user*/
@@ -108,39 +106,55 @@ public class Register_Institute_Activity extends AppCompatActivity {
                             /*create a new Patient*/
                             instituteAddress = new Address(cityLiving, streetLiving, buildingNumber);
                             costumer_details_institute = new Costumer_Details_Institute(email, phone,
-                                    password, instituteAddress, instituteName, instituteID);
+                                    "i"+password, instituteAddress, instituteName, instituteID);
 
                             /**all the needful details are enters, can move to register
                              *the user in fireBase
                              */
-                            registerInstitute(costumer_details_institute);
+                            registerInstitute();
                             progressBar.setVisibility(View.VISIBLE);
-                            openInstituteMenu_Activity(costumer_details_institute.getInstituteID());
                         }
                     }
 
                     @Override
-                    public void onCancelled(@NonNull DatabaseError error) {
-                    }
+                    public void onCancelled(@NonNull DatabaseError error) { }
                 });
             }
         });
     }
 
-    /**
-     * Adding patient to our Firebase DataBase
-     * @param costumer_details_institute
-     */
-    private void registerInstitute(Costumer_Details_Institute costumer_details_institute) {
-        myDataBase.child(costumer_details_institute.getInstituteID()).setValue(costumer_details_institute);
+    /*Adding patient to our Firebase DataBase - not real DB*/
+    private void registerInstitute() {
+        fAuto.createUserWithEmailAndPassword(this.costumer_details_institute.getEmail(), this.costumer_details_institute.getPassword())
+                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+                        if (task.isSuccessful()) {
+                            registerPatientToRealDB();
+                            // Sign in success, update UI with the signed-in user's information
+                            FirebaseUser user = fAuto.getCurrentUser();
+                            update_Authentication(user);
+                        } else {
+                            // If sign in fails, display a message to the user.
+                            Toast.makeText(Register_Institute_Activity.this, "חשבון האי-מייל לא תקין או קיים כבר במערכת, אנה נסה להירשם שוב בבקשה", Toast.LENGTH_SHORT).show();
+                            startActivity(new Intent(getApplicationContext(), Login_Activity.class));
+                            //finish();
+                        }
+                    }
+                });
     }
 
-    /*Activate Institute Menu activity*/
-    private void openInstituteMenu_Activity(String Institute_ID) {
-        Intent open_institute_menu = new Intent(this, Login_Activity.class);
-        //Intent open_institute_menu = new Intent(this,InstituteMain.class);
-        //open_institute_menu.putExtra("Institute_ID",Institute_ID);
-        startActivity(open_institute_menu);
+
+    /************private function************/
+    private void update_Authentication(FirebaseUser currentInstituteUser) {
+        Intent open_email_verification = new Intent(this, EMail_Verification_Activity.class);
+        open_email_verification.putExtra("InstituteUser", currentInstituteUser);
+        startActivity(open_email_verification);
+    }
+
+    /*Adding patient to our Firebase DataBase*/
+    private void registerPatientToRealDB() {
+        myDataBase.child(costumer_details_institute.getInstituteID()).setValue(this.costumer_details_institute);
 
     }
 }

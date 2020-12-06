@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/pale_blue_background"
+    tools:context=".entryActivities.EMail_Verification_Activity">
+
+    <TextView
+        android:id="@+id/email_verification_text_thread"
+        android:layout_width="362dp"
+        android:layout_height="220dp"
+        android:text="ברגע זה נישלח אי-מייל לכתובת שאיתה נרשמתם, אנא התחברו לאי-מייל ואשרו כתובתכם "
+        android:textAlignment="center"
+        android:textSize="30sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.151" />
+
+    <ImageView
+        android:id="@+id/imageView4"
+        android:layout_width="245dp"
+        android:layout_height="239dp"
+        android:layout_marginTop="265dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/email_verification_text_thread"
+        app:layout_constraintVertical_bias="0.042"
+        app:srcCompat="@drawable/email_icon" />
+</androidx.constraintlayout.widget.ConstraintLayout>
