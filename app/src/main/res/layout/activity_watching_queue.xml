@@ -1,87 +1,40 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="@color/purple_500"
-
+    android:background="@drawable/pale_blue_background"
     tools:context=".InstituteActivity.WatchingQueueActivity">
 
-<TableLayout
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    <include android:id="@+id/include" layout="@layout/toolbar" />
 
-    <TableRow android:id="@+id/days_of_week">
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="שבת"
-            android:textStyle="bold"
-            android:layout_weight="1"
-            android:gravity="center"
-            />
+    <TextView
+        android:id="@+id/title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="רשימת תורים"
+        android:textColor="#FFFF"
+        android:layout_marginLeft="120dp"
+        android:layout_marginTop="40dp"
+        android:textSize="30dp"/>
 
+    <LinearLayout
+        android:background="@drawable/bg_calen"
+        android:layout_width="320dp"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="45dp"
+        android:layout_marginTop="60dp">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="שישי"
-            android:textStyle="bold"
-            android:layout_weight="1"
-            android:gravity="center"/>
+        <CalendarView
+            android:id="@+id/calendar"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="חמישי"
-            android:textStyle="bold"
-            android:layout_weight="1"
-            android:gravity="center"/>
+        </CalendarView>
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="רביעי"
-            android:textStyle="bold"
-            android:layout_weight="1"
-            android:gravity="center"/>
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="שלישי"
-            android:textStyle="bold"
-            android:layout_weight="1"
-            android:gravity="center"/>
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="שני"
-            android:textStyle="bold"
-            android:layout_weight="1"
-            android:gravity="center"/>
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="ראשון"
-            android:textStyle="bold"
-            android:layout_weight="1"
-            android:gravity="center"/>
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text=""
-            android:textStyle="bold"
-            android:layout_weight="1"
-            android:gravity="center"/>
-
-    </TableRow>
+    </LinearLayout>
 
 
-
-</TableLayout>
 </LinearLayout>

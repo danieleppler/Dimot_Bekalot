@@ -1,8 +1,11 @@
 package com.example.dimot_bekalot.InstituteActivity;
 
-public class Institute {
+import java.io.Serializable;
+
+public class Institute implements Serializable {
     private String _name, _location;
 
+    Institute(){}
     Institute(String name, String location){
         this._name = name;
         this._location = location;

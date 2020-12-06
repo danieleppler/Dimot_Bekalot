@@ -1,4 +1,12 @@
 <resources>
     <string name="app_name">Dimot_Bekalot</string>
     <string name="LOGIN">LOGIN</string>
+
+    <string-array name="treatment_type">
+        <item>CT</item>
+        <item>MRI</item>
+        <item>מיפוי עצמות</item>
+
+    </string-array>
+
 </resources>
