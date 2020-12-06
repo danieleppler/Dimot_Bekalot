@@ -153,7 +153,7 @@ public class login_Verification_Activity extends AppCompatActivity {
     private void openPatientMenu_Activity(String Patient_ID) {
         Intent open_patient_menu = new Intent(this, temp_from_login_Activity_PA.class);
 //        Intent open_patient_menu = new Intent(this,Main_Client_View.class);
-//        open_patient_menu.putExtra("Patient_ID",Patient_ID);
+//        open_patient_menu.putExtra("id",Patient_ID);
         startActivity(open_patient_menu);
     }
 

@@ -1,8 +1,10 @@
-package com.example.dimot_bekalot;
+package com.example.dimot_bekalot.InstituteActivity;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
+
+import com.example.dimot_bekalot.R;
 
 public class WatchingQueueActivity extends AppCompatActivity {
 

@@ -155,5 +155,6 @@ public class Register_Institute_Activity extends AppCompatActivity {
     /*Adding patient to our Firebase DataBase*/
     private void registerPatientToRealDB() {
         myDataBase.child(costumer_details_institute.getInstituteID()).setValue(this.costumer_details_institute);
+
     }
 }

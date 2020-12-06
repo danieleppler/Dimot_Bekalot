@@ -17,9 +17,13 @@
         <activity android:name=".entryActivities.EMail_Verification_Activity" />
         <activity android:name=".entryActivities.login_Verification_Activity" />
         <activity android:name=".connectActivities.Call_To_Institute_Activity" />
+        <activity android:name=".dataObjects.InstituteDataActivity"></activity>
+        <activity android:name=".InstituteActivity.UpdateQueueActivity" />
         <activity android:name=".entryActivities.Register_Institute_Activity" />
         <activity android:name=".entryActivities.Register_Main_Activity" />
-        <activity android:name=".WatchingQueueActivity" />
+        <activity android:name=".InstituteActivity.WatchingQueueActivity" />
+        <activity android:name=".entryActivities.Verification_Activity"></activity>
+        <activity android:name=".connectActivities.Connect_Activity" />
         <activity android:name=".entryActivities.Main_Activity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
