@@ -1,0 +1,250 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/pale_blue_background"
+    tools:context=".entryActivities.Register_Institute_Activity">
+
+    <TextView
+        android:id="@+id/contact_in_text_view_password_guide_institute"
+        android:layout_width="374dp"
+        android:layout_height="51dp"
+        android:text="הכנס סיסמא בת 9 תוים, התו הראשון יהיה האות i , סך הכול 10 תוים"
+        android:textColor="#150101"
+        android:textSize="15dp"
+        app:layout_constraintBottom_toTopOf="@+id/user_password_input_register_institute"
+        app:layout_constraintEnd_toEndOf="@+id/address_in_text_view_institute"
+        app:layout_constraintStart_toStartOf="@+id/address_in_text_view_institute"
+        app:layout_constraintTop_toBottomOf="@+id/user_phone_input_register_institute" />
+
+    <include
+        android:id="@+id/include5"
+        layout="@layout/toolbar" />
+
+    <EditText
+        android:id="@+id/user_ID_input_register_institute"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="#DAC4DD"
+        android:ems="10"
+        android:hint="מספר רישוי המכון"
+        android:inputType="text"
+        app:layout_constraintBottom_toTopOf="@+id/contact_in_text_view_institute"
+        app:layout_constraintEnd_toEndOf="@+id/user_first_name_input_register_institute"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/user_first_name_input_register_institute"
+        app:layout_constraintTop_toBottomOf="@+id/user_first_name_input_register_institute"
+        app:layout_constraintVertical_bias="0.423" />
+
+    <TextView
+        android:id="@+id/contact_in_text_view_institute"
+        android:layout_width="378dp"
+        android:layout_height="27dp"
+        android:text="פרטי התקשרות :"
+        android:textColor="#150101"
+        android:textSize="15dp"
+        app:layout_constraintBottom_toTopOf="@+id/address_in_text_view_institute"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/personal_in_text_view_institute"
+        app:layout_constraintTop_toBottomOf="@+id/welcome_text_view_institute"
+        app:layout_constraintVertical_bias="0.51" />
+
+    <TextView
+        android:id="@+id/personal_in_text_view_institute"
+        android:layout_width="378dp"
+        android:layout_height="27dp"
+        android:layout_marginTop="50dp"
+        android:text="פרטיים מנהלים :"
+        android:textColor="#150101"
+        android:textSize="15dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/address_in_text_view_institute"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="@+id/address_in_text_view_institute"
+        app:layout_constraintTop_toTopOf="@+id/fill_in_text_view_institute"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <TextView
+        android:id="@+id/address_in_text_view_institute"
+        android:layout_width="378dp"
+        android:layout_height="27dp"
+        android:text="פרטי מגורים :"
+        android:textColor="#150101"
+        android:textSize="15dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/fill_in_text_view_institute"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="@+id/fill_in_text_view_institute"
+        app:layout_constraintTop_toBottomOf="@+id/fill_in_text_view_institute"
+        app:layout_constraintVertical_bias="0.597" />
+
+    <EditText
+        android:id="@+id/user_house_number_input_register_institute"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:background="#DAC4DD"
+        android:ems="10"
+        android:hint="מספר בניין"
+        android:inputType="text"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/user_living_street_input_register_institute"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/user_living_street_input_register_institute"
+        app:layout_constraintTop_toBottomOf="@+id/user_living_street_input_register_institute"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <EditText
+        android:id="@+id/user_living_street_input_register_institute"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:background="#DAC4DD"
+        android:ems="10"
+        android:hint="רחוב"
+        android:inputType="text"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/user_living_city_input_register_institute"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/user_living_city_input_register_institute"
+        app:layout_constraintTop_toBottomOf="@+id/user_living_city_input_register_institute"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <include
+        android:id="@+id/include2"
+        layout="@layout/toolbar" />
+
+    <TextView
+        android:id="@+id/welcome_text_view_institute"
+        android:layout_width="362dp"
+        android:layout_height="85dp"
+        android:text="ברוכים הבאים לעמוד הרשמה למכון דימות חדש !"
+        android:textColor="#150101"
+        android:textSize="30dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.8"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.104" />
+
+    <TextView
+        android:id="@+id/fill_in_text_view_institute"
+        android:layout_width="378dp"
+        android:layout_height="27dp"
+        android:text="מלאו את הפרטים הבאים בתשומות לב :"
+        android:textColor="#150101"
+        android:textSize="20dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/welcome_text_view_institute"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/welcome_text_view_institute"
+        app:layout_constraintVertical_bias="0.023" />
+
+    <EditText
+        android:id="@+id/user_first_name_input_register_institute"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="#DAC4DD"
+        android:ems="10"
+        android:hint="שם המכון"
+        android:inputType="text"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.955"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/personal_in_text_view_institute" />
+
+    <EditText
+        android:id="@+id/user_email_input_register_institute"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="#DAC4DD"
+        android:ems="10"
+        android:hint="E-mail"
+        android:inputType="textEmailAddress"
+        app:layout_constraintBottom_toBottomOf="@+id/user_living_city_input_register_institute"
+        app:layout_constraintEnd_toEndOf="@+id/user_ID_input_register_institute"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/user_ID_input_register_institute"
+        app:layout_constraintTop_toBottomOf="@+id/contact_in_text_view_institute"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <EditText
+        android:id="@+id/user_living_city_input_register_institute"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:background="#DAC4DD"
+        android:ems="10"
+        android:hint="עיר קבלת קהל של המכון"
+        android:inputType="text"
+        android:linksClickable="false"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/address_in_text_view_institute"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="@+id/user_email_input_register_institute"
+        app:layout_constraintTop_toBottomOf="@+id/address_in_text_view_institute"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <Button
+        android:id="@+id/registr_new_institute_button"
+        android:layout_width="144dp"
+        android:layout_height="69dp"
+        android:text="הרשם !"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.059"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/user_house_number_input_register_institute"
+        app:layout_constraintVertical_bias="0.612" />
+
+    <EditText
+        android:id="@+id/user_password_input_register_institute"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="#DAC4DD"
+        android:ems="10"
+        android:hint="סיסמא בת 9 תוים"
+        android:inputType="textPassword"
+        app:layout_constraintBottom_toTopOf="@+id/user_living_city_input_register_institute"
+        app:layout_constraintEnd_toEndOf="@+id/user_phone_input_register_institute"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/user_phone_input_register_institute"
+        app:layout_constraintTop_toBottomOf="@+id/user_email_input_register_institute"
+        app:layout_constraintVertical_bias="0.684" />
+
+    <EditText
+        android:id="@+id/user_phone_input_register_institute"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="39dp"
+        android:layout_marginBottom="36dp"
+        android:background="#DAC4DD"
+        android:ems="10"
+        android:hint="050-5555555"
+        android:inputType="phone"
+        app:layout_constraintBottom_toBottomOf="@+id/user_password_input_register_institute"
+        app:layout_constraintEnd_toEndOf="@+id/user_email_input_register_institute"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/user_email_input_register_institute"
+        app:layout_constraintTop_toTopOf="@+id/user_email_input_register_institute"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <ProgressBar
+        android:id="@+id/user_progress_bar_institute"
+        style="?android:attr/progressBarStyle"
+        android:layout_width="79dp"
+        android:layout_height="100dp"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toTopOf="@+id/user_email_input_register_institute"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.177"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/user_ID_input_register_institute"
+        app:layout_constraintVertical_bias="0.0" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
