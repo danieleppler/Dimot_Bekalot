@@ -1,9 +1,12 @@
 package com.example.dimot_bekalot.dataObjects;
+
+import java.io.Serializable;
+
 /**
  * This JAVA Class represent a Costumer Details
  * aka Imaging Institutes and patients
  */
-public class Costumer_Details {
+public class Costumer_Details implements Serializable {
     private String email;
     private String phone_number;
     private String password;
@@ -18,14 +21,34 @@ public class Costumer_Details {
         this.address = address;
     }
 
-    public String getEmail() { return email; }
-    public String getPhone_number() { return phone_number; }
-    public Address getAddress() { return address; }
-    public String getPassword() {return password; }
+    public String getEmail() {
+        return email;
+    }
 
-    public void setEmail(String email) { this.email = email; }
-    public void setPhone_number(String phone_number) { this.phone_number = phone_number; }
-    public void setPassword(String password) { this.password = password; }
+    public String getPhone_number() {
+        return phone_number;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public Address getAddress() {
+        return address;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public void setPhone_number(String phone_number) {
+        this.phone_number = phone_number;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
     public void setAddress(Address address) {
         this.address = address;
     }

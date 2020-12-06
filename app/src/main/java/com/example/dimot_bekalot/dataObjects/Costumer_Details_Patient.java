@@ -1,8 +1,11 @@
 package com.example.dimot_bekalot.dataObjects;
+
+import java.io.Serializable;
+
 /**
  * This class represent Costumer Details of Patient
  */
-public class Costumer_Details_Patient extends Costumer_Details {
+public class Costumer_Details_Patient extends Costumer_Details implements Serializable {
     private String first_name;
     private String second_name;
     private String age;
@@ -22,11 +25,35 @@ public class Costumer_Details_Patient extends Costumer_Details {
         this.patientID = patientID;
     }
 
-    public String getFirst_name() { return first_name; }
-    public String getSecond_name() { return second_name; }
-    public String getAge() { return age; }
-    public String getID() { return patientID; }
+    public String getFirst_name() {
+        return first_name;
+    }
 
-    public void setFirst_name(String first_name) { this.first_name = first_name; }
-    public void setSecond_name(String second_name) { this.second_name = second_name; }
+    public String getSecond_name() {
+        return second_name;
+    }
+
+    public String getAge() {
+        return age;
+    }
+
+    public String getPatientID() {
+        return patientID;
+    }
+
+    public void setFirst_name(String first_name) {
+        this.first_name = first_name;
+    }
+
+    public void setSecond_name(String second_name) {
+        this.second_name = second_name;
+    }
+
+    public void setAge(String age) {
+        this.age = age;
+    }
+
+    public void setPatientID(String patientID) {
+        this.patientID = patientID;
+    }
 }

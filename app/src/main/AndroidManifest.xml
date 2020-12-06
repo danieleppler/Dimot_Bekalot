@@ -3,6 +3,7 @@
     package="com.example.dimot_bekalot">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.CALL_PHONE" />
 
     <application
         android:allowBackup="true"
@@ -11,8 +12,11 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Dimot_Bekalot2">
-        <activity android:name=".entryActivities.Verification_Activity"></activity>
-        <activity android:name=".connectActivities.Connect_Activity" />
+        <activity android:name=".entryActivities.temp_from_login_Activity_IN"></activity>
+        <activity android:name=".entryActivities.temp_from_login_Activity_PA" />
+        <activity android:name=".entryActivities.EMail_Verification_Activity" />
+        <activity android:name=".entryActivities.login_Verification_Activity" />
+        <activity android:name=".connectActivities.Call_To_Institute_Activity" />
         <activity android:name=".entryActivities.Register_Institute_Activity" />
         <activity android:name=".entryActivities.Register_Main_Activity" />
         <activity android:name=".WatchingQueueActivity" />

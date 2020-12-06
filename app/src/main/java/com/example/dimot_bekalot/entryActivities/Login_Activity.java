@@ -3,7 +3,6 @@ package com.example.dimot_bekalot.entryActivities;
  *
  */
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
@@ -11,18 +10,10 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Toast;
 
 import com.example.dimot_bekalot.R;
 import com.example.dimot_bekalot.dataObjects.Login_Input_Data;
 import com.example.dimot_bekalot.tools.validationTools;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.Query;
-import com.google.firebase.database.ValueEventListener;
 
 public class Login_Activity extends AppCompatActivity {
 
@@ -31,17 +22,13 @@ public class Login_Activity extends AppCompatActivity {
 
     private String ID;
     private String password;
+    private String email;
 
     private EditText IDinput;
     private EditText passwordInput;
+    private EditText emailInput;
 
-    private FirebaseDatabase dataBase;
-    private DatabaseReference myDataBasePatients;
-    private DatabaseReference myDataBaseInstitutes;
-    private FirebaseAuth fAuto;
-
-    private Login_Input_Data loginCostumer;
-
+    private Login_Input_Data loginCostumerInput;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,6 +37,7 @@ public class Login_Activity extends AppCompatActivity {
 
         IDinput = (EditText) findViewById(R.id.user_ID_input_login);
         passwordInput = (EditText) findViewById(R.id.user_password_input_login);
+        emailInput= (EditText)findViewById(R.id.user_email_input_login);
 
         /*Submit Login Button will connecting from view*/
         submitLoginButton = (Button) findViewById(R.id.LOGIN_Button);
@@ -63,13 +51,12 @@ public class Login_Activity extends AppCompatActivity {
                 String password = passwordInput.getText().toString().trim();
 
                 /*checking if the inputs is valid inputs*/
-                if (!validationTools.isLoginInputValid(ID, password, IDinput, passwordInput)) {
-                    return;
-                }
+                if(!validationTools.isLoginInputValid(ID, password, IDinput, passwordInput)) { return; }
+                if(!validationTools.CheckIfNumber(ID,IDinput)){ return; }
                 /*end_validation_checking*/
 
-                loginCostumer = new Login_Input_Data(ID, password);
-                openVerification_Activity();
+                loginCostumerInput = new Login_Input_Data(ID, password,email);
+                open_login_Verification_Activity();
             }
         });
         /*end_Submit_Login_button*/
@@ -85,7 +72,7 @@ public class Login_Activity extends AppCompatActivity {
         /*end_Register_button*/
     }
 
-    /************private function that will activate the activities************/
+    /************private function************/
     /*Activate register activity*/
     private void openMainRegister_Activity() {
         Intent open_main_register = new Intent(this, Register_Main_Activity.class);
@@ -93,9 +80,9 @@ public class Login_Activity extends AppCompatActivity {
     }
 
     /*Activate verification activity*/
-    private void openVerification_Activity() {
-        Intent open_verification = new Intent(this, Verification_Activity.class);
-        open_verification.putExtra("Login_Input_Data", loginCostumer);
+    private void open_login_Verification_Activity() {
+        Intent open_verification = new Intent(this, login_Verification_Activity.class);
+        open_verification.putExtra("Login_Input_Data", loginCostumerInput);
         startActivity(open_verification);
     }
 }

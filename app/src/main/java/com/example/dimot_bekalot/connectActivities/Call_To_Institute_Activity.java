@@ -1,6 +1,6 @@
 package com.example.dimot_bekalot.connectActivities;
 /**
- * Not implemented yet
+ *
  */
 
 import androidx.annotation.NonNull;
@@ -9,6 +9,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -17,7 +18,6 @@ import android.widget.Toast;
 
 import com.example.dimot_bekalot.R;
 import com.example.dimot_bekalot.dataObjects.Costumer_Details_Institute;
-import com.example.dimot_bekalot.entryActivities.Login_Activity;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -26,7 +26,7 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
-public class Connect_Activity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
+public class Call_To_Institute_Activity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
 
     private static final String INSTITUTES = "Institutes";
     private ArrayList<String> InstitutesPhoneList;
@@ -39,16 +39,19 @@ public class Connect_Activity extends AppCompatActivity implements AdapterView.O
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_connect);
+        setContentView(R.layout.call_to_institute_activity);
 
         InstitutesPhoneList = new ArrayList<>();
         instituteToCall = new Costumer_Details_Institute();
+        /*create a drop sown menu*/
         Spinner chooseInstituteSpinner = findViewById(R.id.dropdown_menu_instituties);
 
         /*FireBase_connection*/
         dataBase = FirebaseDatabase.getInstance();
         myDataBase = dataBase.getReference(INSTITUTES);
         /*end_FireBase_connection*/
+
+        /*create a adapter to show the institutes names and phone numbers */
         InstitutesPhoneListAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, InstitutesPhoneList);
 
         myDataBase.addListenerForSingleValueEvent(new ValueEventListener() {
@@ -62,10 +65,8 @@ public class Connect_Activity extends AppCompatActivity implements AdapterView.O
                 InstitutesPhoneListAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                 chooseInstituteSpinner.setAdapter(InstitutesPhoneListAdapter);
             }
-
             @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-            }
+            public void onCancelled(@NonNull DatabaseError error){}
         });
         chooseInstituteSpinner.setOnItemSelectedListener(this);
     }
@@ -73,15 +74,14 @@ public class Connect_Activity extends AppCompatActivity implements AdapterView.O
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
         String instituteNameAndPhone = parent.getItemAtPosition(position).toString();
-        Toast.makeText(parent.getContext(), instituteNameAndPhone, Toast.LENGTH_SHORT).show();
         if (!instituteNameAndPhone.equals("בחר מכון רצוי בבקשה"))
             openInstituteMenu_Activity("tel:" + creteOnltPhoneNumber(instituteNameAndPhone));
+        else
+            Toast.makeText(parent.getContext(), "אנא בחר מכון מן הרשימה לצורך התקשרות", Toast.LENGTH_SHORT).show();
     }
 
     @Override
-    public void onNothingSelected(AdapterView<?> parent) {
-    }
-
+    public void onNothingSelected(AdapterView<?> parent) {}
 
     /************private function************/
     /**/
