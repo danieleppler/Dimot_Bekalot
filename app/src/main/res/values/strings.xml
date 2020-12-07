@@ -1,4 +1,15 @@
 <resources>
-    <string name="app_name">Dimot_Bekalot</string>
+    <string name="app_name">dimot_bekalot</string>
     <string name="LOGIN">LOGIN</string>
+    <string-array name="treat_type__array">
+        <item> </item>
+        <item>Dimot</item>
+        <item>MRI</item>
+        <item>CT</item>
+    </string-array>
+    <string-array name="city__array">
+        <item> </item>
+        <item>Ramat-Gan</item>
+        <item>Tel-Aviv</item>
+    </string-array>
 </resources>
