@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Dimot_Bekalot</string>
+    <string name="app_name">dimot_bekalot</string>
     <string name="LOGIN">LOGIN</string>
 
     <string-array name="treatment_type">
@@ -9,8 +9,15 @@
 
     </string-array>
 
+    <string-array name="city__array">
+        <item> </item>
+        <item>Ramat-Gan</item>
+        <item>Tel-Aviv</item>
+    </string-array>
+
     <string name="col1">שם מלא</string>
     <string name="col2">תעודת זהות</string>
     <string name="col3">שעה</string>
+
 
 </resources>

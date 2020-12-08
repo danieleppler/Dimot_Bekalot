@@ -106,7 +106,7 @@ public class Register_Institute_Activity extends AppCompatActivity {
                             /*create a new Patient*/
                             instituteAddress = new Address(cityLiving, streetLiving, buildingNumber);
                             costumer_details_institute = new Costumer_Details_Institute(email, phone,
-                                    "i"+password, instituteAddress, instituteName, instituteID);
+                                    password, instituteAddress, instituteName, "i:"+instituteID);
 
                             /**all the needful details are enters, can move to register
                              *the user in fireBase
@@ -149,12 +149,12 @@ public class Register_Institute_Activity extends AppCompatActivity {
     private void update_Authentication(FirebaseUser currentInstituteUser) {
         Intent open_email_verification = new Intent(this, EMail_Verification_Activity.class);
         open_email_verification.putExtra("InstituteUser", currentInstituteUser);
+        open_email_verification.putExtra("userName_ID",this.costumer_details_institute.getInstituteID());
         startActivity(open_email_verification);
     }
 
     /*Adding patient to our Firebase DataBase*/
     private void registerPatientToRealDB() {
         myDataBase.child(costumer_details_institute.getInstituteID()).setValue(this.costumer_details_institute);
-
     }
 }

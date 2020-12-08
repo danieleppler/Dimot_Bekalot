@@ -12,7 +12,14 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Dimot_Bekalot2">
+        <activity android:name=".entryActivities.Forget_Password_Activity"></activity>
         <activity android:name=".entryActivities.EMail_Verification_Activity" />
+        <activity android:name=".clientActivities.inst_list" />
+        <activity android:name=".clientActivities.Main_Client_View" />
+        <activity android:name=".clientActivities.popup_queue_res" />
+        <activity android:name=".clientActivities.Private_Area" />
+        <activity android:name=".clientActivities.queue_search" />
+        <activity android:name=".clientActivities.queue_src_res" />
         <activity android:name=".entryActivities.login_Verification_Activity" />
         <activity android:name=".connectActivities.Call_To_Institute_Activity" />
         <activity android:name=".dataObjects.Institute_data_activity"></activity>
@@ -21,8 +28,6 @@
         <activity android:name=".InstituteActivity.UpdateQueueActivity"/>
         <activity android:name=".InstituteActivity.AddQueueActivity" />
         <activity android:name=".InstituteActivity.WatchingQueueActivity" />
-        <activity android:name=".entryActivities.Verification_Activity"></activity>
-        <activity android:name=".connectActivities.Connect_Activity" />
         <activity android:name=".entryActivities.Main_Activity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
