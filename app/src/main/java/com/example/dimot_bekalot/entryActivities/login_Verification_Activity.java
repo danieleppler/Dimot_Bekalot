@@ -8,10 +8,12 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.Toast;
 
 import com.example.dimot_bekalot.InstituteActivity.InstituteMain;
 import com.example.dimot_bekalot.R;
+
 import com.example.dimot_bekalot.dataObjects.Login_Input_Data;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -25,6 +27,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 public class login_Verification_Activity extends AppCompatActivity {
+    private static final String TAG = "Verification_Activity";
 
     private Intent retrieveFromLogin;
     private String SingInUserName;
@@ -165,9 +168,8 @@ public class login_Verification_Activity extends AppCompatActivity {
 
     /*Activate Patient Menu activity*/
     private void openPatientMenu_Activity(String Patient_ID) {
-        Intent open_patient_menu = new Intent(this, Login_Activity.class);
-//        Intent open_patient_menu = new Intent(this,Main_Client_View.class);
-//        open_patient_menu.putExtra("id",Patient_ID);
+        Intent open_patient_menu = new Intent(this, com.example.dimot_bekalot.clientActivities.Main_Client_View.class);
+        open_patient_menu.putExtra("client_id",Patient_ID);
         startActivity(open_patient_menu);
     }
 
