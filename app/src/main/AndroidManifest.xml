@@ -15,10 +15,11 @@
         <activity android:name=".entryActivities.EMail_Verification_Activity" />
         <activity android:name=".entryActivities.login_Verification_Activity" />
         <activity android:name=".connectActivities.Call_To_Institute_Activity" />
-        <activity android:name=".dataObjects.InstituteDataActivity"></activity>
-        <activity android:name=".InstituteActivity.UpdateQueueActivity" />
+        <activity android:name=".dataObjects.Institute_data_activity"></activity>
         <activity android:name=".entryActivities.Register_Institute_Activity" />
         <activity android:name=".entryActivities.Register_Main_Activity" />
+        <activity android:name=".InstituteActivity.UpdateQueueActivity"/>
+        <activity android:name=".InstituteActivity.AddQueueActivity" />
         <activity android:name=".InstituteActivity.WatchingQueueActivity" />
         <activity android:name=".entryActivities.Verification_Activity"></activity>
         <activity android:name=".connectActivities.Connect_Activity" />

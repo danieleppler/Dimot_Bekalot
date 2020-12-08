@@ -1,5 +1,8 @@
 package com.example.dimot_bekalot.InstituteActivity;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -10,20 +13,18 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-
 import com.example.dimot_bekalot.R;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.ValueEventListener;
 
-public class UpdateQueueActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener{
+
+public class AddQueueActivity extends AppCompatActivity implements /*View.OnClickListener,*/ AdapterView.OnItemSelectedListener {
     Spinner spinner;
     TextView IDInput, dateInput, timeInput;
-    Button updateClientToQueue;
+    Button addClientToQueue;
 
     private static final String Queues = "QueuesInst";
     private FirebaseDatabase dataBase;
@@ -34,7 +35,7 @@ public class UpdateQueueActivity extends AppCompatActivity implements AdapterVie
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_update_queue);
+        setContentView(R.layout.activity_add_queue);
 
         Intent intent = getIntent();
         institute_id  = intent.getExtras().getString("instituteID");
@@ -51,13 +52,13 @@ public class UpdateQueueActivity extends AppCompatActivity implements AdapterVie
         IDInput = (TextView) findViewById(R.id.id_input);
         dateInput = (TextView) findViewById(R.id.date_input);
         timeInput = (TextView) findViewById(R.id.hour_input);
-        updateClientToQueue = (Button) findViewById(R.id.adding);
+        addClientToQueue = (Button) findViewById(R.id.adding);
 
         dataBase = FirebaseDatabase.getInstance();
         dbRef = dataBase.getReference();
         dbRef_institute = dataBase.getReference(Queues);
 
-        updateClientToQueue.setOnClickListener(new View.OnClickListener() {
+        addClientToQueue.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View v) {
@@ -75,16 +76,25 @@ public class UpdateQueueActivity extends AppCompatActivity implements AdapterVie
 
 
                 dbRef_institute.addValueEventListener(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(@NonNull DataSnapshot snapshot){
-                        // update the queue
+                @Override
+                public void onDataChange(@NonNull DataSnapshot snapshot){
+
+                    if(dbRef_institute.child(institute_id).child("Treat_type").child(type)
+                            .child("Date_queue").child(theDate).child(theTime).equals(null)) { // if don't exist yet
+
                         dbRef_institute.child(institute_id).child("Treat_type").child(type).
                                 child("Date_queue").child(theDate).child(theTime)
                                 .child("patient_id_attending").setValue(id_patient_input);
-                    }
 
-                    @Override
-                    public void onCancelled(@NonNull DatabaseError error) {}
+                    }
+                    else{
+                        Toast.makeText(AddQueueActivity.this,
+                                "Sorry, this queue can't be saved, it's already busy", Toast.LENGTH_SHORT).show();
+                    }
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {}
 
                 }); // addValueEventListener
 
@@ -103,6 +113,5 @@ public class UpdateQueueActivity extends AppCompatActivity implements AdapterVie
     @Override
     public void onNothingSelected(AdapterView<?> parent) { }
     /* </Spinner> */
-
 
 }

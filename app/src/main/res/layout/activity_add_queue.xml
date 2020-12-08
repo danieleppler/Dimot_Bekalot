@@ -6,7 +6,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/pale_blue_background"
-    tools:context=".InstituteActivity.UpdateQueueActivity">
+    tools:context=".InstituteActivity.AddQueueActivity">
+
 
     <include android:id="@+id/include" layout="@layout/toolbar" />
 
@@ -14,7 +15,7 @@
         android:id="@+id/title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="עדכון תורים"
+        android:text="הוספת תורים"
         android:textSize="40dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -100,7 +101,7 @@
         android:ems="10"
         android:hint="01/01/2000"
         android:inputType="date"
-        app:layout_constraintBottom_toTopOf="@+id/update"
+        app:layout_constraintBottom_toTopOf="@+id/adding"
         app:layout_constraintEnd_toEndOf="@+id/date"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="@+id/date"
@@ -115,7 +116,7 @@
         android:layout_marginTop="44dp"
         android:text="שעה"
         android:textSize="20sp"
-        app:layout_constraintBottom_toTopOf="@+id/update"
+        app:layout_constraintBottom_toTopOf="@+id/adding"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.438"
         app:layout_constraintStart_toStartOf="parent"
@@ -132,7 +133,7 @@
         android:ems="10"
         android:hint="00:00"
         android:inputType="time"
-        app:layout_constraintBottom_toTopOf="@+id/update"
+        app:layout_constraintBottom_toTopOf="@+id/adding"
         app:layout_constraintEnd_toEndOf="@+id/hour"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="@+id/hour"
@@ -141,10 +142,10 @@
         tools:ignore="MissingConstraints" />
 
     <Button
-        android:id="@+id/update"
+        android:id="@+id/adding"
         android:layout_width="125dp"
         android:layout_height="67dp"
-        android:text="עדכן"
+        android:text="הוסף"
         android:textSize="25sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -152,6 +153,7 @@
         app:layout_constraintTop_toBottomOf="@+id/include"
         app:layout_constraintVertical_bias="0.905"
         tools:ignore="MissingConstraints" />
+
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
