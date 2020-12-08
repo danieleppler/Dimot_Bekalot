@@ -9,7 +9,10 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
+
 import com.example.dimot_bekalot.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -18,23 +21,32 @@ import com.google.firebase.auth.FirebaseUser;
 
 public class EMail_Verification_Activity extends AppCompatActivity {
 
+    private Intent retrieveFromRegister;
+
+    private Button toLogin;
+    private TextView screenMassege;
+
     private FirebaseAuth mAuth;
-    FirebaseUser mUser;
+    private FirebaseUser mUser;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_e_mail__varification);
 
-        TextView screenMassege = (TextView) findViewById(R.id.email_verification_text_thread);
+        screenMassege = (TextView) findViewById(R.id.email_verification_text_thread);
+
+        /*go to Login Button will connecting from view*/
+        toLogin = (Button) findViewById(R.id.email_verification_move_to_login_button);
 
         /*FireBase_connection*/
         mAuth = FirebaseAuth.getInstance();
         mUser = mAuth.getCurrentUser();
         /*end_FireBase_connection*/
 
+        //*************************************************************//
 
-        /*send a verification to th new created user */
+        /*send a verification to the new created user */
         mUser.sendEmailVerification().addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
@@ -43,26 +55,28 @@ public class EMail_Verification_Activity extends AppCompatActivity {
                         @Override
                         public void run() {
                             try {
-                                Thread.sleep(6000);
+                                Thread.sleep(4000);
                                 runOnUiThread(new Runnable() {
                                     @Override
                                     public void run() {
-                                        screenMassege.setText("הנכם מועברים לעמוד ההתחברות, תוכלו להתחבר לחשבונכם רק במידה ואישרתם את כתובתכם");
+                                        retrieveFromRegister= getIntent();
+                                        String temp = creteCleanUserName(retrieveFromRegister.getStringExtra("userName_ID"));
+                                        screenMassege.setText(" שם המשתמש שישמש אתכם בעת ההתחברות הוא : "+temp+" אנא זכרו אותו ורק אחר כך עברו לעמוד ההתחברות ");
                                     }
                                 });
-                            } catch (InterruptedException e) {
-                                e.printStackTrace();
-                            }
-                            /*waiting before move to login activity, so the user can read the text*/
-                            try {
-                                sleep(10000);
-                                openLogin_Activity();
-                            } catch (InterruptedException e) {
-                                e.printStackTrace();
-                            }
+
+                            } catch (InterruptedException e) { e.printStackTrace(); }
+
+                            /**waiting for user permission before move to login activity, so the user can read the text
+                            * and remember the user name
+                            */
                         }
                     };
                     showText.start();
+                    toLogin.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) { openLogin_Activity(); }
+                    });
                 }
             }
         });
@@ -73,5 +87,12 @@ public class EMail_Verification_Activity extends AppCompatActivity {
     private void openLogin_Activity() {
         Intent open_login = new Intent(getApplicationContext(), Login_Activity.class);
         startActivity(open_login);
+    }
+
+    /*split the string that contains the user name , to take the user name without ":"*/
+    private String creteCleanUserName(String toUserName) {
+        StringBuffer clean_userName_ID = new StringBuffer(toUserName);
+        clean_userName_ID.deleteCharAt(1);
+        return clean_userName_ID.toString();
     }
 }

@@ -19,12 +19,13 @@ public class Login_Activity extends AppCompatActivity {
 
     private Button registerButton;
     private Button submitLoginButton;
+    private Button forgetButton;
 
-    private String ID;
+    private String UserName;
     private String password;
     private String email;
 
-    private EditText IDinput;
+    private EditText UsernameInput;
     private EditText passwordInput;
     private EditText emailInput;
 
@@ -35,34 +36,36 @@ public class Login_Activity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        IDinput = (EditText) findViewById(R.id.user_ID_input_login);
+        UsernameInput = (EditText) findViewById(R.id.user_userName_input_login);
         passwordInput = (EditText) findViewById(R.id.user_password_input_login);
-        emailInput= (EditText)findViewById(R.id.user_email_input_login);
+        emailInput = (EditText) findViewById(R.id.user_email_input_login);
 
-        /*Submit Login Button will connecting from view*/
+        /*connecting the Buttons from view*/
         submitLoginButton = (Button) findViewById(R.id.LOGIN_Button);
+        forgetButton = (Button)findViewById(R.id.forget_login_button);
+        registerButton = (Button) findViewById(R.id.register_button_login);
 
         //*************************************************************//
 
         submitLoginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String ID = IDinput.getText().toString().trim();
-                String password = passwordInput.getText().toString().trim();
+                UserName = UsernameInput.getText().toString().trim();
+                password = passwordInput.getText().toString().trim();
+                email = emailInput.getText().toString().trim();
 
                 /*checking if the inputs is valid inputs*/
-                if(!validationTools.isLoginInputValid(ID, password, IDinput, passwordInput)) { return; }
-                if(!validationTools.CheckIfNumber(ID,IDinput)){ return; }
+                if (!validationTools.isLoginInputValid(UserName, password, UsernameInput, passwordInput)) { return; }
+                if (!validationTools.CheckIfNumber(only_number_at_ID(UserName), UsernameInput)) { return; }
                 /*end_validation_checking*/
 
-                loginCostumerInput = new Login_Input_Data(ID, password,email);
+                loginCostumerInput = new Login_Input_Data(createNOTCleanUserName(UserName), password, email);
                 open_login_Verification_Activity();
             }
         });
         /*end_Submit_Login_button*/
 
         /*Register button will start to work*/
-        registerButton = (Button) findViewById(R.id.register_button_login);
         registerButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -70,9 +73,40 @@ public class Login_Activity extends AppCompatActivity {
             }
         });
         /*end_Register_button*/
+
+        /*Forgot Password button will start to work*/
+        forgetButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                open_Forgot_Password_Activity();
+            }
+
+        });
+        /*end_Forgot_Password_button*/
+
     }
 
     /************private function************/
+    /*add to the string that contains the user name , the ":"*/
+    private String createNOTCleanUserName(String toUserName) {
+        StringBuilder newUserName = new StringBuilder(toUserName);
+        newUserName.insert(1,":");
+        return newUserName.toString();
+    }
+
+    /**/
+    private String only_number_at_ID(String UserName){
+        StringBuffer clean_ID = new StringBuffer(UserName);
+        clean_ID.deleteCharAt(0);
+        return clean_ID.toString();
+    }
+
+    /*Activate forgot password activity*/
+    private void open_Forgot_Password_Activity() {
+        Intent open_forget_register = new Intent(this, Forget_Password_Activity.class);
+        startActivity(open_forget_register);
+    }
+
     /*Activate register activity*/
     private void openMainRegister_Activity() {
         Intent open_main_register = new Intent(this, Register_Main_Activity.class);

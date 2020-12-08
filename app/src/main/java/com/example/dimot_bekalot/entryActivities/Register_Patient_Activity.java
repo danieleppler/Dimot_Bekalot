@@ -8,7 +8,6 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -111,8 +110,8 @@ public class Register_Patient_Activity extends AppCompatActivity {
 
                             /*create a new Patient*/
                             patientAddress = new Address(cityLiving, streetLiving, houseNumber);
-                            costumer_details_patient = new Costumer_Details_Patient(email, phone, "p"+password,
-                                    patientAddress, firstName, lastName, age, patientID);
+                            costumer_details_patient = new Costumer_Details_Patient(email, phone, password,
+                                    patientAddress, firstName, lastName, age, "p:"+patientID);
 
                             /**all the needful details are enters, can move to register
                              *the user to the fireBase
@@ -155,6 +154,7 @@ public class Register_Patient_Activity extends AppCompatActivity {
     private void update_Authentication(FirebaseUser currentPatientUser) {
         Intent open_email_verification = new Intent(this, EMail_Verification_Activity.class);
         open_email_verification.putExtra("PatientUser",currentPatientUser);
+        open_email_verification.putExtra("userName_ID",this.costumer_details_patient.getPatientID());
         startActivity(open_email_verification);
     }
 

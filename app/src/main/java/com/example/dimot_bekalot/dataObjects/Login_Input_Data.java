@@ -5,7 +5,7 @@ import androidx.annotation.Nullable;
 import java.io.Serializable;
 
 /**
- * This class represent an object contains ID and password that the user
+ * This class represent an object contains ID, password and te email that the user
  * write at the login input
  */
 public class Login_Input_Data implements Serializable {
@@ -16,8 +16,8 @@ public class Login_Input_Data implements Serializable {
 
     public Login_Input_Data(){}
 
-    public Login_Input_Data(String ID, String password, String email) {
-        this.ID = ID;
+    public Login_Input_Data(String UserName, String password, String email) {
+        this.ID = UserName;
         this.password = password;
         this.email=email;
     }
@@ -39,7 +39,8 @@ public class Login_Input_Data implements Serializable {
     public boolean equals(@Nullable Object obj) {
         if (obj instanceof Login_Input_Data) {
             Login_Input_Data login_input_data = (Login_Input_Data) obj;
-            if ((this.ID.equals(login_input_data.getID())) && (this.password.equals(login_input_data.getPassword()))) {
+            if ((this.ID.equals(login_input_data.getID())) && (this.password.equals(login_input_data.getPassword()))
+            && (this.email.equals(login_input_data.getEmail()))) {
                 return true;
             }
         }

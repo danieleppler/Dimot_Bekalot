@@ -10,6 +10,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Toast;
 
+import com.example.dimot_bekalot.InstituteActivity.InstituteMain;
 import com.example.dimot_bekalot.R;
 import com.example.dimot_bekalot.dataObjects.Login_Input_Data;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -26,9 +27,11 @@ import com.google.firebase.database.ValueEventListener;
 public class login_Verification_Activity extends AppCompatActivity {
 
     private Intent retrieveFromLogin;
+    private String SingInUserName;
+    private String SingInPassword;
+    private String SingInEmail;
 
     private FirebaseAuth emailCheck;
-
     private FirebaseDatabase dataBase;
     private DatabaseReference myDataBase;
 
@@ -58,32 +61,36 @@ public class login_Verification_Activity extends AppCompatActivity {
                  * if the input details will match to Patient details, move to Patient Menu activity
                  */
                 boolean found=false;
-                if (snapshot.child(PATIENTS).child(inputUserFromLoginActivity.getID()).exists()) {
-                    String SingInID = snapshot.child(PATIENTS).child(inputUserFromLoginActivity.getID()).child("patientID").getValue().toString();
-                    String SingInPassword = snapshot.child(PATIENTS).child(inputUserFromLoginActivity.getID()).child("password").getValue().toString();
-                    String SingInEmail = snapshot.child(PATIENTS).child(inputUserFromLoginActivity.getID()).child("email").getValue().toString();
-                    Login_Input_Data backFromDB_LOGINdata = new Login_Input_Data(SingInID, SingInPassword, SingInEmail);
+                if(inputUserFromLoginActivity.getID().charAt(0) =='p') {
+                    if (snapshot.child(PATIENTS).child(inputUserFromLoginActivity.getID()).exists()) {
+                        SingInUserName = snapshot.child(PATIENTS).child(inputUserFromLoginActivity.getID()).child("patientID").getValue().toString();
+                        SingInPassword = snapshot.child(PATIENTS).child(inputUserFromLoginActivity.getID()).child("password").getValue().toString();
+                        SingInEmail = snapshot.child(PATIENTS).child(inputUserFromLoginActivity.getID()).child("email").getValue().toString();
+                        Login_Input_Data backFromDB_LOGINdata = new Login_Input_Data(SingInUserName, SingInPassword, SingInEmail);
 
-                    if (inputUserFromLoginActivity.equals(backFromDB_LOGINdata)) {
-                        found=true;
-                        /*if the password and the ID is verified, we have to check the email address*/
-                        emailVerification(SingInID, SingInPassword, SingInEmail,PATIENTS);
+                        if (inputUserFromLoginActivity.equals(backFromDB_LOGINdata)) {
+                            found = true;
+                            /*if the password and the ID is verified, we have to check the email address*/
+                            emailVerification(SingInUserName, SingInPassword, SingInEmail, PATIENTS);
+                        }
                     }
                 }
-
                 /**
                  * if the input details will match to institute details, move to Institute Menu activity
                  */
-                if (snapshot.child(INSTITUTES).child(inputUserFromLoginActivity.getID()).exists()) {
-                    String SingInID = snapshot.child(INSTITUTES).child(inputUserFromLoginActivity.getID()).child("instituteID").getValue().toString();
-                    String SingInPassword = snapshot.child(INSTITUTES).child(inputUserFromLoginActivity.getID()).child("password").getValue().toString();
-                    String SingInEmail = snapshot.child(INSTITUTES).child(inputUserFromLoginActivity.getID()).child("email").getValue().toString();
-                    Login_Input_Data backFromDB_LOGINdata = new Login_Input_Data(SingInID, SingInPassword, SingInEmail);
+                if(inputUserFromLoginActivity.getID().charAt(0) =='i') {
+                    if (snapshot.child(INSTITUTES).child(inputUserFromLoginActivity.getID()).exists()) {
+                        String NOTcleanID = cretenNOTCleanUserName(inputUserFromLoginActivity.getID());
+                        SingInUserName = snapshot.child(INSTITUTES).child(NOTcleanID).child("instituteID").getValue().toString();
+                        SingInPassword = snapshot.child(INSTITUTES).child(NOTcleanID).child("password").getValue().toString();
+                        SingInEmail = snapshot.child(INSTITUTES).child(NOTcleanID).child("email").getValue().toString();
+                        Login_Input_Data backFromDB_LOGINdata = new Login_Input_Data(SingInUserName, SingInPassword, SingInEmail);
 
-                    if (inputUserFromLoginActivity.equals(backFromDB_LOGINdata)) {
-                        found=true;
-                        /*if the password and the ID is verified, we have to check the email address*/
-                        emailVerification(SingInID, SingInPassword, SingInEmail,INSTITUTES);
+                        if (inputUserFromLoginActivity.equals(backFromDB_LOGINdata)) {
+                            found = true;
+                            /*if the password and the ID is verified, we have to check the email address*/
+                            emailVerification(SingInUserName, SingInPassword, SingInEmail, INSTITUTES);
+                        }
                     }
                 }
                 /**
@@ -106,11 +113,11 @@ public class login_Verification_Activity extends AppCompatActivity {
     /************private function************/
     /**
      *
-     * @param SingInID
+     * @param SingInUserName
      * @param SingInPassword
      * @param SingInEmail
      */
-    private void emailVerification (String SingInID, String SingInPassword, String SingInEmail,String PATIENTorINSTITUTE ){
+    private void emailVerification (String SingInUserName, String SingInPassword, String SingInEmail,String PATIENTorINSTITUTE ){
         /*if the password and the ID is verified, we have to check the email address*/
         emailCheck.signInWithEmailAndPassword(SingInEmail,SingInPassword).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
             @Override
@@ -119,7 +126,7 @@ public class login_Verification_Activity extends AppCompatActivity {
                     FirebaseUser patient = emailCheck.getCurrentUser();
                     if(patient.isEmailVerified()){
                         Toast.makeText(login_Verification_Activity.this, "ברוכים הבאים !", Toast.LENGTH_LONG).show();
-                        goToRightActivity(SingInID ,PATIENTorINSTITUTE);
+                        goToRightActivity(SingInUserName ,PATIENTorINSTITUTE);
                     }else{
                         Toast.makeText(login_Verification_Activity.this, "לא אישרתם את כתובת האי-מייל, אשרו כתובתכם לצורך התחברות", Toast.LENGTH_LONG).show();
                         Toast.makeText(login_Verification_Activity.this, "הנכם חוזרים לעמוד ההתחברות", Toast.LENGTH_LONG).show();
@@ -149,10 +156,17 @@ public class login_Verification_Activity extends AppCompatActivity {
         }
     }
 
+    /*add to the string that contains the user name , the ":"*/
+    private String cretenNOTCleanUserName(String toUserName) {
+        StringBuilder newUserName = new StringBuilder(toUserName);
+        newUserName.insert(1,":");
+        return newUserName.toString();
+    }
+
     /*Activate Patient Menu activity*/
     private void openPatientMenu_Activity(String Patient_ID) {
-        //Intent open_patient_menu = new Intent(this, temp_from_login_Activity_PA.class);
-        Intent open_patient_menu = new Intent(this,Main_Client_View.class);
+        Intent open_patient_menu = new Intent(this, Login_Activity.class);
+//        Intent open_patient_menu = new Intent(this,Main_Client_View.class);
 //        open_patient_menu.putExtra("id",Patient_ID);
         startActivity(open_patient_menu);
     }
@@ -160,7 +174,7 @@ public class login_Verification_Activity extends AppCompatActivity {
     /*Activate Institute Menu activity*/
     private void openInstituteMenu_Activity(String Institute_ID) {
         //Intent open_institute_menu = new Intent(this, temp_from_login_Activity_IN.class);
-        Intent open_institute_menu = new Intent(this,InstituteMain.class);
+        Intent open_institute_menu = new Intent(this, InstituteMain.class);
         //open_institute_menu.putExtra("Institute_ID",Institute_ID);
         startActivity(open_institute_menu);
     }

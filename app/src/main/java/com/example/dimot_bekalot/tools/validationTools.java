@@ -12,22 +12,22 @@ public class validationTools {
     /**
      * This function check if the input at Login Activity is valid and correct
      *
-     * @param ID
+     * @param userName
      * @param password
-     * @param ID_Input
+     * @param userName_Input
      * @param password_input
      * @return
      */
-    public static boolean isLoginInputValid(String ID, String password, EditText ID_Input,
+    public static boolean isLoginInputValid(String userName, String password, EditText userName_Input,
                                             EditText password_input) {
 
-        if (TextUtils.isEmpty(ID)) {
-            ID_Input.setError("ת.ז או מספר רישוי הוא שדה חובה");
+        if (TextUtils.isEmpty(userName)) {
+            userName_Input.setError("שם משתמש הוא שדה חובה");
             return false;
         }
 
-        if(ID.length() != 9){
-            ID_Input.setError("ת.ז או מספר רישוי אמור להיות באורך 9 ספרות");
+        if(userName.length() != 10){
+            userName_Input.setError("שם המשתמש אמור להיות באורך 10");
             return false;
         }
 
@@ -36,8 +36,8 @@ public class validationTools {
             return false;
         }
 
-        if (password.length() != 10) {
-            password_input.setError("אורך הסיסמא חייב להיות 10 תווים");
+        if (password.length() != 9) {
+            password_input.setError("אורך הסיסמא חייב להיות 9 תווים");
             return false;
         }
         return true;
@@ -159,7 +159,7 @@ public class validationTools {
         }
 
         if (password.length() != 9) {
-            passwordInput.setError("הכנס 9 תווים, התו הראשון כבר הוכנס אוטומטי");
+            passwordInput.setError("הכנס 9 תווים");
             return false;
         }
 
