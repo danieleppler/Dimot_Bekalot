@@ -20,7 +20,7 @@
         <activity android:name=".clientActivities.Private_Area" />
         <activity android:name=".clientActivities.queue_search" />
         <activity android:name=".clientActivities.queue_src_res" />
-        <activity android:name=".entryActivities.login_Verification_Activity" />
+        <activity android:name=".entryActivities.Login_Verification_Activity" />
         <activity android:name=".connectActivities.Call_To_Institute_Activity" />
         <activity android:name=".dataObjects.Institute_data_activity"></activity>
         <activity android:name=".entryActivities.Register_Institute_Activity" />

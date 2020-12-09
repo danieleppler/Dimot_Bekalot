@@ -94,7 +94,7 @@ public class Login_Activity extends AppCompatActivity {
         return newUserName.toString();
     }
 
-    /**/
+    /*clean the string and remain only the ID with 9 digits*/
     private String only_number_at_ID(String UserName){
         StringBuffer clean_ID = new StringBuffer(UserName);
         clean_ID.deleteCharAt(0);
@@ -115,7 +115,7 @@ public class Login_Activity extends AppCompatActivity {
 
     /*Activate verification activity*/
     private void open_login_Verification_Activity() {
-        Intent open_verification = new Intent(this, login_Verification_Activity.class);
+        Intent open_verification = new Intent(this, Login_Verification_Activity.class);
         open_verification.putExtra("Login_Input_Data", loginCostumerInput);
         startActivity(open_verification);
     }

@@ -167,7 +167,42 @@ public class validationTools {
     }
 
     /**
-     * Cheking if input string is a long Or integer or not
+     * Checking if input of the password is valid or NOT
+     * @param password
+     * @param password_input
+     * @return
+     */
+    public static boolean isForgetPasswordInputValid(String password, EditText password_input){
+        if (TextUtils.isEmpty(password)) {
+            password_input.setError("שדה זה הוא חובה");
+            return false;
+        }
+
+        if (password_input.length() != 9) {
+            password_input.setError("הסיסמא חייבת להיות באורך 9 תווים");
+            return false;
+        }
+
+        return true;
+    }
+
+    public static boolean isForgetPasswordInputValid_User_email(String userName_ID, String email,
+                                                                EditText userName_ID_input ,EditText email_input){
+        if (TextUtils.isEmpty(userName_ID)) {
+            userName_ID_input.setError("שדה זה הוא חובה");
+            return false;
+        }
+
+        if (TextUtils.isEmpty(email)) {
+            email_input.setError("שדה זה הוא חובה");
+            return false;
+        }
+
+        return true;
+    }
+
+    /**
+     * Checking if input string is a long Or integer or not
      * @param Num
      * @param input_Num
      * @return
