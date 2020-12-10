@@ -7,13 +7,15 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
 import com.example.dimot_bekalot.R;
 import com.example.dimot_bekalot.dataObjects.Login_Input_Data;
-import com.example.dimot_bekalot.tools.validationTools;
+import com.example.dimot_bekalot.Tools.Strings_Tools;
+import com.example.dimot_bekalot.Tools.validationTools;
 
 public class Login_Activity extends AppCompatActivity {
 
@@ -56,10 +58,14 @@ public class Login_Activity extends AppCompatActivity {
 
                 /*checking if the inputs is valid inputs*/
                 if (!validationTools.isLoginInputValid(UserName, password, UsernameInput, passwordInput)) { return; }
-                if (!validationTools.CheckIfNumber(only_number_at_ID(UserName), UsernameInput)) { return; }
+                if (!validationTools.CheckIfNumber(Strings_Tools.only_number_at_ID(UserName), UsernameInput)) { return; }
+                if (TextUtils.isEmpty(email)) {
+                    emailInput.setError("שדה זה הוא חובה");
+                    return;
+                }
                 /*end_validation_checking*/
 
-                loginCostumerInput = new Login_Input_Data(createNOTCleanUserName(UserName), password, email);
+                loginCostumerInput = new Login_Input_Data(Strings_Tools.createNOTCleanUserName(UserName), password, email);
                 open_login_Verification_Activity();
             }
         });
@@ -87,20 +93,6 @@ public class Login_Activity extends AppCompatActivity {
     }
 
     /************private function************/
-    /*add to the string that contains the user name , the ":"*/
-    private String createNOTCleanUserName(String toUserName) {
-        StringBuilder newUserName = new StringBuilder(toUserName);
-        newUserName.insert(1,":");
-        return newUserName.toString();
-    }
-
-    /*clean the string and remain only the ID with 9 digits*/
-    private String only_number_at_ID(String UserName){
-        StringBuffer clean_ID = new StringBuffer(UserName);
-        clean_ID.deleteCharAt(0);
-        return clean_ID.toString();
-    }
-
     /*Activate forgot password activity*/
     private void open_Forgot_Password_Activity() {
         Intent open_forget_register = new Intent(this, Forget_Password_Activity.class);

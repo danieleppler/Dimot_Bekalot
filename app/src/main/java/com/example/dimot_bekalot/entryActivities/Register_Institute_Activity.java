@@ -17,7 +17,8 @@ import android.widget.Toast;
 import com.example.dimot_bekalot.R;
 import com.example.dimot_bekalot.dataObjects.Address;
 import com.example.dimot_bekalot.dataObjects.Costumer_Details_Institute;
-import com.example.dimot_bekalot.tools.validationTools;
+import com.example.dimot_bekalot.dataObjects.LockedAccount;
+import com.example.dimot_bekalot.Tools.validationTools;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
@@ -41,9 +42,12 @@ public class Register_Institute_Activity extends AppCompatActivity {
     private FirebaseDatabase dataBase;
     private DatabaseReference myDataBase;
     private FirebaseAuth fAuto;
+
     private static final String INSTITUTES = "Institutes";
+
     private Costumer_Details_Institute costumer_details_institute;
     private Address instituteAddress;
+    private LockedAccount lockedAccount;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -97,6 +101,7 @@ public class Register_Institute_Activity extends AppCompatActivity {
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
                         if (snapshot.getChildrenCount() > 0) {
                             Toast.makeText(Register_Institute_Activity.this, "משתמש זה כבר רשום, מספר הרישוי כבר קיים", Toast.LENGTH_LONG).show();
+                            openLogin_Activity();
                         } else {
                             /*continue with other inputs after validation*/
                             String streetLiving = streetInput.getText().toString().trim();
@@ -105,8 +110,9 @@ public class Register_Institute_Activity extends AppCompatActivity {
 
                             /*create a new Patient*/
                             instituteAddress = new Address(cityLiving, streetLiving, buildingNumber);
+                            lockedAccount  =new LockedAccount(false,0);
                             costumer_details_institute = new Costumer_Details_Institute(email, phone,
-                                    password, instituteAddress, instituteName, "i:"+instituteID);
+                                    password, instituteAddress,lockedAccount, instituteName, "i:"+instituteID);
 
                             /**all the needful details are enters, can move to register
                              *the user in fireBase
@@ -151,6 +157,12 @@ public class Register_Institute_Activity extends AppCompatActivity {
         open_email_verification.putExtra("InstituteUser", currentInstituteUser);
         open_email_verification.putExtra("userName_ID",this.costumer_details_institute.getInstituteID());
         startActivity(open_email_verification);
+    }
+
+    /*Activate login activity*/
+    private void openLogin_Activity() {
+        Intent open_login = new Intent(this, Login_Activity.class);
+        startActivity(open_login);
     }
 
     /*Adding patient to our Firebase DataBase*/

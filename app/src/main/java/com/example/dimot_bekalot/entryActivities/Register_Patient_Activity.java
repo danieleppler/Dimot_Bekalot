@@ -17,7 +17,8 @@ import android.widget.Toast;
 import com.example.dimot_bekalot.R;
 import com.example.dimot_bekalot.dataObjects.Address;
 import com.example.dimot_bekalot.dataObjects.Costumer_Details_Patient;
-import com.example.dimot_bekalot.tools.validationTools;
+import com.example.dimot_bekalot.dataObjects.LockedAccount;
+import com.example.dimot_bekalot.Tools.validationTools;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
@@ -44,6 +45,7 @@ public class Register_Patient_Activity extends AppCompatActivity {
     private static final String PATIENTS = "Patients";
     private Costumer_Details_Patient costumer_details_patient;
     private Address patientAddress;
+    private LockedAccount lockedAccount;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -101,6 +103,7 @@ public class Register_Patient_Activity extends AppCompatActivity {
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
                         if (snapshot.getChildrenCount() > 0) {
                             Toast.makeText(Register_Patient_Activity.this, "משתמש זה כבר רשום, הת.ז קיים", Toast.LENGTH_LONG).show();
+                            openLogin_Activity();
                         } else {
                             /*continue with other inputs after validation*/
                             String cityLiving = cityInput.getText().toString().trim();
@@ -110,8 +113,9 @@ public class Register_Patient_Activity extends AppCompatActivity {
 
                             /*create a new Patient*/
                             patientAddress = new Address(cityLiving, streetLiving, houseNumber);
+                            lockedAccount  =new LockedAccount(false,0);
                             costumer_details_patient = new Costumer_Details_Patient(email, phone, password,
-                                    patientAddress, firstName, lastName, age, "p:"+patientID);
+                                    patientAddress,lockedAccount, firstName, lastName, age, "p:"+patientID);
 
                             /**all the needful details are enters, can move to register
                              *the user to the fireBase
@@ -143,7 +147,6 @@ public class Register_Patient_Activity extends AppCompatActivity {
                             // If sign in fails, display a message to the user.
                             Toast.makeText(Register_Patient_Activity.this, "חשבון האי-מייל לא תקין, נסה להירשם שוב", Toast.LENGTH_SHORT).show();
                             startActivity(new Intent(getApplicationContext(), Login_Activity.class));
-                            //finish();
                         }
                     }
                 });
@@ -156,6 +159,12 @@ public class Register_Patient_Activity extends AppCompatActivity {
         open_email_verification.putExtra("PatientUser",currentPatientUser);
         open_email_verification.putExtra("userName_ID",this.costumer_details_patient.getPatientID());
         startActivity(open_email_verification);
+    }
+
+    /*Activate login activity*/
+    private void openLogin_Activity() {
+        Intent open_login = new Intent(this, Login_Activity.class);
+        startActivity(open_login);
     }
 
     /*Adding patient to our Firebase Real DataBase*/

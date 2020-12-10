@@ -1,4 +1,4 @@
-package com.example.dimot_bekalot.tools;
+package com.example.dimot_bekalot.Tools;
 /**
  * This class contains help tools validation
  * functions to the registers aka Patient or Institute
@@ -186,6 +186,14 @@ public class validationTools {
         return true;
     }
 
+    /**
+     * Checking if input email and userName is valid
+     * @param userName_ID
+     * @param email
+     * @param userName_ID_input
+     * @param email_input
+     * @return
+     */
     public static boolean isForgetPasswordInputValid_User_email(String userName_ID, String email,
                                                                 EditText userName_ID_input ,EditText email_input){
         if (TextUtils.isEmpty(userName_ID)) {

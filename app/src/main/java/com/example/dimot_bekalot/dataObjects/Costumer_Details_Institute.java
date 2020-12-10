@@ -12,13 +12,14 @@ public class Costumer_Details_Institute extends Costumer_Details implements Seri
 
     public Costumer_Details_Institute(){super();}
 
-    public Costumer_Details_Institute(String email, String phone_number,
-                                      String password, Address address,
+    public Costumer_Details_Institute(String email, String phone_number, String password,
+                                      Address address, LockedAccount lockedAccount,
                                       String institute_name, String instituteID) {
-        super(email, phone_number, password, address);
+        super(email, phone_number, password, address, lockedAccount);
         this.institute_name = institute_name;
         this.instituteID = instituteID;
     }
+
 
     public String getInstitute_name() {
         return institute_name;

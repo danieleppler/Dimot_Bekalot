@@ -10,6 +10,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Toast;
 
+import com.example.dimot_bekalot.Firebase.DB_validation;
 import com.example.dimot_bekalot.InstituteActivity.InstituteMain;
 import com.example.dimot_bekalot.R;
 
@@ -29,9 +30,6 @@ public class Login_Verification_Activity extends AppCompatActivity {
     private static final String TAG = "Verification_Activity";
 
     private Intent retrieveFromLogin;
-    private String SingInUserName;
-    private String SingInPassword;
-    private String SingInEmail;
 
     private FirebaseAuth emailCheck;
     private FirebaseDatabase dataBase;
@@ -39,6 +37,7 @@ public class Login_Verification_Activity extends AppCompatActivity {
 
     private static final String INSTITUTES = "Institutes";
     private static final String PATIENTS = "Patients";
+    private static  String PATIENTSorINSTITUTES ="";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,56 +58,63 @@ public class Login_Verification_Activity extends AppCompatActivity {
         myDataBase.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                /**
-                 * if the input details will match to Patient details, move to Patient Menu activity
-                 */
-                boolean found=false;
-                if(inputUserFromLoginActivity.getID().charAt(0) =='p') {
+
+                /**if the input details will match to Patient details*/
+                boolean found_User = false;
+                if (inputUserFromLoginActivity.getID().charAt(0) == 'p') {
                     if (snapshot.child(PATIENTS).child(inputUserFromLoginActivity.getID()).exists()) {
-                        SingInUserName = snapshot.child(PATIENTS).child(inputUserFromLoginActivity.getID()).child("patientID").getValue().toString();
-                        SingInPassword = snapshot.child(PATIENTS).child(inputUserFromLoginActivity.getID()).child("password").getValue().toString();
-                        SingInEmail = snapshot.child(PATIENTS).child(inputUserFromLoginActivity.getID()).child("email").getValue().toString();
-                        Login_Input_Data backFromDB_LOGINdata = new Login_Input_Data(SingInUserName, SingInPassword, SingInEmail);
-
-                        if (inputUserFromLoginActivity.equals(backFromDB_LOGINdata)) {
-                            found = true;
-                            /*if the password and the ID is verified, we have to check the email address*/
-                            emailVerification(SingInUserName, SingInPassword, SingInEmail, PATIENTS);
+                        PATIENTSorINSTITUTES = PATIENTS;
+                        /*if the user is not locked, can move on*/
+                        if (!isUserLocked(snapshot,inputUserFromLoginActivity.getID())) {
+                            Login_Input_Data backFromDB_LOGINdata = checkValidDetails(snapshot, 'p', inputUserFromLoginActivity.getID());
+                            if (inputUserFromLoginActivity.equals(backFromDB_LOGINdata)) {
+                                found_User = true;
+                                /*if the password and the ID is verified, we have to check the email address*/
+                                emailVerification(inputUserFromLoginActivity.getID(), inputUserFromLoginActivity.getPassword(), inputUserFromLoginActivity.getEmail(), PATIENTS);
+                            }
+                        }else {
+                            Toast.makeText(Login_Verification_Activity.this, "החשבון חסום, אנא החלף סיסמא", Toast.LENGTH_LONG).show();
+                            open_ForgetPassword_Activity();
                         }
                     }
                 }
-                /**
-                 * if the input details will match to institute details, move to Institute Menu activity
-                 */
-                if(inputUserFromLoginActivity.getID().charAt(0) =='i') {
+
+                /**if the input details will match to institute details*/
+                else if (inputUserFromLoginActivity.getID().charAt(0) == 'i') {
                     if (snapshot.child(INSTITUTES).child(inputUserFromLoginActivity.getID()).exists()) {
-                        SingInUserName = snapshot.child(INSTITUTES).child(inputUserFromLoginActivity.getID()).child("instituteID").getValue().toString();
-                        SingInPassword = snapshot.child(INSTITUTES).child(inputUserFromLoginActivity.getID()).child("password").getValue().toString();
-                        SingInEmail = snapshot.child(INSTITUTES).child(inputUserFromLoginActivity.getID()).child("email").getValue().toString();
-                        Login_Input_Data backFromDB_LOGINdata = new Login_Input_Data(SingInUserName, SingInPassword, SingInEmail);
+                        PATIENTSorINSTITUTES = INSTITUTES;
 
-                        if (inputUserFromLoginActivity.equals(backFromDB_LOGINdata)) {
-                            found = true;
-                            /*if the password and the ID is verified, we have to check the email address*/
-                            emailVerification(SingInUserName, SingInPassword, SingInEmail, INSTITUTES);
+                        /*if the user is not locked, can move on*/
+                        if (!isUserLocked(snapshot, inputUserFromLoginActivity.getID())) {
+                            Login_Input_Data backFromDB_LOGINdata = checkValidDetails(snapshot, 'i', inputUserFromLoginActivity.getID());
+                            if (inputUserFromLoginActivity.equals(backFromDB_LOGINdata)) {
+                                found_User = true;
+                                /*if the password and the ID is verified, we have to check the email address*/
+                                emailVerification(inputUserFromLoginActivity.getID(), inputUserFromLoginActivity.getPassword(), inputUserFromLoginActivity.getEmail(), INSTITUTES);
+
+                                /*incurrect password*/
+                            }else {
+
+                            }
+                        }else {
+                            Toast.makeText(Login_Verification_Activity.this, "החשבון חסום, אנא החלף סיסמא", Toast.LENGTH_LONG).show();
+                            open_ForgetPassword_Activity();
                         }
                     }
                 }
-                /**
-                 * if the input details is NOT match to institutes or patients details, return the user back
-                 * to login Activity
-                 */
-                if(!found){
+
+                /**if the input details is NOT match to institutes or patients details*/
+                if (!found_User) {
                     Toast.makeText(Login_Verification_Activity.this, "פרטים שגויים, התחל שוב בבקשה", Toast.LENGTH_LONG).show();
                     goBackToLogin_Activity();
                 }
             }
 
             @Override
-            public void onCancelled(@NonNull DatabaseError error) { }
+            public void onCancelled(@NonNull DatabaseError error) {
+            }
         });
     }
-
     //*************************************************************//
 
     /************private function************/
@@ -118,28 +124,54 @@ public class Login_Verification_Activity extends AppCompatActivity {
      * @param SingInPassword
      * @param SingInEmail
      */
-    private void emailVerification (String SingInUserName, String SingInPassword, String SingInEmail,String PATIENTorINSTITUTE ){
+    private void emailVerification(String SingInUserName, String SingInPassword, String SingInEmail, String PATIENTorINSTITUTE) {
         /*if the password and the ID is verified, we have to check the email address*/
-        emailCheck.signInWithEmailAndPassword(SingInEmail,SingInPassword).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+        emailCheck.signInWithEmailAndPassword(SingInEmail, SingInPassword).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
-                if(task.isSuccessful()){
+                if (task.isSuccessful()) {
                     FirebaseUser patient = emailCheck.getCurrentUser();
-                    if(patient.isEmailVerified()){
+                    if (patient.isEmailVerified()) {
                         Toast.makeText(Login_Verification_Activity.this, "ברוכים הבאים !", Toast.LENGTH_LONG).show();
-                        goToRightActivity(SingInUserName ,PATIENTorINSTITUTE);
-                    }else{
+                        goToRightActivity(SingInUserName, PATIENTorINSTITUTE);
+                    } else {
                         Toast.makeText(Login_Verification_Activity.this, "לא אישרתם את כתובת האי-מייל, אשרו כתובתכם לצורך התחברות", Toast.LENGTH_LONG).show();
                         Toast.makeText(Login_Verification_Activity.this, "הנכם חוזרים לעמוד ההתחברות", Toast.LENGTH_LONG).show();
                         goBackToLogin_Activity();
                     }
-                }
-                else {
+                } else {
                     Toast.makeText(Login_Verification_Activity.this, "משהו הלך לא קשורה, התחברו שוב בבקשה", Toast.LENGTH_LONG).show();
                     goBackToLogin_Activity();
                 }
             }
         });
+    }
+
+    /**
+     * check if the input user details is correct
+     * @param snapshot
+     * @param PATIENTorINSTITUTE
+     * @param userName_ID
+     * @return
+     */
+    private Login_Input_Data checkValidDetails(DataSnapshot snapshot, char PATIENTorINSTITUTE, String userName_ID) {
+        return DB_validation.checkValidDetails(snapshot,PATIENTorINSTITUTE,userName_ID,PATIENTSorINSTITUTES);
+    }
+
+    /*checks if the uer account already was tried to enter 3 times without success*/
+    private boolean isUserLocked (DataSnapshot snapshot , String userName_ID){
+        return (Boolean) snapshot.child(PATIENTSorINSTITUTES).child(userName_ID).child("lockedAccount").child("locked").getValue();
+    }
+
+//    /*checks if the uer account already was tried to enter 3 times without success*/
+//    private boolean addOneToTryLogin (DataSnapshot snapshot , String userName_ID){
+//        return (Integer) snapshot.child(PATIENTSorINSTITUTES).child(userName_ID).child("lockedAccount").child("logintry");
+//    }
+
+    /*Activate forget password activity*/
+    private void open_ForgetPassword_Activity() {
+        Intent open_forget = new Intent(this, Forget_Password_Activity.class);
+        startActivity(open_forget);
     }
 
     /*Activate login activity*/
@@ -149,10 +181,10 @@ public class Login_Verification_Activity extends AppCompatActivity {
     }
 
     /**/
-    private void goToRightActivity(String ID, String PATIENTorINSTITUTE){
-        if(PATIENTorINSTITUTE.equals(PATIENTS)){
+    private void goToRightActivity(String ID, String PATIENTorINSTITUTE) {
+        if (PATIENTorINSTITUTE.equals(PATIENTS)) {
             openPatientMenu_Activity(ID);
-        }else if(PATIENTorINSTITUTE.equals(INSTITUTES)) {
+        } else if (PATIENTorINSTITUTE.equals(INSTITUTES)) {
             openInstituteMenu_Activity(ID);
         }
     }
@@ -160,13 +192,12 @@ public class Login_Verification_Activity extends AppCompatActivity {
     /*Activate Patient Menu activity*/
     private void openPatientMenu_Activity(String Patient_ID) {
         Intent open_patient_menu = new Intent(this, com.example.dimot_bekalot.clientActivities.Main_Client_View.class);
-        open_patient_menu.putExtra("client_id",Patient_ID);
+        open_patient_menu.putExtra("client_id", Patient_ID);
         startActivity(open_patient_menu);
     }
 
     /*Activate Institute Menu activity*/
     private void openInstituteMenu_Activity(String Institute_ID) {
-        //Intent open_institute_menu = new Intent(this, temp_from_login_Activity_IN.class);
         Intent open_institute_menu = new Intent(this, InstituteMain.class);
         //open_institute_menu.putExtra("Institute_ID",Institute_ID);
         startActivity(open_institute_menu);

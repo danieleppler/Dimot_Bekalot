@@ -1,6 +1,7 @@
 package com.example.dimot_bekalot.entryActivities;
 /**
- *
+ * This activity allow to change the password of a user after
+ * carefully checking that it's the right user
  */
 
 import androidx.annotation.NonNull;
@@ -16,7 +17,8 @@ import android.widget.Toast;
 
 import com.example.dimot_bekalot.R;
 import com.example.dimot_bekalot.dataObjects.Login_Input_Data;
-import com.example.dimot_bekalot.tools.validationTools;
+import com.example.dimot_bekalot.Tools.Strings_Tools;
+import com.example.dimot_bekalot.Tools.validationTools;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -70,20 +72,21 @@ public class Forget_Password_Activity extends AppCompatActivity {
                 /*checking if the inputs is valid inputs*/
                 if(!validationTools.isForgetPasswordInputValid_User_email(userName_ID,email,
                         userName_ID_input_and_password_1, email_input_and_password_2)){ return; }
-                if (!validationTools.CheckIfNumber(only_number_at_ID(userName_ID), userName_ID_input_and_password_1)) { return; }
+                if (!validationTools.CheckIfNumber(Strings_Tools.only_number_at_ID(userName_ID), userName_ID_input_and_password_1)) { return; }
+                /*end_validation_checking*/
 
-                InputToChangePassword = new Login_Input_Data(createNOTCleanUserName(userName_ID), email);
+                InputToChangePassword = new Login_Input_Data(Strings_Tools.createNOTCleanUserName(userName_ID), email);
 
                 myDataBase.addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
 
                         /**if the input details will match to Patient details*/
-                        boolean found = false;
+                        boolean found_User = false;
                         if (userName_ID.charAt(0) == 'p') {
-                            if (snapshot.child(PATIENTS).child(createNOTCleanUserName(userName_ID)).exists()) {
-                                found = checkValidDetails(snapshot, 'p', createNOTCleanUserName(userName_ID));
+                            if (snapshot.child(PATIENTS).child(Strings_Tools.createNOTCleanUserName(userName_ID)).exists()) {
                                 PATIENTSorINSTITUTES = PATIENTS;
+                                found_User = checkValidDetails(snapshot, 'p', Strings_Tools.createNOTCleanUserName(userName_ID));
                             } else {
                                 Toast.makeText(Forget_Password_Activity.this, "פרטים שגויים, התחל שוב בבקשה", Toast.LENGTH_LONG).show();
                                 goBackToLogin_Activity();
@@ -92,9 +95,9 @@ public class Forget_Password_Activity extends AppCompatActivity {
 
                         /**if the input details will match to institute details*/
                         if (userName_ID.charAt(0) == 'i') {
-                            if (snapshot.child(INSTITUTES).child(createNOTCleanUserName(userName_ID)).exists()) {
-                                found = checkValidDetails(snapshot, 'i', createNOTCleanUserName(userName_ID));
+                            if (snapshot.child(INSTITUTES).child(Strings_Tools.createNOTCleanUserName(userName_ID)).exists()) {
                                 PATIENTSorINSTITUTES = INSTITUTES;
+                                found_User = checkValidDetails(snapshot, 'i', Strings_Tools.createNOTCleanUserName(userName_ID));
                             } else {
                                 Toast.makeText(Forget_Password_Activity.this, "פרטים שגויים, התחל שוב בבקשה", Toast.LENGTH_LONG).show();
                                 goBackToLogin_Activity();
@@ -103,7 +106,7 @@ public class Forget_Password_Activity extends AppCompatActivity {
 
                         /**if the input details is NOT match to institutes or patients details, return the user back
                          * to login Activity*/
-                        if (!found) {
+                        if (!found_User) {
                             Toast.makeText(Forget_Password_Activity.this, "פרטים שגויים, התחל שוב בבקשה", Toast.LENGTH_LONG).show();
                             goBackToLogin_Activity();
                         }
@@ -130,7 +133,7 @@ public class Forget_Password_Activity extends AppCompatActivity {
         });
 
 /**
- *
+ * will change the password tot the user, if PERMISSION_TO_CHANGE_PASSWORD is equal to 1
  */
         send_new_password.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -139,12 +142,12 @@ public class Forget_Password_Activity extends AppCompatActivity {
 
                     String newPassword_1 = userName_ID_input_and_password_1.getText().toString().trim();
                     String newPassword_2 = email_input_and_password_2.getText().toString().trim();
-                    if (!validationTools.isForgetPasswordInputValid(newPassword_1, userName_ID_input_and_password_1)) {
-                        return;
-                    }
-                    if (!validationTools.isForgetPasswordInputValid(newPassword_2, email_input_and_password_2)) {
-                        return;
-                    }
+
+                    /*checking if the inputs is valid inputs*/
+                    if (!validationTools.isForgetPasswordInputValid(newPassword_1, userName_ID_input_and_password_1)) { return; }
+                    if (!validationTools.isForgetPasswordInputValid(newPassword_2, email_input_and_password_2)) { return; }
+                    /*end_validation_checking*/
+
                     if (!newPassword_1.equals(newPassword_2)) {
                         Toast.makeText(Forget_Password_Activity.this, "אינכם יכולים להמשיך, הסיסמאות חייבות להיות זהות", Toast.LENGTH_LONG).show();
                         email_input_and_password_2.setError("שדה זה הוא חובה");
@@ -191,12 +194,12 @@ public class Forget_Password_Activity extends AppCompatActivity {
     private boolean checkValidDetails(DataSnapshot snapshot, char PATIENTorINSTITUTE, String userName_ID) {
         String realUserName_ID = "";
         if (PATIENTorINSTITUTE == 'p') {
-            realUserName_ID = snapshot.child(PATIENTS).child(userName_ID).child("patientID").getValue().toString();
+            realUserName_ID = snapshot.child(PATIENTSorINSTITUTES).child(userName_ID).child("patientID").getValue().toString();
         } else {
-            realUserName_ID = snapshot.child(PATIENTS).child(userName_ID).child("instituteID").getValue().toString();
+            realUserName_ID = snapshot.child(INSTITUTES).child(userName_ID).child("instituteID").getValue().toString();
         }
 
-        String realEmail = snapshot.child(PATIENTS).child(userName_ID).child("email").getValue().toString();
+        String realEmail = snapshot.child(PATIENTSorINSTITUTES).child(userName_ID).child("email").getValue().toString();
         Login_Input_Data backFromDB_LOGINdata = new Login_Input_Data(realUserName_ID, realEmail);
 
         if (InputToChangePassword.equals(backFromDB_LOGINdata)) {
@@ -204,20 +207,6 @@ public class Forget_Password_Activity extends AppCompatActivity {
             return true;
         }
         return false;
-    }
-
-    /*clean the string and remain only the ID with 9 digits*/
-    private String only_number_at_ID(String UserName) {
-        StringBuffer clean_ID = new StringBuffer(UserName);
-        clean_ID.deleteCharAt(0);
-        return clean_ID.toString();
-    }
-
-    /*add to the string that contains the user name , the ":"*/
-    private String createNOTCleanUserName(String toUserName) {
-        StringBuilder newUserName = new StringBuilder(toUserName);
-        newUserName.insert(1,":");
-        return newUserName.toString();
     }
 
     /*Activate login activity*/

@@ -15,15 +15,16 @@ public class Costumer_Details_Patient extends Costumer_Details implements Serial
         super();
     }
 
-    public Costumer_Details_Patient(String email, String phone_number,
-                                    String password, Address address, String first_name,
+    public Costumer_Details_Patient(String email, String phone_number, String password, Address address,
+                                    LockedAccount lockedAccount, String first_name,
                                     String second_name, String age, String patientID) {
-        super(email, phone_number, password, address);
+        super(email, phone_number, password, address, lockedAccount);
         this.first_name = first_name;
         this.second_name = second_name;
         this.age = age;
         this.patientID = patientID;
     }
+
 
     public String getFirst_name() {
         return first_name;
