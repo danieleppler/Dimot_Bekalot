@@ -95,11 +95,14 @@ public class WatchingQueueActivity extends AppCompatActivity implements AdapterV
                 if("yes" == answer){
                     Intent update_intent = new Intent(context,
                             com.example.dimot_bekalot.InstituteActivity.UpdateQueueActivity.class);
+                    update_intent.putExtra("instituteID", institute_id);
                     startActivity(update_intent);
                 }
                 else if("no" == answer){
                     Intent goBack_intent = new Intent(context,
                             com.example.dimot_bekalot.InstituteActivity.WatchingQueueActivity.class);
+                    goBack_intent.putExtra("instituteID", institute_id); // to go back with
+                    goBack_intent.putExtra("Treatment_type", type);      // same numID & type
                     startActivity(goBack_intent);
                 }
             }

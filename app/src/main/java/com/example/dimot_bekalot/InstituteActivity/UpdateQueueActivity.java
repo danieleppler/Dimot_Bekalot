@@ -25,9 +25,9 @@ public class UpdateQueueActivity extends AppCompatActivity implements AdapterVie
     TextView IDInput, dateInput, timeInput;
     Button updateClientToQueue;
 
-    private static final String Queues = "QueuesInst";
+    private static final String Queues = "Queues_institute";
     private FirebaseDatabase dataBase;
-    private DatabaseReference dbRef_institute;
+    private DatabaseReference dbRef_queue_institute;
     private DatabaseReference dbRef;
     private String institute_id;
 
@@ -55,7 +55,7 @@ public class UpdateQueueActivity extends AppCompatActivity implements AdapterVie
 
         dataBase = FirebaseDatabase.getInstance();
         dbRef = dataBase.getReference();
-        dbRef_institute = dataBase.getReference(Queues);
+        dbRef_queue_institute = dataBase.getReference(Queues);
 
         updateClientToQueue.setOnClickListener(new View.OnClickListener() {
 
@@ -73,14 +73,13 @@ public class UpdateQueueActivity extends AppCompatActivity implements AdapterVie
                 String str_time[] = time_input.split(":", 2);
                 String theTime = str_time[0]+""+str_time[1];
 
-
-                dbRef_institute.addValueEventListener(new ValueEventListener() {
+                dbRef_queue_institute.child(institute_id).child("Treat_type").child(type).
+                        child("Date_queue").child(theDate).child(theTime).getRoot();
+                dbRef_queue_institute.addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot){
                         // update the queue
-                        dbRef_institute.child(institute_id).child("Treat_type").child(type).
-                                child("Date_queue").child(theDate).child(theTime)
-                                .child("patient_id_attending").setValue(id_patient_input);
+                        dbRef_queue_institute.child("patient_id_attending").setValue(id_patient_input);
                     }
 
                     @Override

@@ -17,7 +17,7 @@ public class InstituteMain extends AppCompatActivity implements View.OnClickList
     private Button add, watching, institute_data;
     private TextView institute_name;
     private static final String INSTITUTE = "institutes";
-    private String numID = "";
+    private String institute_id = "";
 
     private FirebaseDatabase dataBase;
     private DatabaseReference dbRef;
@@ -33,9 +33,9 @@ public class InstituteMain extends AppCompatActivity implements View.OnClickList
         setContentView(R.layout.activity_institute_main);
 
         Intent institute_details = getIntent();
-        numID = institute_details.getExtras().getString("instituteID");
+        institute_id = institute_details.getExtras().getString("instituteID");
         dataBase = FirebaseDatabase.getInstance();
-        dbRef = dataBase.getReference(INSTITUTE).child(numID).child("institute_name");
+        dbRef = dataBase.getReference(INSTITUTE).child(institute_id).child("institute_name");
         String nameInstitute = dbRef.toString();
 
         /* name of institute */
@@ -52,13 +52,13 @@ public class InstituteMain extends AppCompatActivity implements View.OnClickList
     public void onClick(View v) {
         if(add == v){ // go to AddQueueActivity
             Intent add_in = new Intent(this, AddQueueActivity.class);
-            add_in.putExtra("instituteID", numID);
+            add_in.putExtra("instituteID", institute_id);
             startActivity(add_in);
         }
         else if (watching == v) { // go to WatchingQueueActivity
             String type = createPopupWatching();
             Intent watching_in = new Intent(this, com.example.dimot_bekalot.InstituteActivity.WatchingQueueActivity.class);
-            watching_in.putExtra("instituteID", numID);
+            watching_in.putExtra("instituteID", institute_id);
             watching_in.putExtra("Treatment_type", type);
             startActivity(watching_in);
         }

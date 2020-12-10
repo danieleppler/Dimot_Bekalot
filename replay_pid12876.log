@@ -1,0 +1,38 @@
+JvmtiExport can_access_local_variables 0
+JvmtiExport can_hotswap_or_post_breakpoint 0
+JvmtiExport can_post_on_exceptions 0
+# 123 ciObject found
+ciMethod java/lang/Object <init> ()V 4097 1 649758 0 0
+ciMethod java/lang/String <init> ([CII)V 2169 1 5458 0 704
+ciMethod java/lang/System arraycopy (Ljava/lang/Object;ILjava/lang/Object;II)V 5121 1 640 0 -1
+ciMethod java/lang/Math min (II)I 3153 1 95630 0 -1
+ciMethod java/util/Arrays copyOfRange ([CII)[C 2241 1 5480 0 512
+ciMethodData java/lang/Object <init> ()V 2 649759 orig 264 88 29 225 109 0 0 0 0 128 4 36 23 0 0 0 0 32 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 77 68 79 32 101 120 116 114 97 32 100 97 116 97 32 108 111 99 107 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 2 0 0 249 64 79 0 1 0 0 0 0 0 0 0 0 0 0 0 2 0 0 0 0 0 3 0 1 0 0 0 0 0 0 0 255 255 255 255 0 0 0 0 0 0 0 0 data 0 oops 0
+ciMethodData java/util/Arrays copyOfRange ([CII)[C 2 5480 orig 264 88 29 225 109 0 0 0 0 232 191 53 23 0 0 0 0 120 2 0 0 240 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 77 68 79 32 101 120 116 114 97 32 100 97 116 97 32 108 111 99 107 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 29 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 24 1 0 0 129 162 0 0 1 0 0 0 0 0 0 0 0 0 0 0 2 0 0 0 0 0 9 0 2 0 0 0 32 1 0 0 255 255 255 255 7 0 5 0 0 0 0 0 data 36 0x50007 0x1450 0x100 0x0 0x100002 0x0 0x140005 0x0 0x0 0x0 0x0 0x0 0x190005 0x0 0x0 0x0 0x0 0x0 0x1d0005 0x0 0x0 0x0 0x0 0x0 0x200005 0x0 0x0 0x0 0x0 0x0 0x230002 0x0 0x360002 0x1450 0x390002 0x1450 oops 0
+ciMethodData java/lang/String <init> ([CII)V 2 5458 orig 264 88 29 225 109 0 0 0 0 160 49 36 23 0 0 0 0 80 2 0 0 208 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 77 68 79 32 101 120 116 114 97 32 100 97 116 97 32 108 111 99 107 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 25 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 15 1 0 0 25 162 0 0 1 0 0 0 0 0 0 0 0 0 0 0 2 0 0 0 0 0 14 0 2 0 0 0 240 0 0 0 255 255 255 255 2 0 1 0 0 0 0 0 data 30 0x10002 0x1443 0x50007 0x1443 0x30 0x0 0xd0002 0x0 0x120007 0x1439 0x70 0xa 0x160007 0xa 0x30 0x0 0x1e0002 0x0 0x250007 0x0 0x20 0xa 0x370007 0x1439 0x30 0x0 0x410002 0x0 0x4b0002 0x1439 oops 0
+ciMethod groovyjarjarasm/asm/ClassReader readUnsignedShort (I)I 2905 1 11283 0 160
+ciMethod groovyjarjarasm/asm/ClassReader readUTF8 (I[C)Ljava/lang/String; 2537 1 6966 0 -1
+ciMethod groovyjarjarasm/asm/ClassReader readUtf (I[C)Ljava/lang/String; 2593 1 7015 0 0
+ciMethod groovyjarjarasm/asm/ClassReader readUtf (II[C)Ljava/lang/String; 1289 37497 1009 0 1376
+ciMethodData groovyjarjarasm/asm/ClassReader readUnsignedShort (I)I 2 11283 orig 264 88 29 225 109 0 0 0 0 136 139 194 41 0 0 0 0 40 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 77 68 79 32 101 120 116 114 97 32 100 97 116 97 32 108 111 99 107 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 107 1 0 0 65 85 1 0 1 0 0 0 0 0 0 0 0 0 0 0 2 0 0 0 0 0 3 0 1 0 0 0 0 0 0 0 255 255 255 255 0 0 0 0 0 0 0 0 data 0 oops 0
+ciMethodData groovyjarjarasm/asm/ClassReader readUTF8 (I[C)Ljava/lang/String; 2 6985 orig 264 88 29 225 109 0 0 0 0 0 143 194 41 0 0 0 0 248 1 0 0 80 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 77 68 79 32 101 120 116 114 97 32 100 97 116 97 32 108 111 99 107 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 61 1 0 0 57 208 0 0 1 0 0 0 0 0 0 0 0 0 0 0 2 0 0 0 0 0 8 0 2 0 0 0 160 0 0 0 255 255 255 255 5 0 2 0 0 0 0 0 data 20 0x20005 0x0 0x1a951f70 0x1a07 0x0 0x0 0x70007 0x3 0x40 0x1a04 0xb0007 0x1a03 0x20 0x1 0x130005 0x45 0x1a951f70 0x19be 0x0 0x0 oops 2 2 groovyjarjarasm/asm/ClassReader 16 groovyjarjarasm/asm/ClassReader
+ciMethodData groovyjarjarasm/asm/ClassReader readUtf (I[C)Ljava/lang/String; 2 7015 orig 264 88 29 225 109 0 0 0 0 0 144 194 41 0 0 0 0 232 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 77 68 79 32 101 120 116 114 97 32 100 97 116 97 32 108 111 99 107 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 68 1 0 0 25 209 0 0 1 0 0 0 0 0 0 0 0 0 0 0 2 0 0 0 0 0 5 0 2 0 0 0 144 0 0 0 255 255 255 255 7 0 8 0 0 0 0 0 data 18 0x80007 0x551 0x20 0x14d2 0x220005 0x0 0x1a951f70 0x551 0x0 0x0 0x260002 0x551 0x2a0004 0x0 0x2f99190 0x551 0x0 0x0 oops 2 6 groovyjarjarasm/asm/ClassReader 14 java/lang/String
+ciMethodData groovyjarjarasm/asm/ClassReader readUtf (II[C)Ljava/lang/String; 2 25486 orig 264 88 29 225 109 0 0 0 0 176 145 194 41 0 0 0 0 248 1 0 0 144 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 77 68 79 32 101 120 116 114 97 32 100 97 116 97 32 108 111 99 107 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 38 18 0 0 129 26 0 0 249 137 2 0 0 0 0 0 0 0 0 0 2 0 0 0 1 0 11 0 2 0 0 0 184 0 0 0 255 255 255 255 7 0 22 0 0 0 0 0 data 23 0x160007 0x350 0xa8 0x5129 0x290007 0x0 0x38 0x5129 0x390003 0x5129 0x50 0x450007 0x0 0x38 0x0 0x640003 0x0 0x18 0x920003 0x5129 0xffffffffffffff70 0x9d0002 0x350 oops 0
+instanceKlass groovyjarjarasm/asm/signature/SignatureReader
+instanceKlass org/codehaus/groovy/ast/decompiled/DecompiledClassNode$1
+instanceKlass org/codehaus/groovy/ast/decompiled/DecompiledClassNode$2
+instanceKlass org/codehaus/groovy/ast/decompiled/MemberSignatureParser
+instanceKlass org/codehaus/groovy/ast/decompiled/DecompiledClassNode$3
+instanceKlass org/codehaus/groovy/ast/decompiled/AnnotationStub
+instanceKlass org/codehaus/groovy/transform/GroovyASTTransformationClass
+instanceKlass groovyjarjarasm/asm/signature/SignatureVisitor
+instanceKlass org/codehaus/groovy/ast/decompiled/ClassSignatureParser
+instanceKlass org/codehaus/groovy/control/ClassNodeResolver$LookupResult
+instanceKlass org/codehaus/groovy/ast/decompiled/AsmReferenceResolver
+instanceKlass groovyjarjarasm/asm/Context
+instanceKlass groovyjarjarasm/asm/ClassReader
+instanceKlass org/codehaus/groovy/ast/decompiled/AsmDecompiler$StubCache
+instanceKlass org/codehaus/groovy/ast/decompiled/AsmDecompiler
+instanceKlass org/codehaus/groovy/ast/decompiled/MemberStub
+instanceKlass org/apache/groovy/internal/util/Supplier
+instanceKlass org/codehaus/groovy/ast/DynamicVariable
