@@ -2,6 +2,7 @@ package com.example.dimot_bekalot.InstituteActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -17,10 +18,10 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
-public class InstituteMain extends AppCompatActivity implements View.OnClickListener {
+public class InstituteMain extends AppCompatActivity {
     private Button add, watching, institute_data;
     private TextView institute_name;
-    private static final String INSTITUTE = "institutes";
+    private static final String INSTITUTE = "Institutes";
     private String institute_id = "";
     private String nameInstitute = "";
 
@@ -39,6 +40,7 @@ public class InstituteMain extends AppCompatActivity implements View.OnClickList
 
         Intent institute_details = getIntent();
         institute_id = institute_details.getExtras().getString("instituteID");
+
         dataBase = FirebaseDatabase.getInstance();
         dbRef = dataBase.getReference(INSTITUTE);
 
@@ -49,39 +51,36 @@ public class InstituteMain extends AppCompatActivity implements View.OnClickList
             }
 
             @Override
-            public void onCancelled(@NonNull DatabaseError error) {
+            public void onCancelled(@NonNull DatabaseError error) {}
 
-            }
         });
-
         /* name of institute */
         institute_name = (TextView)findViewById(R.id.name_institute);
         institute_name.setText(nameInstitute);
 
         add = (Button)findViewById(R.id.add_queue);
+        add.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                open_addQueueActivity();
+            }
+        });
+
         watching = (Button)findViewById(R.id.watch_queue);
+        watching.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                open_watchingQueueActivity();
+            }
+        });
         institute_data = (Button)findViewById(R.id.instData);
+        institute_data.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                open_dateActivity();
+            }
+        });
 
-    }
-
-    @Override
-    public void onClick(View v) {
-        if(add == v){ // go to AddQueueActivity
-            Intent add_in = new Intent(this, AddQueueActivity.class);
-            add_in.putExtra("instituteID", institute_id);
-            startActivity(add_in);
-        }
-        else if (watching == v) { // go to WatchingQueueActivity
-            String type = createPopupWatching();
-            Intent watching_in = new Intent(this, com.example.dimot_bekalot.InstituteActivity.WatchingQueueActivity.class);
-            watching_in.putExtra("instituteID", institute_id);
-            watching_in.putExtra("Treatment_type", type);
-            startActivity(watching_in);
-        }
-        else if(institute_data == v){ // go to page of data
-            Intent personal_data = new Intent(this, com.example.dimot_bekalot.dataObjects.Institute_data_activity.class);
-            startActivity(personal_data);
-        }
     }
 
     private String createPopupWatching(){
@@ -121,4 +120,20 @@ public class InstituteMain extends AppCompatActivity implements View.OnClickList
         return theChoiceThatWeWant[0];
     }
 
+    private void open_addQueueActivity(){
+        Intent add_in = new Intent(this, AddQueueActivity.class);
+        add_in.putExtra("instituteID", institute_id);
+        startActivity(add_in);
+    }
+    private void open_watchingQueueActivity(){
+        String type = createPopupWatching();
+        Intent watching_in = new Intent(this, WatchingQueueActivity.class);
+        watching_in.putExtra("instituteID", institute_id);
+        watching_in.putExtra("Treatment_type", type);
+        startActivity(watching_in);
+    }
+    private void open_dateActivity() {
+        Intent personal_data = new Intent(this, com.example.dimot_bekalot.dataObjects.Institute_data_activity.class);
+        startActivity(personal_data);
+    }
 }

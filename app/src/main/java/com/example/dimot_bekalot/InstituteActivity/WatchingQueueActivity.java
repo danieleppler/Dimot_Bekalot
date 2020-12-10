@@ -59,12 +59,14 @@ public class WatchingQueueActivity extends AppCompatActivity implements AdapterV
         });
 
         dataBase = FirebaseDatabase.getInstance();
-        dbRef = dataBase.getReference(QUEUE).child(institute_id)
-                .child("Treat_type").child(type).child("Date_queue").child(date).getRoot();
+
 
         dbRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
+                dbRef = dataBase.getReference(QUEUE).child(institute_id)
+                        .child("Treat_type").child(type).child("Date_queue").child(date).getRoot();
+
                 queueWithHourAndNumID = new Vector<String>();
 
                 for (DataSnapshot data : snapshot.getChildren()) {
@@ -93,17 +95,10 @@ public class WatchingQueueActivity extends AppCompatActivity implements AdapterV
                 String answer = createPopup(position);
 
                 if("yes" == answer){
-                    Intent update_intent = new Intent(context,
-                            com.example.dimot_bekalot.InstituteActivity.UpdateQueueActivity.class);
-                    update_intent.putExtra("instituteID", institute_id);
-                    startActivity(update_intent);
+                    open_updateActivity(institute_id);
                 }
                 else if("no" == answer){
-                    Intent goBack_intent = new Intent(context,
-                            com.example.dimot_bekalot.InstituteActivity.WatchingQueueActivity.class);
-                    goBack_intent.putExtra("instituteID", institute_id); // to go back with
-                    goBack_intent.putExtra("Treatment_type", type);      // same numID & type
-                    startActivity(goBack_intent);
+                    goBack(institute_id, type);
                 }
             }
         });
@@ -136,4 +131,18 @@ public class WatchingQueueActivity extends AppCompatActivity implements AdapterV
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {}
+
+    private void open_updateActivity(String institute_id){
+        Intent update_intent = new Intent(context,
+                com.example.dimot_bekalot.InstituteActivity.UpdateQueueActivity.class);
+        update_intent.putExtra("instituteID", institute_id);
+        startActivity(update_intent);
+    }
+    private void goBack(String institute_id, String type){
+        Intent goBack_intent = new Intent(context,
+                com.example.dimot_bekalot.InstituteActivity.WatchingQueueActivity.class);
+        goBack_intent.putExtra("instituteID", institute_id); // to go back with
+        goBack_intent.putExtra("Treatment_type", type);      // same numID & type
+        startActivity(goBack_intent);
+    }
 }
