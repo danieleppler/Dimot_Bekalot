@@ -11,11 +11,7 @@
         android:layout_width="131dp"
         android:layout_height="25dp"
         android:layout_marginEnd="72dp"
-<<<<<<< HEAD
-
-=======
         android:entries="@array/treatment_type"
->>>>>>> e70afe3a50b00c8c3395abf23397137a4d38e650
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/treat_type"
         app:layout_constraintHorizontal_bias="1.0"

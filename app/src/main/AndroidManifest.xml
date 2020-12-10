@@ -23,8 +23,10 @@
         <activity android:name=".connectActivities.Call_To_Institute_Activity" />
         <activity android:name=".dataObjects.Institute_data_activity"></activity>
         <activity android:name=".entryActivities.Register_Institute_Activity" />
+        <activity android:name=".entryActivities.Login_Verification_Activity" />
         <activity android:name=".entryActivities.Register_Main_Activity" />
         <activity android:name=".InstituteActivity.UpdateQueueActivity"/>
+        <activity android:name=".InstituteActivity.InstituteMain" />
         <activity android:name=".InstituteActivity.AddQueueActivity" />
         <activity android:name=".InstituteActivity.WatchingQueueActivity" />
         <activity android:name=".entryActivities.Main_Activity">
