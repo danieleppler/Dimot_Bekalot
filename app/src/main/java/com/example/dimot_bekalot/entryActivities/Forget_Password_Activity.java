@@ -48,7 +48,6 @@ public class Forget_Password_Activity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_forget_password);
 
-
         userName_ID_input_and_password_1 = findViewById(R.id.forget_password_userName_ID);
         email_input_and_password_2 = findViewById(R.id.forget_password_user_email);
 
@@ -111,8 +110,6 @@ public class Forget_Password_Activity extends AppCompatActivity {
                             goBackToLogin_Activity();
                         }
 
-
-
                         send_new_password.setVisibility(View.VISIBLE);
                         send_emailAndUserID_and_newPassword.setVisibility(View.INVISIBLE);
                         forgetPassword_MainTaxt = (TextView) findViewById(R.id.forget_password_main_text);
@@ -159,11 +156,6 @@ public class Forget_Password_Activity extends AppCompatActivity {
                     }
                 } else {
                     Toast.makeText(Forget_Password_Activity.this, "פרטי ההזדהות הראשונים היו שגויים, התחל שוב בבקשה", Toast.LENGTH_LONG).show();
-                    try {
-                        Thread.sleep(2000);
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
                     goBackToLogin_Activity();
                 }
             }

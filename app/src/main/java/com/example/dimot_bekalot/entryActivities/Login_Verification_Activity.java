@@ -60,22 +60,23 @@ public class Login_Verification_Activity extends AppCompatActivity {
             public void onDataChange(@NonNull DataSnapshot snapshot) {
 
                 /**if the input details will match to Patient details*/
-                boolean found_User = false;
                 if (inputUserFromLoginActivity.getID().charAt(0) == 'p') {
                     if (snapshot.child(PATIENTS).child(inputUserFromLoginActivity.getID()).exists()) {
                         PATIENTSorINSTITUTES = PATIENTS;
+
                         /*if the user is not locked, can move on*/
-                        if (!isUserLocked(snapshot,inputUserFromLoginActivity.getID())) {
-                            Login_Input_Data backFromDB_LOGINdata = checkValidDetails(snapshot, 'p', inputUserFromLoginActivity.getID());
-                            if (inputUserFromLoginActivity.equals(backFromDB_LOGINdata)) {
-                                found_User = true;
-                                /*if the password and the ID is verified, we have to check the email address*/
-                                emailVerification(inputUserFromLoginActivity.getID(), inputUserFromLoginActivity.getPassword(), inputUserFromLoginActivity.getEmail(), PATIENTS);
-                            }
-                        }else {
-                            Toast.makeText(Login_Verification_Activity.this, "החשבון חסום, אנא החלף סיסמא", Toast.LENGTH_LONG).show();
-                            open_ForgetPassword_Activity();
-                        }
+                        ValidUSER(snapshot, inputUserFromLoginActivity.getID(), inputUserFromLoginActivity , PATIENTSorINSTITUTES);
+
+//                        if (!isUserLocked(snapshot,inputUserFromLoginActivity.getID())) {
+//                            Login_Input_Data backFromDB_LOGINdata = checkValidDetails(snapshot, 'p', inputUserFromLoginActivity.getID());
+//                            if (inputUserFromLoginActivity.equals(backFromDB_LOGINdata)) {
+//                                /*if the password and the ID is verified, we have to check the email address*/
+//                                emailVerification(inputUserFromLoginActivity.getID(), inputUserFromLoginActivity.getPassword(), inputUserFromLoginActivity.getEmail(), PATIENTS);
+//                            }
+//                        }else {
+//                            Toast.makeText(Login_Verification_Activity.this, "החשבון חסום, אנא החלף סיסמא", Toast.LENGTH_LONG).show();
+//                            open_ForgetPassword_Activity();
+//                        }
                     }
                 }
 
@@ -85,34 +86,34 @@ public class Login_Verification_Activity extends AppCompatActivity {
                         PATIENTSorINSTITUTES = INSTITUTES;
 
                         /*if the user is not locked, can move on*/
-                        if (!isUserLocked(snapshot, inputUserFromLoginActivity.getID())) {
-                            Login_Input_Data backFromDB_LOGINdata = checkValidDetails(snapshot, 'i', inputUserFromLoginActivity.getID());
-                            if (inputUserFromLoginActivity.equals(backFromDB_LOGINdata)) {
-                                found_User = true;
-                                /*if the password and the ID is verified, we have to check the email address*/
-                                emailVerification(inputUserFromLoginActivity.getID(), inputUserFromLoginActivity.getPassword(), inputUserFromLoginActivity.getEmail(), INSTITUTES);
-
-                                /*incurrect password*/
-                            }else {
-
-                            }
-                        }else {
-                            Toast.makeText(Login_Verification_Activity.this, "החשבון חסום, אנא החלף סיסמא", Toast.LENGTH_LONG).show();
-                            open_ForgetPassword_Activity();
-                        }
+                        ValidUSER(snapshot, inputUserFromLoginActivity.getID(), inputUserFromLoginActivity , PATIENTSorINSTITUTES);
+//                        if (!isUserLocked(snapshot, inputUserFromLoginActivity.getID())) {
+//                            Login_Input_Data backFromDB_LOGINdata = checkValidDetails(snapshot, 'i', inputUserFromLoginActivity.getID());
+//                            if (inputUserFromLoginActivity.equals(backFromDB_LOGINdata)) {
+//                                found_User = true;
+//                                /*if the password and the ID is verified, we have to check the email address*/
+//                                emailVerification(inputUserFromLoginActivity.getID(), inputUserFromLoginActivity.getPassword(), inputUserFromLoginActivity.getEmail(), INSTITUTES);
+//
+//                                /*incurrect password*/
+//                            }else {
+//
+//                            }
+//                        }else {
+//                            Toast.makeText(Login_Verification_Activity.this, "החשבון חסום, אנא החלף סיסמא", Toast.LENGTH_LONG).show();
+//                            open_ForgetPassword_Activity();
+//                        }
                     }
                 }
 
                 /**if the input details is NOT match to institutes or patients details*/
-                if (!found_User) {
+                else{
                     Toast.makeText(Login_Verification_Activity.this, "פרטים שגויים, התחל שוב בבקשה", Toast.LENGTH_LONG).show();
                     goBackToLogin_Activity();
                 }
             }
 
             @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-            }
+            public void onCancelled(@NonNull DatabaseError error) { }
         });
     }
     //*************************************************************//
@@ -161,6 +162,29 @@ public class Login_Verification_Activity extends AppCompatActivity {
     /*checks if the uer account already was tried to enter 3 times without success*/
     private boolean isUserLocked (DataSnapshot snapshot , String userName_ID){
         return (Boolean) snapshot.child(PATIENTSorINSTITUTES).child(userName_ID).child("lockedAccount").child("locked").getValue();
+    }
+
+    /**
+     *
+     * @param snapshot
+     * @param user_ID
+     * @param inputUserFromLoginActivity
+     */
+    private void ValidUSER(DataSnapshot snapshot , String user_ID, Login_Input_Data inputUserFromLoginActivity, String PATIENTSorINSTITUTES) {
+        if (!isUserLocked(snapshot, user_ID)) {
+            Login_Input_Data backFromDB_LOGINdata = checkValidDetails(snapshot, 'i', inputUserFromLoginActivity.getID());
+            if (inputUserFromLoginActivity.equals(backFromDB_LOGINdata)) {
+                /*if the password and the ID is verified, we have to check the email address*/
+                emailVerification(inputUserFromLoginActivity.getID(), inputUserFromLoginActivity.getPassword(), inputUserFromLoginActivity.getEmail(), PATIENTSorINSTITUTES);
+
+                /*incurrect password*/
+            }else {
+
+            }
+        }else {
+            Toast.makeText(Login_Verification_Activity.this, "החשבון חסום, אנא החלף סיסמא", Toast.LENGTH_LONG).show();
+            open_ForgetPassword_Activity();
+        }
     }
 
 //    /*checks if the uer account already was tried to enter 3 times without success*/
