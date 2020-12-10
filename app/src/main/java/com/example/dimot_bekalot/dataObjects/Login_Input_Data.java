@@ -16,10 +16,16 @@ public class Login_Input_Data implements Serializable {
 
     public Login_Input_Data(){}
 
-    public Login_Input_Data(String UserName, String password, String email) {
-        this.ID = UserName;
+    public Login_Input_Data(String ID, String password, String email) {
+        this.ID = ID;
         this.password = password;
         this.email=email;
+    }
+
+    public Login_Input_Data(String ID, String email) {
+        this.ID = ID;
+        this.email=email;
+        this.password = "NO_PASSWORD";
     }
 
     public String getID() {

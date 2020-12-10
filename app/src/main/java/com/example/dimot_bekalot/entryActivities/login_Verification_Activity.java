@@ -8,7 +8,6 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.widget.Toast;
 
 import com.example.dimot_bekalot.InstituteActivity.InstituteMain;
@@ -26,7 +25,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
-public class login_Verification_Activity extends AppCompatActivity {
+public class Login_Verification_Activity extends AppCompatActivity {
     private static final String TAG = "Verification_Activity";
 
     private Intent retrieveFromLogin;
@@ -83,10 +82,9 @@ public class login_Verification_Activity extends AppCompatActivity {
                  */
                 if(inputUserFromLoginActivity.getID().charAt(0) =='i') {
                     if (snapshot.child(INSTITUTES).child(inputUserFromLoginActivity.getID()).exists()) {
-                        String NOTcleanID = cretenNOTCleanUserName(inputUserFromLoginActivity.getID());
-                        SingInUserName = snapshot.child(INSTITUTES).child(NOTcleanID).child("instituteID").getValue().toString();
-                        SingInPassword = snapshot.child(INSTITUTES).child(NOTcleanID).child("password").getValue().toString();
-                        SingInEmail = snapshot.child(INSTITUTES).child(NOTcleanID).child("email").getValue().toString();
+                        SingInUserName = snapshot.child(INSTITUTES).child(inputUserFromLoginActivity.getID()).child("instituteID").getValue().toString();
+                        SingInPassword = snapshot.child(INSTITUTES).child(inputUserFromLoginActivity.getID()).child("password").getValue().toString();
+                        SingInEmail = snapshot.child(INSTITUTES).child(inputUserFromLoginActivity.getID()).child("email").getValue().toString();
                         Login_Input_Data backFromDB_LOGINdata = new Login_Input_Data(SingInUserName, SingInPassword, SingInEmail);
 
                         if (inputUserFromLoginActivity.equals(backFromDB_LOGINdata)) {
@@ -101,7 +99,7 @@ public class login_Verification_Activity extends AppCompatActivity {
                  * to login Activity
                  */
                 if(!found){
-                    Toast.makeText(login_Verification_Activity.this, "פרטים שגויים, התחל שוב בבקשה", Toast.LENGTH_LONG).show();
+                    Toast.makeText(Login_Verification_Activity.this, "פרטים שגויים, התחל שוב בבקשה", Toast.LENGTH_LONG).show();
                     goBackToLogin_Activity();
                 }
             }
@@ -128,16 +126,16 @@ public class login_Verification_Activity extends AppCompatActivity {
                 if(task.isSuccessful()){
                     FirebaseUser patient = emailCheck.getCurrentUser();
                     if(patient.isEmailVerified()){
-                        Toast.makeText(login_Verification_Activity.this, "ברוכים הבאים !", Toast.LENGTH_LONG).show();
+                        Toast.makeText(Login_Verification_Activity.this, "ברוכים הבאים !", Toast.LENGTH_LONG).show();
                         goToRightActivity(SingInUserName ,PATIENTorINSTITUTE);
                     }else{
-                        Toast.makeText(login_Verification_Activity.this, "לא אישרתם את כתובת האי-מייל, אשרו כתובתכם לצורך התחברות", Toast.LENGTH_LONG).show();
-                        Toast.makeText(login_Verification_Activity.this, "הנכם חוזרים לעמוד ההתחברות", Toast.LENGTH_LONG).show();
+                        Toast.makeText(Login_Verification_Activity.this, "לא אישרתם את כתובת האי-מייל, אשרו כתובתכם לצורך התחברות", Toast.LENGTH_LONG).show();
+                        Toast.makeText(Login_Verification_Activity.this, "הנכם חוזרים לעמוד ההתחברות", Toast.LENGTH_LONG).show();
                         goBackToLogin_Activity();
                     }
                 }
                 else {
-                    Toast.makeText(login_Verification_Activity.this, "משהו הלך לא קשורה, התחברו שוב בבקשה", Toast.LENGTH_LONG).show();
+                    Toast.makeText(Login_Verification_Activity.this, "משהו הלך לא קשורה, התחברו שוב בבקשה", Toast.LENGTH_LONG).show();
                     goBackToLogin_Activity();
                 }
             }
@@ -157,13 +155,6 @@ public class login_Verification_Activity extends AppCompatActivity {
         }else if(PATIENTorINSTITUTE.equals(INSTITUTES)) {
             openInstituteMenu_Activity(ID);
         }
-    }
-
-    /*add to the string that contains the user name , the ":"*/
-    private String cretenNOTCleanUserName(String toUserName) {
-        StringBuilder newUserName = new StringBuilder(toUserName);
-        newUserName.insert(1,":");
-        return newUserName.toString();
     }
 
     /*Activate Patient Menu activity*/

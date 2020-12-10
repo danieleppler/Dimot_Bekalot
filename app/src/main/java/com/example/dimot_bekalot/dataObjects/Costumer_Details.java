@@ -11,14 +11,18 @@ public class Costumer_Details implements Serializable {
     private String phone_number;
     private String password;
     private Address address;
+    private LockedAccount lockedAccount;
 
-    public Costumer_Details(){}
 
-    public Costumer_Details(String email, String phone_number,String password, Address address) {
+    public Costumer_Details() {
+    }
+
+    public Costumer_Details(String email, String phone_number, String password, Address address) {
         this.email = email;
         this.phone_number = phone_number;
         this.password = password;
         this.address = address;
+        this.lockedAccount = new LockedAccount(false,0);
     }
 
     public String getEmail() {
@@ -36,6 +40,7 @@ public class Costumer_Details implements Serializable {
     public Address getAddress() {
         return address;
     }
+
 
     public void setEmail(String email) {
         this.email = email;

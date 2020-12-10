@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/pale_blue_background"
-    tools:context=".entryActivities.login_Verification_Activity"
+    tools:context=".entryActivities.Login_Verification_Activity"
     >
 
     <pl.droidsonroids.gif.GifImageView
