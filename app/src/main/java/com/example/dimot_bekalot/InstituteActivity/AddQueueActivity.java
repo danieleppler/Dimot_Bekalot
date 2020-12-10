@@ -74,12 +74,14 @@ public class AddQueueActivity extends AppCompatActivity implements /*View.OnClic
                 String str_time[] = time_input.split(":", 2);
                 String theTime = str_time[0]+""+str_time[1];
 
-                dbRef_queue_institute.child(institute_id).child("Treat_type").child(type)
-                        .child("Date_queue").child(theDate).child(theTime).getRoot();
+
 
                 dbRef_queue_institute.addValueEventListener(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot snapshot){
+
+                    dbRef_queue_institute.child(institute_id).child("Treat_type").child(type)
+                            .child("Date_queue").child(theDate).child(theTime).getRoot();
 
                     if(dbRef_queue_institute.equals(null)) { // if don't exist yet=
                         dbRef_queue_institute.child("patient_id_attending").setValue(id_patient_input);

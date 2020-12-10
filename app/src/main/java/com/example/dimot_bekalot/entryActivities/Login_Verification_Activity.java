@@ -199,7 +199,7 @@ public class Login_Verification_Activity extends AppCompatActivity {
     /*Activate Institute Menu activity*/
     private void openInstituteMenu_Activity(String Institute_ID) {
         Intent open_institute_menu = new Intent(this, InstituteMain.class);
-        //open_institute_menu.putExtra("Institute_ID",Institute_ID);
+        open_institute_menu.putExtra("instituteID",Institute_ID);
         startActivity(open_institute_menu);
     }
 }
