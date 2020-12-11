@@ -12,15 +12,12 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Dimot_Bekalot2">
-<<<<<<< HEAD
         <activity android:name=".clientActivities.popup_queue_show_res"></activity>
         <activity android:name=".clientActivities.show_queues_res" />
-=======
         <activity android:name=".entryActivities.Forget_Password_Activity"></activity>
->>>>>>> 2c7539526539025ee725280f72a8dbf007c41508
         <activity android:name=".entryActivities.EMail_Verification_Activity" />
         <activity android:name=".clientActivities.inst_list" />
-        <activity android:name=".entryActivities.Main_Activity" />
+        <activity android:name=".InstituteActivity.InstituteMain" />
         <activity android:name=".clientActivities.popup_queue_res" />
         <activity android:name=".clientActivities.Private_Area" />
         <activity android:name=".clientActivities.queue_search" />
@@ -31,13 +28,12 @@
         <activity android:name=".dataObjects.Institute_data_activity"></activity>
         <activity android:name=".entryActivities.Register_Institute_Activity" />
         <activity android:name=".entryActivities.Register_Main_Activity" />
-        <activity android:name=".InstituteActivity.InstituteMain" />
+        <activity android:name=".clientActivities.Main_Client_View" />
         <activity android:name=".InstituteActivity.AddQueueActivity" />
         <activity android:name=".InstituteActivity.WatchingQueueActivity" />
-        <activity android:name=".clientActivities.Main_Client_View">
+        <activity android:name=".entryActivities.Main_Activity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>

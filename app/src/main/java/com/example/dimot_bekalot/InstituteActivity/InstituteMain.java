@@ -39,7 +39,9 @@ public class InstituteMain extends AppCompatActivity {
         setContentView(R.layout.activity_institute_main);
 
         Intent institute_details = getIntent();
-        institute_id = institute_details.getExtras().getString("instituteID");
+
+        //institute_id = institute_details.getExtras().getString("instituteID"); //Real-time
+        institute_id = "i:123456123"; //DE-BUGING
 
         dataBase = FirebaseDatabase.getInstance();
         dbRef = dataBase.getReference(INSTITUTE);

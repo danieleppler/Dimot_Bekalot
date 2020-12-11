@@ -48,8 +48,8 @@ public class Main_Client_View extends AppCompatActivity implements View.OnClickL
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_client_view);
-       // client_id=getIntent().getStringExtra("client_id");// real-time
-        client_id = "p:111111111"; //debugging
+       client_id=getIntent().getStringExtra("client_id");// real-time
+       // client_id = "p:111111111"; //debugging
         db_ref = mDatabase.getReference().child("Patients").child(client_id);
 
 

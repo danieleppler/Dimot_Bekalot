@@ -23,6 +23,8 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Vector;
 
 public class WatchingQueueActivity extends AppCompatActivity implements AdapterView.OnItemClickListener, AdapterView.OnItemSelectedListener {
@@ -44,84 +46,76 @@ public class WatchingQueueActivity extends AppCompatActivity implements AdapterV
 
     private Button yes, no;
     ListView lvQueues;
-    Vector<String> queueWithHourAndNumID;
+    List<String> queueWithHourAndNumID;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_watching_queue);
-
+        queueWithHourAndNumID = new ArrayList<>();
         Intent intent = getIntent();
         String institute_id  = intent.getExtras().getString("instituteID");
 //        String type = intent.getExtras().getString("Treatment_type");
 
         /* <Spinner> */
         spinner = (Spinner) findViewById(R.id.watching_chooseTreatmentType);
-        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource
+       /* ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource
                 (this, R.array.treatment_type, android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(adapter);
-        spinner.setOnItemSelectedListener(this);
+        spinner.setOnItemSelectedListener(this);*/
         /* </Spinner> */
 
-        typeOfTreatment = spinner.getTransitionName();
-
-        // touch date on the screen:
-        calendar_view.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
-            @Override
-            public void onSelectedDayChange(@NonNull CalendarView view, int year, int month, int day) {
-                if(day >= 1 && day <= 9){ date = "0"+day; }
-                else{ date = day + ""; }
-                if(month >= 1 && month <= 9){ date += ""+"0"+month;}
-                else{ date += month + "";}
-                date += ""+ year;
-            }
-        });
-
+        typeOfTreatment = "MRI";
+        date="190122";
         dataBase = FirebaseDatabase.getInstance();
         dbRef = dataBase.getReference(QUEUE);
-
+        calendar_view = (CalendarView)findViewById(R.id.calendar);
+        // touch date on the screen:
+        lvQueues = (ListView)findViewById(R.id.lvQueues);
         dbRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                dbRef.child(institute_id).child("Treat_type")
-                        .child(typeOfTreatment).child("Date_queue").child(date).getRoot();
-
-                queueWithHourAndNumID = new Vector<String>();
-
-                for (DataSnapshot data : snapshot.getChildren()) {
+                calendar_view.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
+                    @Override
+                    public void onSelectedDayChange(@NonNull CalendarView view, int year, int month, int day) {
+                        if(day >= 1 && day <= 9){ date = "0"+day; }
+                        else{ date = day + ""; }
+                        if(month >= 1 && month <= 9){ date += ""+"0"+month;}
+                        else{ date += month + "";}
+                        date += ""+ year;
+                    }
+                });
+                for (DataSnapshot data : snapshot.child(institute_id).child("Treat_type").child(typeOfTreatment).child(date).getChildren()) {
                     String t = data.getValue(String.class);
                     String id = data.child(t).child("patient_id_attending").getValue().toString();
                     String allQueue = t + "\n" + id;
                     queueWithHourAndNumID.add(allQueue);
                 }
+                ArrayAdapter queuesAdapter = new ArrayAdapter <String> (context,R.layout.simple_list,R.id.textView_stam, queueWithHourAndNumID);
+                lvQueues.setAdapter(queuesAdapter);
+                lvQueues.setClickable(true);
+                lvQueues.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                        yes = (Button)findViewById(R.id.button_yes);
+                        no = (Button)findViewById(R.id.button_no);
+                        String answer = createPopup(position);
+                        if("yes" == answer){
+                            open_updateActivity(institute_id);
+                        }
+                        else if("no" == answer){
+                            goBack(institute_id, typeOfTreatment);
+                        }
+                    }
+                });
             }
             @Override public void onCancelled(@NonNull DatabaseError error) {}
 
         }); // dbRef.addValueEventListener
 
         /* <popup> */
-        lvQueues = (ListView)findViewById(R.id.lvQueues);
-        ArrayAdapter<String> queuesAdapter = new ArrayAdapter(context,
-                R.layout.simple_list, R.id.textView_stam, queueWithHourAndNumID);
-        lvQueues.setAdapter(queuesAdapter);
-        lvQueues.setClickable(true);
-        lvQueues.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                yes = (Button)findViewById(R.id.button_yes);
-                no = (Button)findViewById(R.id.button_no);
 
-                String answer = createPopup(position);
-
-                if("yes" == answer){
-                    open_updateActivity(institute_id);
-                }
-                else if("no" == answer){
-                    goBack(institute_id, typeOfTreatment);
-                }
-            }
-        });
         /* </popup> */
     }
 
