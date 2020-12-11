@@ -113,7 +113,7 @@ public class Register_Patient_Activity extends AppCompatActivity {
 
                             /*create a new Patient*/
                             patientAddress = new Address(cityLiving, streetLiving, houseNumber);
-                            lockedAccount  =new LockedAccount(false,0);
+                            lockedAccount  =new LockedAccount("false","0");
                             costumer_details_patient = new Costumer_Details_Patient(email, phone, password,
                                     patientAddress,lockedAccount, firstName, lastName, age, "p:"+patientID);
 
@@ -151,7 +151,6 @@ public class Register_Patient_Activity extends AppCompatActivity {
                     }
                 });
     }
-
 
     /************private function************/
     private void update_Authentication(FirebaseUser currentPatientUser) {
