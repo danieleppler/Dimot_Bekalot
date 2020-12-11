@@ -79,7 +79,7 @@ public class validationTools {
             return false;
         }
 
-        if (Integer.valueOf(age) > 120) {
+        if (Long.valueOf(age) > 120) {
             ageInput.setError("גיל לא תקין");
             return false;
         }

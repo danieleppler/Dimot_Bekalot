@@ -11,14 +11,12 @@ public class DB_validation {
     /**
      * check if the input user login details is correct
      * @param snapshot
-     * @param PATIENTorINSTITUTE
      * @param userName_ID
      * @return
      */
-    public static Login_Input_Data checkValidDetails(DataSnapshot snapshot, char PATIENTorINSTITUTE, String userName_ID,
-                                                     String PATIENTSorINSTITUTES) {
+    public static Login_Input_Data checkValidDetails(DataSnapshot snapshot, String PATIENTSorINSTITUTES, String userName_ID) {
         String SingInUserName = "";
-        if (PATIENTorINSTITUTE == 'p') {
+        if (PATIENTSorINSTITUTES.equals(PATIENTS)) {
             SingInUserName = snapshot.child(PATIENTS).child(userName_ID).child("patientID").getValue().toString();
         } else {
             SingInUserName = snapshot.child(INSTITUTES).child(userName_ID).child("instituteID").getValue().toString();

@@ -9,6 +9,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -19,6 +20,8 @@ import com.example.dimot_bekalot.R;
 import com.example.dimot_bekalot.dataObjects.Login_Input_Data;
 import com.example.dimot_bekalot.Tools.Strings_Tools;
 import com.example.dimot_bekalot.Tools.validationTools;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -48,13 +51,12 @@ public class Forget_Password_Activity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_forget_password);
 
-
         userName_ID_input_and_password_1 = findViewById(R.id.forget_password_userName_ID);
         email_input_and_password_2 = findViewById(R.id.forget_password_user_email);
 
         /*Buttons_connection*/
         send_emailAndUserID_and_newPassword = (Button) findViewById(R.id.foget_passwoed_send_details_to_check);
-        send_new_password = (Button)findViewById(R.id.forget_password_send_new_password);
+        send_new_password = (Button) findViewById(R.id.forget_password_send_new_password);
         /*end_Buttons_connection*/
 
         /*FireBase_connection*/
@@ -70,9 +72,13 @@ public class Forget_Password_Activity extends AppCompatActivity {
                 String email = email_input_and_password_2.getText().toString().trim();
 
                 /*checking if the inputs is valid inputs*/
-                if(!validationTools.isForgetPasswordInputValid_User_email(userName_ID,email,
-                        userName_ID_input_and_password_1, email_input_and_password_2)){ return; }
-                if (!validationTools.CheckIfNumber(Strings_Tools.only_number_at_ID(userName_ID), userName_ID_input_and_password_1)) { return; }
+                if (!validationTools.isForgetPasswordInputValid_User_email(userName_ID, email,
+                        userName_ID_input_and_password_1, email_input_and_password_2)) {
+                    return;
+                }
+                if (!validationTools.CheckIfNumber(Strings_Tools.only_number_at_ID(userName_ID), userName_ID_input_and_password_1)) {
+                    return;
+                }
                 /*end_validation_checking*/
 
                 InputToChangePassword = new Login_Input_Data(Strings_Tools.createNOTCleanUserName(userName_ID), email);
@@ -111,8 +117,6 @@ public class Forget_Password_Activity extends AppCompatActivity {
                             goBackToLogin_Activity();
                         }
 
-
-
                         send_new_password.setVisibility(View.VISIBLE);
                         send_emailAndUserID_and_newPassword.setVisibility(View.INVISIBLE);
                         forgetPassword_MainTaxt = (TextView) findViewById(R.id.forget_password_main_text);
@@ -144,8 +148,12 @@ public class Forget_Password_Activity extends AppCompatActivity {
                     String newPassword_2 = email_input_and_password_2.getText().toString().trim();
 
                     /*checking if the inputs is valid inputs*/
-                    if (!validationTools.isForgetPasswordInputValid(newPassword_1, userName_ID_input_and_password_1)) { return; }
-                    if (!validationTools.isForgetPasswordInputValid(newPassword_2, email_input_and_password_2)) { return; }
+                    if (!validationTools.isForgetPasswordInputValid(newPassword_1, userName_ID_input_and_password_1)) {
+                        return;
+                    }
+                    if (!validationTools.isForgetPasswordInputValid(newPassword_2, email_input_and_password_2)) {
+                        return;
+                    }
                     /*end_validation_checking*/
 
                     if (!newPassword_1.equals(newPassword_2)) {
@@ -159,11 +167,6 @@ public class Forget_Password_Activity extends AppCompatActivity {
                     }
                 } else {
                     Toast.makeText(Forget_Password_Activity.this, "פרטי ההזדהות הראשונים היו שגויים, התחל שוב בבקשה", Toast.LENGTH_LONG).show();
-                    try {
-                        Thread.sleep(2000);
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
                     goBackToLogin_Activity();
                 }
             }
@@ -174,6 +177,7 @@ public class Forget_Password_Activity extends AppCompatActivity {
     /************private function************/
     /**
      * write the new password of the user in real DB
+     *
      * @param newValidPassword
      */
     private void updateDB(String newValidPassword) {
@@ -186,6 +190,7 @@ public class Forget_Password_Activity extends AppCompatActivity {
 
     /**
      * check if the input user details is correct
+     *
      * @param snapshot
      * @param PATIENTorINSTITUTE
      * @param userName_ID

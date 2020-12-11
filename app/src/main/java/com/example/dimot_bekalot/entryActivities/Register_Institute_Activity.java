@@ -14,7 +14,6 @@ import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
-import com.example.dimot_bekalot.Firebase.DB_WriteToDB;
 import com.example.dimot_bekalot.R;
 import com.example.dimot_bekalot.dataObjects.Address;
 import com.example.dimot_bekalot.dataObjects.Costumer_Details_Institute;
@@ -111,7 +110,7 @@ public class Register_Institute_Activity extends AppCompatActivity {
 
                             /*create a new Patient*/
                             instituteAddress = new Address(cityLiving, streetLiving, buildingNumber);
-                            lockedAccount  =new LockedAccount(false,0);
+                            lockedAccount  =new LockedAccount("false","0");
                             costumer_details_institute = new Costumer_Details_Institute(email, phone,
                                     password, instituteAddress,lockedAccount, instituteName, "i:"+instituteID);
 
@@ -168,7 +167,6 @@ public class Register_Institute_Activity extends AppCompatActivity {
 
     /*Adding patient to our Firebase DataBase*/
     private void registerPatientToRealDB() {
-        //FDB_WriteToDB
         myDataBase.child(costumer_details_institute.getInstituteID()).setValue(this.costumer_details_institute);
     }
 }
