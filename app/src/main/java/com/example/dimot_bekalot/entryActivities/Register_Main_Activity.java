@@ -48,7 +48,6 @@ public class Register_Main_Activity extends AppCompatActivity {
     /*Activate patient register activity*/
     private void openPatientRegister_Activity() {
         Intent open_patient_register = new Intent(this, Register_Patient_Activity.class);
-
         startActivity(open_patient_register);
     }
 

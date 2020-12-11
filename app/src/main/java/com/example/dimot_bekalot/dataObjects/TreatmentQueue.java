@@ -7,7 +7,9 @@ public class TreatmentQueue {
 
     public TreatmentQueue(){}
 
+
     public TreatmentQueue(MyDate date, String id, String type, String name, String city){
+
         this._date = date;
         this._idPatient = id;
         this._type = type;

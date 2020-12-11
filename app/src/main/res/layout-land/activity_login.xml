@@ -78,14 +78,14 @@
         android:hint="סיסמא (123456789)"
         android:inputType="textPassword"
         app:layout_constraintBottom_toBottomOf="@+id/LOGIN_Button"
-        app:layout_constraintEnd_toEndOf="@+id/user_ID_input_login"
+        app:layout_constraintEnd_toEndOf="@+id/user_userName_input_login"
         app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="@+id/user_ID_input_login"
+        app:layout_constraintStart_toStartOf="@+id/user_userName_input_login"
         app:layout_constraintTop_toTopOf="@+id/include"
         app:layout_constraintVertical_bias="1.0" />
 
     <EditText
-        android:id="@+id/user_ID_input_login"
+        android:id="@+id/user_userName_input_login"
         android:layout_width="202dp"
         android:layout_height="42dp"
         android:layout_marginTop="62dp"

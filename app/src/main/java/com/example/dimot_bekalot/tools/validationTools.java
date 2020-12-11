@@ -1,4 +1,4 @@
-package com.example.dimot_bekalot.tools;
+package com.example.dimot_bekalot.Tools;
 /**
  * This class contains help tools validation
  * functions to the registers aka Patient or Institute
@@ -12,22 +12,22 @@ public class validationTools {
     /**
      * This function check if the input at Login Activity is valid and correct
      *
-     * @param ID
+     * @param userName
      * @param password
-     * @param ID_Input
+     * @param userName_Input
      * @param password_input
      * @return
      */
-    public static boolean isLoginInputValid(String ID, String password, EditText ID_Input,
+    public static boolean isLoginInputValid(String userName, String password, EditText userName_Input,
                                             EditText password_input) {
 
-        if (TextUtils.isEmpty(ID)) {
-            ID_Input.setError("ת.ז או מספר רישוי הוא שדה חובה");
+        if (TextUtils.isEmpty(userName)) {
+            userName_Input.setError("שם משתמש הוא שדה חובה");
             return false;
         }
 
-        if(ID.length() != 9){
-            ID_Input.setError("ת.ז או מספר רישוי אמור להיות באורך 9 ספרות");
+        if(userName.length() != 10){
+            userName_Input.setError("שם המשתמש אמור להיות באורך 10");
             return false;
         }
 
@@ -36,8 +36,8 @@ public class validationTools {
             return false;
         }
 
-        if (password.length() != 10) {
-            password_input.setError("אורך הסיסמא חייב להיות 10 תווים");
+        if (password.length() != 9) {
+            password_input.setError("אורך הסיסמא חייב להיות 9 תווים");
             return false;
         }
         return true;
@@ -79,7 +79,7 @@ public class validationTools {
             return false;
         }
 
-        if (Integer.valueOf(age) > 120) {
+        if (Long.valueOf(age) > 120) {
             ageInput.setError("גיל לא תקין");
             return false;
         }
@@ -159,7 +159,7 @@ public class validationTools {
         }
 
         if (password.length() != 9) {
-            passwordInput.setError("הכנס 9 תווים, התו הראשון כבר הוכנס אוטומטי");
+            passwordInput.setError("הכנס 9 תווים");
             return false;
         }
 
@@ -167,7 +167,50 @@ public class validationTools {
     }
 
     /**
-     * Cheking if input string is a long Or integer or not
+     * Checking if input of the password is valid or NOT
+     * @param password
+     * @param password_input
+     * @return
+     */
+    public static boolean isForgetPasswordInputValid(String password, EditText password_input){
+        if (TextUtils.isEmpty(password)) {
+            password_input.setError("שדה זה הוא חובה");
+            return false;
+        }
+
+        if (password_input.length() != 9) {
+            password_input.setError("הסיסמא חייבת להיות באורך 9 תווים");
+            return false;
+        }
+
+        return true;
+    }
+
+    /**
+     * Checking if input email and userName is valid
+     * @param userName_ID
+     * @param email
+     * @param userName_ID_input
+     * @param email_input
+     * @return
+     */
+    public static boolean isForgetPasswordInputValid_User_email(String userName_ID, String email,
+                                                                EditText userName_ID_input ,EditText email_input){
+        if (TextUtils.isEmpty(userName_ID)) {
+            userName_ID_input.setError("שדה זה הוא חובה");
+            return false;
+        }
+
+        if (TextUtils.isEmpty(email)) {
+            email_input.setError("שדה זה הוא חובה");
+            return false;
+        }
+
+        return true;
+    }
+
+    /**
+     * Checking if input string is a long Or integer or not
      * @param Num
      * @param input_Num
      * @return

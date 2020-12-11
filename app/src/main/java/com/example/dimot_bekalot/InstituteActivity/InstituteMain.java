@@ -2,23 +2,36 @@ package com.example.dimot_bekalot.InstituteActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.dimot_bekalot.R;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
-public class InstituteMain extends AppCompatActivity implements View.OnClickListener {
-    private Button update, watching, institute_data;
+public class InstituteMain extends AppCompatActivity {
+    private Button add, watching, institute_data;
     private TextView institute_name;
-    private static final String INSTITUTE = "institutes";
+    private static final String INSTITUTE = "Institutes";
+    private String institute_id = "";
+    private String nameInstitute = "";
 
     private FirebaseDatabase dataBase;
     private DatabaseReference dbRef;
+
+    // for pop up
+    private AlertDialog.Builder dialogBuilder;
+    private AlertDialog dialog;
+    private Button mri, ct, bone_mapping;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,36 +39,101 @@ public class InstituteMain extends AppCompatActivity implements View.OnClickList
         setContentView(R.layout.activity_institute_main);
 
         Intent institute_details = getIntent();
-        String numID = institute_details.getExtras().getString("instituteID");
-        dataBase = FirebaseDatabase.getInstance();
-        dbRef = dataBase.getReference(INSTITUTE).child(numID).child("institute_name");
-        String nameInstitute = dbRef.toString();
+        institute_id = institute_details.getExtras().getString("instituteID");
 
+        dataBase = FirebaseDatabase.getInstance();
+        dbRef = dataBase.getReference(INSTITUTE);
+
+        dbRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                nameInstitute = snapshot.child(institute_id).child("institute_name").getValue().toString();
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {}
+
+        });
         /* name of institute */
         institute_name = (TextView)findViewById(R.id.name_institute);
         institute_name.setText(nameInstitute);
 
-        update = (Button)findViewById(R.id.update_queue);
+        add = (Button)findViewById(R.id.add_queue);
+        add.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                open_addQueueActivity();
+            }
+        });
+
         watching = (Button)findViewById(R.id.watch_queue);
+        watching.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                open_watchingQueueActivity();
+            }
+        });
         institute_data = (Button)findViewById(R.id.instData);
+        institute_data.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                open_dateActivity();
+            }
+        });
 
     }
 
-    @Override
-    public void onClick(View v) {
-        if(update == v){ // go to UpdateQueueActivity
-            Intent update_in = new Intent(this, com.example.dimot_bekalot.InstituteActivity.UpdateQueueActivity.class);
-            startActivity(update_in);
-        }
-        else if (watching == v) { // go to WatchingQueueActivity
-            Intent watch_in = new Intent(this, com.example.dimot_bekalot.InstituteActivity.WatchingQueueActivity.class);
-            startActivity(watch_in);
-
-        }
-        else if(institute_data == v){ // go to page of data
-//            Intent personal_data = new Intent(this, );
-//            startActivity(personal_data);
-
-        }
+    private void open_addQueueActivity(){
+        Intent add_in = new Intent(this, AddQueueActivity.class);
+        add_in.putExtra("instituteID", institute_id);
+        startActivity(add_in);
     }
+    private void open_watchingQueueActivity(){
+//        String type = createPopupWatching();
+        Intent watching_in = new Intent(this, WatchingQueueActivity.class);
+        watching_in.putExtra("instituteID", institute_id);
+//        watching_in.putExtra("Treatment_type", type);
+        startActivity(watching_in);
+    }
+    private void open_dateActivity() {
+        Intent personal_data = new Intent(this, com.example.dimot_bekalot.dataObjects.Institute_data_activity.class);
+        startActivity(personal_data);
+    }
+
+//    private String createPopupWatching(){
+//        dialogBuilder = new AlertDialog.Builder(this);
+//        final View popupView = getLayoutInflater().inflate(R.layout.popup_queue, null);
+//        mri = (Button)findViewById(R.id.choice_mri);
+//        ct = (Button)findViewById(R.id.choice_ct);
+//        bone_mapping = (Button)findViewById(R.id.choice_bone_mapping);
+//
+//        dialogBuilder.setView(popupView);
+//        dialog = dialogBuilder.create();
+//        dialog.show();
+//
+//        final String[] theChoiceThatWeWant = new String[1];
+//
+//        mri.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                theChoiceThatWeWant[0] = "MRI";
+//            }
+//        });
+//
+//        ct.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                theChoiceThatWeWant[0] = "CT";
+//            }
+//        });
+//
+//        bone_mapping.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                theChoiceThatWeWant[0] = "BONE MAPPING";
+//            }
+//        });
+//
+//        return theChoiceThatWeWant[0];
+//    }
 }

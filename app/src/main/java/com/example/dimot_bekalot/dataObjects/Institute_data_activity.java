@@ -6,7 +6,7 @@ import android.os.Bundle;
 
 import com.example.dimot_bekalot.R;
 
-public class InstituteDataActivity extends AppCompatActivity {
+public class Institute_data_activity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

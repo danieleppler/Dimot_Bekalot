@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/pale_blue_background"
+    tools:context=".InstituteActivity.AddQueueActivity">
+
+
+    <include android:id="@+id/include" layout="@layout/toolbar" />
+
+    <TextView
+        android:id="@+id/title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="הוספת תורים"
+        android:textSize="40dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.147" />
+
+    <TextView
+        android:id="@+id/treatment_type"
+        android:layout_width="109dp"
+        android:layout_height="36dp"
+        android:layout_marginTop="32dp"
+        android:text="סוג טיפול"
+        android:textSize="20sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.937"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/title"
+        tools:ignore="MissingConstraints" />
+
+    <Spinner
+        android:id="@+id/chooseTreatmentType"
+        android:layout_width="209dp"
+        android:layout_height="40dp"
+        app:layout_constraintBottom_toTopOf="@+id/user_id"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.91"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/treatment_type"
+        app:layout_constraintVertical_bias="0.164" />
+
+    <TextView
+        android:id="@+id/user_id"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="376dp"
+        android:text="תעודת זהות הלקוח"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.924"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:ignore="MissingConstraints" />
+
+
+    <EditText
+        android:id="@+id/id_input"
+        android:layout_width="216dp"
+        android:layout_height="46dp"
+        android:background="#DAC4DD"
+        android:ems="10"
+        android:hint="333333333"
+        android:inputType="number"
+        app:layout_constraintBottom_toTopOf="@+id/date"
+        app:layout_constraintEnd_toEndOf="@+id/user_id"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="@+id/user_id"
+        app:layout_constraintTop_toBottomOf="@+id/user_id"
+        app:layout_constraintVertical_bias="0.222"
+        tools:ignore="MissingConstraints" />
+
+    <TextView
+        android:id="@+id/date"
+        android:layout_width="70dp"
+        android:layout_height="37dp"
+        android:text="תאריך"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toTopOf="@+id/date_input"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.877"
+        app:layout_constraintStart_toEndOf="@+id/hour"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.964"
+        tools:ignore="MissingConstraints" />
+
+    <EditText
+        android:id="@+id/date_input"
+        android:layout_width="137dp"
+        android:layout_height="46dp"
+        android:layout_marginBottom="44dp"
+        android:background="#DAC4DD"
+        android:ems="10"
+        android:hint="01/01/2000"
+        android:inputType="date"
+        app:layout_constraintBottom_toTopOf="@+id/adding"
+        app:layout_constraintEnd_toEndOf="@+id/date"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="@+id/date"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="1.0"
+        tools:ignore="MissingConstraints" />
+
+    <TextView
+        android:id="@+id/hour"
+        android:layout_width="53dp"
+        android:layout_height="37dp"
+        android:layout_marginTop="44dp"
+        android:text="שעה"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toTopOf="@+id/adding"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.438"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/id_input"
+        app:layout_constraintVertical_bias="0.027"
+        tools:ignore="MissingConstraints" />
+
+    <EditText
+        android:id="@+id/hour_input"
+        android:layout_width="137dp"
+        android:layout_height="46dp"
+        android:layout_marginTop="12dp"
+        android:background="#DAC4DD"
+        android:ems="10"
+        android:hint="00:00"
+        android:inputType="time"
+        app:layout_constraintBottom_toTopOf="@+id/adding"
+        app:layout_constraintEnd_toEndOf="@+id/hour"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="@+id/hour"
+        app:layout_constraintTop_toBottomOf="@+id/hour"
+        app:layout_constraintVertical_bias="0.12"
+        tools:ignore="MissingConstraints" />
+
+    <Button
+        android:id="@+id/adding"
+        android:layout_width="125dp"
+        android:layout_height="67dp"
+        android:text="הוסף"
+        android:textSize="25sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/include"
+        app:layout_constraintVertical_bias="0.905"
+        tools:ignore="MissingConstraints" />
+
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -21,35 +21,31 @@
 
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.777"
+        app:layout_constraintHorizontal_bias="0.898"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.159" />
+        app:layout_constraintVertical_bias="0.106" />
 
     <ImageView
         android:id="@+id/login_icon"
         android:layout_width="343dp"
         android:layout_height="168dp"
-        android:layout_marginTop="87dp"
-        app:layout_constraintBottom_toTopOf="@+id/register_button_login"
-        app:layout_constraintEnd_toEndOf="@+id/LOGIN_Button"
-        app:layout_constraintHorizontal_bias="0.714"
-        app:layout_constraintStart_toStartOf="@+id/LOGIN_Button"
+        android:layout_marginTop="83dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/LOGIN_Button"
-        app:layout_constraintVertical_bias="0.0"
         app:srcCompat="@drawable/login_icon" />
 
     <Button
         android:id="@+id/LOGIN_Button"
         android:layout_width="357dp"
         android:layout_height="66dp"
-        android:text="התחברות"
+        android:layout_marginTop="51dp"
+        android:text="התחברות !"
         android:textSize="30sp"
-        app:layout_constraintBottom_toTopOf="@+id/register_button_login"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/user_email_input_login"
-        app:layout_constraintVertical_bias="0.062" />
+        app:layout_constraintTop_toTopOf="@+id/forget_login_button" />
 
     <Button
         android:id="@+id/register_button_login"
@@ -67,32 +63,28 @@
         android:id="@+id/user_password_input_login"
         android:layout_width="230dp"
         android:layout_height="46dp"
+        android:layout_marginTop="55dp"
         android:background="#DAC4DD"
         android:ems="10"
         android:hint="סיסמא (123456789)"
         android:inputType="textPassword"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.609"
-        app:layout_constraintStart_toEndOf="@+id/progressBar"
-        app:layout_constraintTop_toBottomOf="@+id/welcome_text_login"
-        app:layout_constraintVertical_bias="0.13" />
+        app:layout_constraintEnd_toEndOf="@+id/user_userName_input_login"
+        app:layout_constraintStart_toStartOf="@+id/user_userName_input_login"
+        app:layout_constraintTop_toTopOf="@+id/user_userName_input_login" />
 
     <EditText
-        android:id="@+id/user_ID_input_login"
+        android:id="@+id/user_userName_input_login"
         android:layout_width="230dp"
         android:layout_height="46dp"
+        android:layout_marginTop="60dp"
         android:background="#DAC4DD"
         android:ems="10"
-        android:hint="ת.ז או מספר רישוי מכון"
+        android:hint="שם משתמש"
         android:inputType="textPersonName"
         android:textColorLink="#E8D4D4"
-        app:layout_constraintBottom_toTopOf="@+id/user_password_input_login"
-        app:layout_constraintEnd_toEndOf="@+id/user_password_input_login"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="@+id/user_password_input_login"
-        app:layout_constraintTop_toBottomOf="@+id/welcome_text_login"
-        app:layout_constraintVertical_bias="0.481" />
+        app:layout_constraintEnd_toEndOf="@+id/welcome_text_login"
+        app:layout_constraintStart_toStartOf="@+id/welcome_text_login"
+        app:layout_constraintTop_toTopOf="@+id/welcome_text_login" />
 
     <ProgressBar
         android:id="@+id/progressBar"
@@ -109,16 +101,25 @@
         android:id="@+id/user_email_input_login"
         android:layout_width="230dp"
         android:layout_height="46dp"
-        android:layout_marginTop="61dp"
+        android:layout_marginTop="55dp"
         android:background="#DAC4DD"
         android:ems="10"
         android:hint="אי-מייל (bdika@gmail.com)"
         android:inputType="textEmailAddress"
-        app:layout_constraintBottom_toTopOf="@+id/register_button_login"
         app:layout_constraintEnd_toEndOf="@+id/user_password_input_login"
-        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="@+id/user_password_input_login"
-        app:layout_constraintTop_toTopOf="@+id/user_password_input_login"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintTop_toTopOf="@+id/user_password_input_login" />
+
+    <Button
+        android:id="@+id/forget_login_button"
+        android:layout_width="116dp"
+        android:layout_height="40dp"
+        android:layout_marginTop="56dp"
+        android:text="שכחתי סיסמא"
+        android:textSize="10dp"
+        app:layout_constraintEnd_toEndOf="@+id/user_email_input_login"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="@+id/user_email_input_login"
+        app:layout_constraintTop_toTopOf="@+id/user_email_input_login" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

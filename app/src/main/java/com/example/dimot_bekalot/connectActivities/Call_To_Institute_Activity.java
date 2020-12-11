@@ -5,11 +5,14 @@ package com.example.dimot_bekalot.connectActivities;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 
+import android.Manifest;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.Handler;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -18,6 +21,7 @@ import android.widget.Toast;
 
 import com.example.dimot_bekalot.R;
 import com.example.dimot_bekalot.dataObjects.Costumer_Details_Institute;
+import com.example.dimot_bekalot.entryActivities.Login_Activity;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -32,9 +36,12 @@ public class Call_To_Institute_Activity extends AppCompatActivity implements Ada
     private ArrayList<String> InstitutesPhoneList;
     private ArrayAdapter<String> InstitutesPhoneListAdapter;
     private Costumer_Details_Institute instituteToCall;
+    private String instituteNameAndPhone;
+    private static final int REQUEST_CALL = 1;
 
     private FirebaseDatabase dataBase;
     private DatabaseReference myDataBase;
+    private Spinner chooseInstituteSpinner;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,12 +51,20 @@ public class Call_To_Institute_Activity extends AppCompatActivity implements Ada
         InstitutesPhoneList = new ArrayList<>();
         instituteToCall = new Costumer_Details_Institute();
         /*create a drop sown menu*/
-        Spinner chooseInstituteSpinner = findViewById(R.id.dropdown_menu_instituties);
+        chooseInstituteSpinner = findViewById(R.id.dropdown_menu_instituties);
 
         /*FireBase_connection*/
         dataBase = FirebaseDatabase.getInstance();
         myDataBase = dataBase.getReference(INSTITUTES);
         /*end_FireBase_connection*/
+
+        /*asking for permission to use the dialer of the user*/
+        if(ContextCompat.checkSelfPermission(Call_To_Institute_Activity.this,
+                Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED){
+            ActivityCompat.requestPermissions(Call_To_Institute_Activity.this,
+                    new String[]{Manifest.permission.CALL_PHONE}, REQUEST_CALL);
+        }
+        /*end asking permission*/
 
         /*create a adapter to show the institutes names and phone numbers */
         InstitutesPhoneListAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, InstitutesPhoneList);
@@ -73,9 +88,20 @@ public class Call_To_Institute_Activity extends AppCompatActivity implements Ada
 
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-        String instituteNameAndPhone = parent.getItemAtPosition(position).toString();
-        if (!instituteNameAndPhone.equals("בחר מכון רצוי בבקשה"))
-            openInstituteMenu_Activity("tel:" + creteOnltPhoneNumber(instituteNameAndPhone));
+        instituteNameAndPhone = parent.getItemAtPosition(position).toString();
+        if (!instituteNameAndPhone.equals("בחר מכון רצוי בבקשה")) {
+            String phone = creteOnltPhoneNumber(instituteNameAndPhone);
+            if(ContextCompat.checkSelfPermission(Call_To_Institute_Activity.this,
+                    Manifest.permission.CALL_PHONE) == PackageManager.PERMISSION_GRANTED){
+                Intent open_dialer = new Intent(Intent.ACTION_DIAL);
+                open_dialer.setData(Uri.parse("tel:"+phone));
+                startActivity(open_dialer);
+            }else {
+                Toast.makeText(this, "לא אישרת לבצע את השיחה",Toast.LENGTH_SHORT).show();
+                Intent backToLogin = new Intent(this,Login_Activity.class);
+                startActivity(backToLogin);
+            }
+        }
         else
             Toast.makeText(parent.getContext(), "אנא בחר מכון מן הרשימה לצורך התקשרות", Toast.LENGTH_SHORT).show();
     }
@@ -84,16 +110,25 @@ public class Call_To_Institute_Activity extends AppCompatActivity implements Ada
     public void onNothingSelected(AdapterView<?> parent) {}
 
     /************private function************/
-    /**/
+    /*split the string that contains the institute name and it's phone number, to use only the phone number*/
     private String creteOnltPhoneNumber(String instituteNameAndPhone) {
         String[] name_phone = instituteNameAndPhone.split("  :  ");
         return name_phone[1];
     }
 
-    /*Open the dialer*/
-    private void openInstituteMenu_Activity(String Institute_phoneNumber) {
-        Intent open_dialer = new Intent(Intent.ACTION_DIAL);
-        open_dialer.setData(Uri.parse(Institute_phoneNumber));
-        startActivity(open_dialer);
+    /**/
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        if(requestCode == REQUEST_CALL){
+            if(grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED){
+                chooseInstituteSpinner.setOnItemSelectedListener(this);
+                //Toast.makeText(this, "לא אישרת לבצע את השיחה",Toast.LENGTH_SHORT).show();
+            }else {
+                Toast.makeText(this, "לא אישרת לבצע את השיחה",Toast.LENGTH_SHORT).show();
+                Intent backToLogin = new Intent(this,Login_Activity.class);
+                startActivity(backToLogin);
+            }
+
+        }
     }
 }

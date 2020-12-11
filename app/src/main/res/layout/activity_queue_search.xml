@@ -6,13 +6,13 @@
     android:layout_height="match_parent"
     android:background="@drawable/pale_blue_background"
     tools:context=".clientActivities.queue_search">
-
+    <!--android:entries="@array/treat_type__array"-->
     <Spinner
         android:id="@+id/treat_type_spinner"
         android:layout_width="131dp"
         android:layout_height="25dp"
         android:layout_marginEnd="72dp"
-        android:entries="@array/treat_type__array"
+        android:entries="@array/treatment_type"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/treat_type"
         app:layout_constraintHorizontal_bias="1.0"

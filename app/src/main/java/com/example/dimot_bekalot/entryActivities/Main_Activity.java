@@ -59,13 +59,12 @@ public class Main_Activity extends AppCompatActivity {
         /*end test section*/
     }
 
+    /************private function************/
     private void openConnect_Activity() {
         Intent open_Connect_register = new Intent(this, Call_To_Institute_Activity.class);
         startActivity(open_Connect_register);
     }
 
-
-    /************private function************/
     /*Activate login activity*/
     private void openLogin_Activity() {
         Intent open_login = new Intent(this, Login_Activity.class);
