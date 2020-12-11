@@ -6,16 +6,14 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.util.Log;
-import android.view.Gravity;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.ListView;
-import android.widget.PopupWindow;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.dimot_bekalot.R;
 import com.example.dimot_bekalot.dataObjects.TreatmentQueue;
@@ -26,10 +24,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
-
-import javax.xml.transform.Result;
 
 public class queue_src_res extends AppCompatActivity implements View.OnClickListener {
 
@@ -39,11 +34,13 @@ public class queue_src_res extends AppCompatActivity implements View.OnClickList
     List<String> queues;
     String  client_id;
     TextView num_of_options;
+    TextView queues2;
+    TextView temp1;
+    TextView temp2;
     ListView listView;
 
     String[] results;
 
-    List<TreatmentQueue> tq_list=new ArrayList<>();
     Context context=this;
 
     FirebaseDatabase mDatabase;
@@ -60,10 +57,22 @@ public class queue_src_res extends AppCompatActivity implements View.OnClickList
         intent=getIntent();
         queues= (List<String>) intent.getSerializableExtra("queues");
         client_id=intent.getStringExtra("client_id");
-        Log.d(TAG,client_id);
 
         num_of_options=(TextView)findViewById(R.id.res_num2);
+        temp1=(TextView)findViewById(R.id.res_num1);
+        temp2=(TextView)findViewById(R.id.res_num3);
         num_of_options.setText(String.valueOf(queues.size()));
+        queues2=(TextView)findViewById(R.id.Queues2);
+
+        if(queues.size()==0) {
+            num_of_options.setVisibility(View.INVISIBLE);
+            temp1.setVisibility(View.INVISIBLE);
+            temp2.setVisibility(View.INVISIBLE);
+        }
+        else
+            queues2.setVisibility(View.INVISIBLE);
+
+
 
         results=new String[queues.size()];
 
@@ -80,25 +89,18 @@ public class queue_src_res extends AppCompatActivity implements View.OnClickList
                      ) {
                     for (int i=0;i<queues.size();i++) {
                         if (data.getKey().equals(queues.get(i))) {
-                            Log.d("TAG","checked for the " + ++check + " time");
-                            results[j++]=data.child("institute").getValue()+"     "+data.child("treat_type").getValue()+"     "+data.child("date").getValue()+"     "+data.child("time").getValue();
+                            results[j++]=data.child("city").getValue()+"     "+data.child("treat_type").getValue()+"     "+data.child("institute").getValue()+"     "+data.child("date").getValue()+"     "+data.child("time").getValue();
                             Log.d("TAG",data.getKey()+"  "+ "added to the arraylist");
                             break;
                         }
                     }
                 }
-
-                for(int i=0;i<queues.size();i++)
-                     Log.d("TAG","result    " + results[i]);
-
                 ArrayAdapter adapter = new ArrayAdapter <String> (context,R.layout.simple_list_view,R.id.textView, results);
                 listView.setAdapter(adapter);
-
                 listView.setClickable(true);
                 listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                     @Override
                     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                        Log.d(TAG,"item "+ position+" has been clicked");
                         showPopup(position);
                     }
                 });
@@ -124,4 +126,20 @@ public class queue_src_res extends AppCompatActivity implements View.OnClickList
         intent.putExtra("queue_id", queues.get(position));
         startActivity(intent);
     }
+
+    CountDownTimer timer = new CountDownTimer(15 *60 * 1000, 1000) {
+
+        public void onTick(long millisUntilFinished) {
+            //Some code
+        }
+
+        public void onFinish() {
+            Intent intent=new Intent(context,com.example.dimot_bekalot.entryActivities.Main_Activity.class);
+            CharSequence text = "system wasn't used for 15 minutes,logging out";
+            int duration = Toast.LENGTH_LONG;
+            Toast toast = Toast.makeText(context, text, duration);
+            toast.show();
+            startActivity(intent);
+        }
+    };
 }

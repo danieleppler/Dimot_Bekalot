@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#00BCD4"
+    android:background="@drawable/pale_blue_background"
     android:backgroundTint="#00BCD4"
     tools:context=".clientActivities.Main_Client_View">
 
@@ -73,28 +73,28 @@
         android:textAlignment="center"
         android:textColor="#000"
         android:textSize="18sp"
-        app:layout_constraintBottom_toBottomOf="@+id/Private_Area"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.141"
+        app:layout_constraintHorizontal_bias="0.099"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/Private_Area"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.664" />
 
     <Button
         android:id="@+id/Private_Area"
         android:layout_width="150dp"
         android:layout_height="105dp"
         android:background="@drawable/round_button"
+        android:text="האיזור האישי"
         android:textAlignment="center"
         android:textColor="#000"
         android:textSize="18sp"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toBottomOf="@+id/inst_list"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.938"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.605"
-        tools:text="האיזור האישי" />
+        app:layout_constraintTop_toTopOf="@+id/inst_list"
+        app:layout_constraintVertical_bias="0.0" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

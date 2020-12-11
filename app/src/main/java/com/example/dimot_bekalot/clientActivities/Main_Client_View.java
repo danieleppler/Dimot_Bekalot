@@ -2,15 +2,18 @@ package com.example.dimot_bekalot.clientActivities;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.nfc.Tag;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.os.SharedMemory;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.dimot_bekalot.R;
 import com.google.firebase.database.DataSnapshot;
@@ -31,15 +34,13 @@ public class Main_Client_View extends AppCompatActivity implements View.OnClickL
     Button queue_order, inst_list, Private_Area;
     TextView client_name;
 
-    SharedPreferences sp;
-
-
     String client_id=" ";
     List<String> client_names=new ArrayList<>();
 
     FirebaseDatabase mDatabase;
     DatabaseReference db_ref;
 
+    Context context=this;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,23 +48,14 @@ public class Main_Client_View extends AppCompatActivity implements View.OnClickL
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_client_view);
-        client_id=getIntent().getStringExtra("client_id");// real-time
-        Log.d(TAG,"trying to invoke");
-       // client_id = "22222222"; //debugging
+       // client_id=getIntent().getStringExtra("client_id");// real-time
+        client_id = "p:111111111"; //debugging
         db_ref = mDatabase.getReference().child("Patients").child(client_id);
 
 
         queue_order = (Button) findViewById(R.id.queue_order);
         inst_list = (Button) findViewById(R.id.inst_list);
         Private_Area = (Button) findViewById(R.id.Private_Area);
-
-       readData(new FireBaseCallBack() {
-           @Override
-           public void onCallBack(List<String> list) {
-
-           }
-       });
-
 
         queue_order.setOnClickListener(this);
         inst_list.setOnClickListener(this);
@@ -112,4 +104,19 @@ public class Main_Client_View extends AppCompatActivity implements View.OnClickL
         void onCallBack(List<String> list);
     }
 
+    CountDownTimer timer = new CountDownTimer(15 *60 * 1000, 1000) {
+
+        public void onTick(long millisUntilFinished) {
+            //Some code
+        }
+
+        public void onFinish() {
+            Intent intent=new Intent(context,com.example.dimot_bekalot.entryActivities.Main_Activity.class);
+            CharSequence text = "system wasn't used for 15 minutes,logging out";
+            int duration = Toast.LENGTH_LONG;
+            Toast toast = Toast.makeText(context, text, duration);
+            toast.show();
+            startActivity(intent);
+        }
+    };
 }

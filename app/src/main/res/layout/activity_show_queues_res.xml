@@ -4,42 +4,47 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white"
-    tools:context=".clientActivities.popup_queue_res">
+    android:background="@drawable/pale_blue_background"
+    tools:context=".clientActivities.show_queues_res">
 
-    <Button
-        android:id="@+id/make_appointment"
+
+    <ListView
+        android:id="@+id/queues"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.499"
+        android:divider="#FF0000"
+        android:dividerHeight="16px"
+        android:clickable="true">
+        tools:ignore="MissingConstraints"></ListView>
+
+    <TextView
+        android:id="@+id/Queues"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="כן ,קבע תור"
+        android:text="לחץ על תור כדי לבטלו"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.601" />
+        app:layout_constraintVertical_bias="0.146" />
 
     <TextView
-        android:id="@+id/textView2"
+        android:id="@+id/noQueues"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="האם אתה בטוח שאתה רוצה לקבוע את התור:"
+        android:text="אין תורים שנקבעו"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.496"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/Queues"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/Queues"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.199" />
+        app:layout_constraintVertical_bias="0.146" />
 
-    <TextView
-        android:id="@+id/queue_det"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="TextView"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.359" />
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -7,6 +7,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.nfc.Tag;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.os.Parcel;
 import android.os.Parcelable;
 import android.util.Log;
@@ -38,7 +39,6 @@ public class queue_search extends AppCompatActivity implements View.OnClickListe
 
     String treat_type=" ";
     String city=" ";
-    String address=" ";
     List<String> queues_id=new ArrayList<>();
     String client_id;
 
@@ -130,26 +130,11 @@ public class queue_search extends AppCompatActivity implements View.OnClickListe
                                         }
                                 }
                         }
-                        if(queues_id.size()==0)
-                        {
-                            Log.d(TAG,"queues amount is "+queues_id.size());
-                            CharSequence text = "no queues found for your preferences";
-                            int duration = Toast.LENGTH_LONG;
-                            Toast toast2 = Toast.makeText(context, text, duration);
-                            toast2.show();
-                            try {
-                                Thread.sleep(3000);
-                            } catch (InterruptedException e) {
-                                e.printStackTrace();
-                            }
-                        }
-                        else {
                             Intent intent = new Intent(context, com.example.dimot_bekalot.clientActivities.queue_src_res.class);
                             intent.putExtra("queues", (Serializable) queues_id);
                             intent.putExtra("client_id", client_id);
                             startActivity(intent);
                         }
-                    }
 
                     @Override
                     public void onCancelled(@NonNull DatabaseError databaseError) {
@@ -157,11 +142,24 @@ public class queue_search extends AppCompatActivity implements View.OnClickListe
                     }
                 });
 
-
             }
         }
     }
 
+    CountDownTimer timer = new CountDownTimer(15 *60 * 1000, 1000) {
 
+        public void onTick(long millisUntilFinished) {
+            //Some code
+        }
+
+        public void onFinish() {
+            Intent intent=new Intent(context,com.example.dimot_bekalot.entryActivities.Main_Activity.class);
+            CharSequence text = "system wasn't used for 15 minutes,logging out";
+            int duration = Toast.LENGTH_LONG;
+            Toast toast = Toast.makeText(context, text, duration);
+            toast.show();
+            startActivity(intent);
+        }
+    };
 
 }

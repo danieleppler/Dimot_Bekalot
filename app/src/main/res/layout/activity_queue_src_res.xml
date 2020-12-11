@@ -4,8 +4,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/pale_blue_background"
     tools:context=".clientActivities.queue_src_res">
-    android:id="@+id/queue_src_res">
+
 
 
     <TextView
@@ -57,5 +58,16 @@
         android:dividerHeight="16px"
         android:clickable="true">
         tools:ignore="MissingConstraints"></ListView>
+
+    <TextView
+        android:id="@+id/Queues2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="אין תורים העונים להגדרות החיפוש"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/res_num1"
+        app:layout_constraintStart_toStartOf="@+id/res_num3"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.141" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
