@@ -83,57 +83,57 @@ public class InstituteMain extends AppCompatActivity {
 
     }
 
-    private String createPopupWatching(){
-        dialogBuilder = new AlertDialog.Builder(this);
-        final View popupView = getLayoutInflater().inflate(R.layout.popup_queue, null);
-        mri = (Button)findViewById(R.id.choice_mri);
-        ct = (Button)findViewById(R.id.choice_ct);
-        bone_mapping = (Button)findViewById(R.id.choice_bone_mapping);
-
-        dialogBuilder.setView(popupView);
-        dialog = dialogBuilder.create();
-        dialog.show();
-
-        final String[] theChoiceThatWeWant = new String[1];
-
-        mri.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                theChoiceThatWeWant[0] = "MRI";
-            }
-        });
-
-        ct.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                theChoiceThatWeWant[0] = "CT";
-            }
-        });
-
-        bone_mapping.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                theChoiceThatWeWant[0] = "BONE MAPPING";
-            }
-        });
-
-        return theChoiceThatWeWant[0];
-    }
-
     private void open_addQueueActivity(){
         Intent add_in = new Intent(this, AddQueueActivity.class);
         add_in.putExtra("instituteID", institute_id);
         startActivity(add_in);
     }
     private void open_watchingQueueActivity(){
-        String type = createPopupWatching();
+//        String type = createPopupWatching();
         Intent watching_in = new Intent(this, WatchingQueueActivity.class);
         watching_in.putExtra("instituteID", institute_id);
-        watching_in.putExtra("Treatment_type", type);
+//        watching_in.putExtra("Treatment_type", type);
         startActivity(watching_in);
     }
     private void open_dateActivity() {
         Intent personal_data = new Intent(this, com.example.dimot_bekalot.dataObjects.Institute_data_activity.class);
         startActivity(personal_data);
     }
+
+//    private String createPopupWatching(){
+//        dialogBuilder = new AlertDialog.Builder(this);
+//        final View popupView = getLayoutInflater().inflate(R.layout.popup_queue, null);
+//        mri = (Button)findViewById(R.id.choice_mri);
+//        ct = (Button)findViewById(R.id.choice_ct);
+//        bone_mapping = (Button)findViewById(R.id.choice_bone_mapping);
+//
+//        dialogBuilder.setView(popupView);
+//        dialog = dialogBuilder.create();
+//        dialog.show();
+//
+//        final String[] theChoiceThatWeWant = new String[1];
+//
+//        mri.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                theChoiceThatWeWant[0] = "MRI";
+//            }
+//        });
+//
+//        ct.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                theChoiceThatWeWant[0] = "CT";
+//            }
+//        });
+//
+//        bone_mapping.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                theChoiceThatWeWant[0] = "BONE MAPPING";
+//            }
+//        });
+//
+//        return theChoiceThatWeWant[0];
+//    }
 }

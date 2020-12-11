@@ -13,6 +13,8 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CalendarView;
 import android.widget.ListView;
+import android.widget.Spinner;
+import android.widget.Toast;
 
 import com.example.dimot_bekalot.R;
 import com.google.firebase.database.DataSnapshot;
@@ -23,15 +25,18 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.Vector;
 
-public class WatchingQueueActivity extends AppCompatActivity implements AdapterView.OnItemClickListener {
+public class WatchingQueueActivity extends AppCompatActivity implements AdapterView.OnItemClickListener, AdapterView.OnItemSelectedListener {
 
-    CalendarView calendar_view;
     private String date;
     private static final String QUEUE = "Queues_institute";
+    private String typeOfTreatment = "";
+
     private FirebaseDatabase dataBase;
     private DatabaseReference dbRef;
 
+    CalendarView calendar_view;
     Context context = this;
+    Spinner spinner;
 
     // for pop up
     private AlertDialog.Builder dialogBuilder;
@@ -48,24 +53,39 @@ public class WatchingQueueActivity extends AppCompatActivity implements AdapterV
 
         Intent intent = getIntent();
         String institute_id  = intent.getExtras().getString("instituteID");
-        String type = intent.getExtras().getString("Treatment_type");
+//        String type = intent.getExtras().getString("Treatment_type");
+
+        /* <Spinner> */
+        spinner = (Spinner) findViewById(R.id.watching_chooseTreatmentType);
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource
+                (this, R.array.treatment_type, android.R.layout.simple_spinner_item);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinner.setAdapter(adapter);
+        spinner.setOnItemSelectedListener(this);
+        /* </Spinner> */
+
+        typeOfTreatment = spinner.getTransitionName();
 
         // touch date on the screen:
         calendar_view.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
             @Override
             public void onSelectedDayChange(@NonNull CalendarView view, int year, int month, int day) {
-                date = (day + 1) +""+ (month + 1) +""+ (year + 1);
+                if(day >= 1 && day <= 9){ date = "0"+day; }
+                else{ date = day + ""; }
+                if(month >= 1 && month <= 9){ date += ""+"0"+month;}
+                else{ date += month + "";}
+                date += ""+ year;
             }
         });
 
         dataBase = FirebaseDatabase.getInstance();
-
+        dbRef = dataBase.getReference(QUEUE);
 
         dbRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                dbRef = dataBase.getReference(QUEUE).child(institute_id)
-                        .child("Treat_type").child(type).child("Date_queue").child(date).getRoot();
+                dbRef.child(institute_id).child("Treat_type")
+                        .child(typeOfTreatment).child("Date_queue").child(date).getRoot();
 
                 queueWithHourAndNumID = new Vector<String>();
 
@@ -80,7 +100,7 @@ public class WatchingQueueActivity extends AppCompatActivity implements AdapterV
 
         }); // dbRef.addValueEventListener
 
-        // <popup>
+        /* <popup> */
         lvQueues = (ListView)findViewById(R.id.lvQueues);
         ArrayAdapter<String> queuesAdapter = new ArrayAdapter(context,
                 R.layout.simple_list, R.id.textView_stam, queueWithHourAndNumID);
@@ -98,12 +118,23 @@ public class WatchingQueueActivity extends AppCompatActivity implements AdapterV
                     open_updateActivity(institute_id);
                 }
                 else if("no" == answer){
-                    goBack(institute_id, type);
+                    goBack(institute_id, typeOfTreatment);
                 }
             }
         });
-
+        /* </popup> */
     }
+
+    /* <Spinner> */
+    @Override
+    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+        String text = parent.getItemAtPosition(position).toString();
+        Toast.makeText(parent.getContext(), text, Toast.LENGTH_SHORT).show();
+    }
+    @Override
+    public void onNothingSelected(AdapterView<?> parent) { }
+    /* </Spinner> */
+
 
     private String createPopup(int position){
         final String[] ans = {""};
