@@ -4,7 +4,6 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
-import android.nfc.Tag;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -24,15 +23,18 @@ import com.google.firebase.database.ValueEventListener;
 
 
 public class AddQueueActivity extends AppCompatActivity implements View.OnClickListener, AdapterView.OnItemSelectedListener {
-    Spinner spinner;
-    TextView IDInput, dateInput, timeInput;
-    Button addClientToQueue;
-    String type;
+    private Spinner spinner;
+    private TextView IDInput, dateInput, timeInput;
+    private Button addClientToQueue;
+    private String type;
+
     private static final String Queues = "Queues_institute";
     private FirebaseDatabase dataBase;
     private DatabaseReference dbRef_queue_institute;
     private DatabaseReference dbRef;
     private String institute_id;
+
+    private int STOP_RUN = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,57 +65,49 @@ public class AddQueueActivity extends AppCompatActivity implements View.OnClickL
         addClientToQueue.setOnClickListener(this);
     }
 
-     @Override
-     public void onClick(View v) {
+    @Override
+    public void onClick(View v) {
         if (v == addClientToQueue) {
-                    String id_patient_input = IDInput.getText().toString().trim();
-                    String date_input = dateInput.getText().toString().trim();
-                    String time_input = timeInput.getText().toString().trim();
+            String id_patient_input = IDInput.getText().toString().trim();
+            String date_input = dateInput.getText().toString().trim();
+            String time_input = timeInput.getText().toString().trim();
 
-                    String str_date[] = date_input.split("/", 3);
-                    String theDate = str_date[0] + "" + str_date[1] + "" + str_date[2];
+            String str_date[] = date_input.split("/", 3);
+            String theDate = str_date[0] + "" + str_date[1] + "" + str_date[2];
 
-                    String str_time[] = time_input.split(":", 2);
-                    String theTime = str_time[0] + "" + str_time[1];
-                    Log.d("add queue", institute_id + " " + type + " " + theDate + " " + theTime);
-                    dbRef_queue_institute.addValueEventListener(new ValueEventListener() {
-                        @Override
-                        public void onDataChange(@NonNull DataSnapshot snapshot) {
+            String str_time[] = time_input.split(":", 2);
+            String theTime = str_time[0] + "" + str_time[1];
+            Log.d("add queue", institute_id + " " + type + " " + theDate + " " + theTime);
+            dbRef_queue_institute.addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot snapshot) {
 
-                            dbRef_queue_institute.child(institute_id).child("Treat_type").child(type)
-                                    .child(theDate).child(theTime).getRoot();
+                    if (STOP_RUN == 0) {
+                        if (snapshot.child(institute_id).child("Treat_type").child(type).child(theDate).exists()) {
 
-                            if (snapshot.child(institute_id).child("Treat_type").child(type).child(theDate).exists()) {
-                                // if don't exist yet=
-                                if (snapshot.child(institute_id).child("Treat_type").child(type).child(theDate).child(theTime).exists()) {
-                                    Toast.makeText(AddQueueActivity.this,
-                                            "התור כבר תפוס לתאריך והשעה הנתונים", Toast.LENGTH_SHORT).show();
-                                } else {
-                                    dbRef_queue_institute.child(institute_id).child("Treat_type").child(type).child(theDate).setValue(theTime);
-                                    dbRef_queue_institute.child(institute_id).child("Treat_type").child(type).child(theDate).child(theTime).setValue("Patient_id_attending", id_patient_input);
-
-                                    Toast.makeText(AddQueueActivity.this,
-                                            "התור נקבע בהצלחה!", Toast.LENGTH_SHORT).show();
-                                }
+                            if (snapshot.child(institute_id).child("Treat_type").child(type).child(theDate).child(theTime).exists()) {
+                                Toast.makeText(AddQueueActivity.this,
+                                        "התור כבר תפוס לתאריך והשעה הנתונים", Toast.LENGTH_SHORT).show();
                             } else {
-                                dbRef_queue_institute.child(institute_id).child("Treat_type").child(type).setValue(theDate);
-                                dbRef_queue_institute.child(institute_id).child("Treat_type").child(type).child(theDate).setValue(theTime);
-                                dbRef_queue_institute.child(institute_id).child("Treat_type").child(type).child(theDate).child(theTime).child("Patient_id_attending");
-                                dbRef_queue_institute.child(institute_id).child("Treat_type").child(type).child(theDate).child(theTime).child("Patient_id_attending").setValue(id_patient_input);
-
+                                STOP_RUN=1;
+                                add_DB_time(institute_id, theDate, theTime, id_patient_input);
+                                Toast.makeText(AddQueueActivity.this,
+                                        "התור נקבע בהצלחה!", Toast.LENGTH_SHORT).show();
                             }
+                        } else {
+                            STOP_RUN=1;
+                            add_DB_Date_time(institute_id, theDate, theTime, id_patient_input);
                         }
-
-                        @Override
-                        public void onCancelled(@NonNull DatabaseError error) {
-                        }
-
-                    }); // addValueEventListener
-
+                    }
                 }
-        this.onStop();
-            }
-    // onCreate
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
+                }
+            });
+
+        }
+    }
 
     /* <Spinner> */
     @Override
@@ -121,8 +115,21 @@ public class AddQueueActivity extends AppCompatActivity implements View.OnClickL
         type = parent.getItemAtPosition(position).toString();
         Toast.makeText(parent.getContext(), type, Toast.LENGTH_SHORT).show();
     }
+
     @Override
-    public void onNothingSelected(AdapterView<?> parent) { }
+    public void onNothingSelected(AdapterView<?> parent) {
+    }
     /* </Spinner> */
 
+    private void add_DB_Date_time(String institute_id, String theDate, String theTime, String id_patient_input) {
+        dbRef_queue_institute.child(institute_id).child("Treat_type").child(type).setValue(theDate);
+        dbRef_queue_institute.child(institute_id).child("Treat_type").child(type).child(theDate).setValue(theTime);
+        dbRef_queue_institute.child(institute_id).child("Treat_type").child(type).child(theDate).child(theTime).child("Patient_id_attending");
+        dbRef_queue_institute.child(institute_id).child("Treat_type").child(type).child(theDate).child(theTime).child("Patient_id_attending").setValue(id_patient_input);
+    }
+
+    private void add_DB_time(String institute_id, String theDate, String theTime, String id_patient_input) {
+        dbRef_queue_institute.child(institute_id).child("Treat_type").child(type).child(theDate).setValue(theTime);
+        dbRef_queue_institute.child(institute_id).child("Treat_type").child(type).child(theDate).child(theTime).setValue("Patient_id_attending", id_patient_input);
+    }
 }

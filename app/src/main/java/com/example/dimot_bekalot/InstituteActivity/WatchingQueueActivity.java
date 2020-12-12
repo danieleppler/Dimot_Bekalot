@@ -54,7 +54,7 @@ public class WatchingQueueActivity extends AppCompatActivity implements AdapterV
         setContentView(R.layout.activity_watching_queue);
         queueWithHourAndNumID = new ArrayList<>();
         Intent intent = getIntent();
-        String institute_id  = intent.getExtras().getString("instituteID");
+        String institute_id = intent.getExtras().getString("instituteID");
 //        String type = intent.getExtras().getString("Treatment_type");
 
         /* <Spinner> */
@@ -67,23 +67,29 @@ public class WatchingQueueActivity extends AppCompatActivity implements AdapterV
         /* </Spinner> */
 
         typeOfTreatment = "MRI";
-        date="190122";
+        date = "190122";
         dataBase = FirebaseDatabase.getInstance();
         dbRef = dataBase.getReference(QUEUE);
-        calendar_view = (CalendarView)findViewById(R.id.calendar);
+        calendar_view = (CalendarView) findViewById(R.id.calendar);
         // touch date on the screen:
-        lvQueues = (ListView)findViewById(R.id.lvQueues);
+        lvQueues = (ListView) findViewById(R.id.lvQueues);
         dbRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 calendar_view.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
                     @Override
                     public void onSelectedDayChange(@NonNull CalendarView view, int year, int month, int day) {
-                        if(day >= 1 && day <= 9){ date = "0"+day; }
-                        else{ date = day + ""; }
-                        if(month >= 1 && month <= 9){ date += ""+"0"+month;}
-                        else{ date += month + "";}
-                        date += ""+ year;
+                        if (day >= 1 && day <= 9) {
+                            date = "0" + day;
+                        } else {
+                            date = day + "";
+                        }
+                        if (month >= 1 && month <= 9) {
+                            date += "" + "0" + month;
+                        } else {
+                            date += month + "";
+                        }
+                        date += "" + year;
                     }
                 });
                 for (DataSnapshot data : snapshot.child(institute_id).child("Treat_type").child(typeOfTreatment).child(date).getChildren()) {
@@ -92,25 +98,27 @@ public class WatchingQueueActivity extends AppCompatActivity implements AdapterV
                     String allQueue = t + "\n" + id;
                     queueWithHourAndNumID.add(allQueue);
                 }
-                ArrayAdapter queuesAdapter = new ArrayAdapter <String> (context,R.layout.simple_list,R.id.textView_stam, queueWithHourAndNumID);
+                ArrayAdapter queuesAdapter = new ArrayAdapter<String>(context, R.layout.simple_list, R.id.textView_stam, queueWithHourAndNumID);
                 lvQueues.setAdapter(queuesAdapter);
                 lvQueues.setClickable(true);
                 lvQueues.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                     @Override
                     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                        yes = (Button)findViewById(R.id.button_yes);
-                        no = (Button)findViewById(R.id.button_no);
+                        yes = (Button) findViewById(R.id.button_yes);
+                        no = (Button) findViewById(R.id.button_no);
                         String answer = createPopup(position);
-                        if("yes" == answer){
+                        if ("yes" == answer) {
                             open_updateActivity(institute_id);
-                        }
-                        else if("no" == answer){
+                        } else if ("no" == answer) {
                             goBack(institute_id, typeOfTreatment);
                         }
                     }
                 });
             }
-            @Override public void onCancelled(@NonNull DatabaseError error) {}
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+            }
 
         }); // dbRef.addValueEventListener
 
@@ -125,12 +133,14 @@ public class WatchingQueueActivity extends AppCompatActivity implements AdapterV
         String text = parent.getItemAtPosition(position).toString();
         Toast.makeText(parent.getContext(), text, Toast.LENGTH_SHORT).show();
     }
+
     @Override
-    public void onNothingSelected(AdapterView<?> parent) { }
+    public void onNothingSelected(AdapterView<?> parent) {
+    }
     /* </Spinner> */
 
 
-    private String createPopup(int position){
+    private String createPopup(int position) {
         final String[] ans = {""};
         dialogBuilder = new AlertDialog.Builder(context);
         final View popupView = getLayoutInflater().inflate(R.layout.popup_queue_per_day, null);
@@ -155,15 +165,17 @@ public class WatchingQueueActivity extends AppCompatActivity implements AdapterV
     }
 
     @Override
-    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {}
+    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+    }
 
-    private void open_updateActivity(String institute_id){
+    private void open_updateActivity(String institute_id) {
         Intent update_intent = new Intent(context,
                 com.example.dimot_bekalot.InstituteActivity.UpdateQueueActivity.class);
         update_intent.putExtra("instituteID", institute_id);
         startActivity(update_intent);
     }
-    private void goBack(String institute_id, String type){
+
+    private void goBack(String institute_id, String type) {
         Intent goBack_intent = new Intent(context,
                 com.example.dimot_bekalot.InstituteActivity.WatchingQueueActivity.class);
         goBack_intent.putExtra("instituteID", institute_id); // to go back with

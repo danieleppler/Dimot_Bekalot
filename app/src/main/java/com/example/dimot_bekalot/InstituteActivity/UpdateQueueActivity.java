@@ -20,10 +20,11 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
-public class UpdateQueueActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener{
+public class UpdateQueueActivity extends AppCompatActivity implements View.OnClickListener, AdapterView.OnItemSelectedListener{
     Spinner spinner;
     TextView IDInput, dateInput, timeInput;
     Button updateClientToQueue;
+    String type;
 
     private static final String Queues = "Queues_institute";
     private FirebaseDatabase dataBase;
@@ -31,13 +32,15 @@ public class UpdateQueueActivity extends AppCompatActivity implements AdapterVie
     private DatabaseReference dbRef;
     private String institute_id;
 
+    private int STOP_RUN = 0;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_update_queue);
 
         Intent intent = getIntent();
-        institute_id  = intent.getExtras().getString("instituteID");
+        institute_id = intent.getExtras().getString("instituteID");
 
         /* <Spinner> */
         spinner = (Spinner) findViewById(R.id.chooseTreatmentType);
@@ -57,52 +60,74 @@ public class UpdateQueueActivity extends AppCompatActivity implements AdapterVie
         dbRef = dataBase.getReference();
         dbRef_queue_institute = dataBase.getReference(Queues);
 
-        updateClientToQueue.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View v) {
-                String type = spinner.getTransitionName();
-
-                String id_patient_input = IDInput.getText().toString().trim();
-                String date_input = dateInput.getText().toString().trim();
-                String time_input = timeInput.getText().toString().trim();
-
-                String str_date[] = date_input.split("/", 3);
-                String theDate = str_date[0]+""+str_date[1]+""+str_date[2];
-
-                String str_time[] = time_input.split(":", 2);
-                String theTime = str_time[0]+""+str_time[1];
-
-
-                dbRef_queue_institute.addValueEventListener(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(@NonNull DataSnapshot snapshot){
-                        dbRef_queue_institute.child(institute_id).child("Treat_type").child(type).
-                                child("Date_queue").child(theDate).child(theTime).getRoot();
-                        // update the queue
-                        dbRef_queue_institute.child("patient_id_attending").setValue(id_patient_input);
-                    }
-
-                    @Override
-                    public void onCancelled(@NonNull DatabaseError error) {}
-
-                }); // addValueEventListener
-
-            } // onClick
-
-        }); // setOnClickListener
-
+        updateClientToQueue.setOnClickListener(this);
     } // onCreate
+
+    @Override
+    public void onClick(View v) {
+        if (v == updateClientToQueue) {
+            String id_patient_input = IDInput.getText().toString().trim();
+            String date_input = dateInput.getText().toString().trim();
+            String time_input = timeInput.getText().toString().trim();
+
+            String str_date[] = date_input.split("/", 3);
+            String theDate = str_date[0] + "" + str_date[1] + "" + str_date[2];
+
+            String str_time[] = time_input.split(":", 2);
+            String theTime = str_time[0] + "" + str_time[1];
+            dbRef_queue_institute.addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot snapshot) {
+
+                    if (STOP_RUN == 0) {
+                        if (snapshot.child(institute_id).child("Treat_type").child(type).child(theDate).exists()) {
+                            // if don't exist yet=
+                            if (snapshot.child(institute_id).child("Treat_type").child(type).child(theDate).child(theTime).exists()) {
+                                Toast.makeText(UpdateQueueActivity.this,
+                                        "התור כבר תפוס לתאריך והשעה הנתונים", Toast.LENGTH_SHORT).show();
+                            } else {
+                                STOP_RUN=1;
+                                update_DB_time(institute_id, theDate, theTime, id_patient_input);
+                                Toast.makeText(UpdateQueueActivity.this,
+                                        "התור נקבע בהצלחה!", Toast.LENGTH_SHORT).show();
+                            }
+                        } else {
+                            STOP_RUN=1;
+                            update_DB_Date_time(institute_id, theDate, theTime, id_patient_input);
+                        }
+                    }
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
+                }
+
+            }); // addValueEventListener
+
+        }
+        this.onStop();
+    }
 
     /* <Spinner> */
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-        String text = parent.getItemAtPosition(position).toString();
-        Toast.makeText(parent.getContext(), text, Toast.LENGTH_SHORT).show();
+        type = parent.getItemAtPosition(position).toString();
+        Toast.makeText(parent.getContext(), type, Toast.LENGTH_SHORT).show();
     }
     @Override
     public void onNothingSelected(AdapterView<?> parent) { }
     /* </Spinner> */
 
+    private void update_DB_Date_time(String institute_id, String theDate, String theTime, String id_patient_input) {
+        dbRef_queue_institute.child(institute_id).child("Treat_type").child(type).setValue(theDate);
+        dbRef_queue_institute.child(institute_id).child("Treat_type").child(type).child(theDate).setValue(theTime);
+        dbRef_queue_institute.child(institute_id).child("Treat_type").child(type).child(theDate).child(theTime).child("Patient_id_attending");
+        dbRef_queue_institute.child(institute_id).child("Treat_type").child(type).child(theDate).child(theTime).child("Patient_id_attending").setValue(id_patient_input);
+    }
+
+    private void update_DB_time(String institute_id, String theDate, String theTime, String id_patient_input) {
+        dbRef_queue_institute.child(institute_id).child("Treat_type").child(type).child(theDate).setValue(theTime);
+        dbRef_queue_institute.child(institute_id).child("Treat_type").child(type).child(theDate).child(theTime).setValue("Patient_id_attending", id_patient_input);
+    }
 
 }
