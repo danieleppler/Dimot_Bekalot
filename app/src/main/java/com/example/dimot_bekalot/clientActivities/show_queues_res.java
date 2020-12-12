@@ -22,7 +22,7 @@ public class show_queues_res extends AppCompatActivity {
 
     ListView listView;
 
-    List<String> queues=new ArrayList<>();
+    List<String> queues;
     List<String> queues_id=new ArrayList<>();
     TextView noQueues,Queues;
     Intent intent;
@@ -33,7 +33,7 @@ public class show_queues_res extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_show_queues_res);
-
+        queues=new ArrayList<>();
         intent=getIntent();
 
         queues= (List<String>)intent.getSerializableExtra("queues");

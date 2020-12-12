@@ -30,6 +30,7 @@ import com.google.firebase.database.ValueEventListener;
 public class Login_Verification_Activity extends AppCompatActivity {
 
     private Intent retrieveFromLogin;
+    private BlockAccount_Lopper blockAccount_lopper = new BlockAccount_Lopper();
 
     private FirebaseAuth emailCheck;
     private FirebaseDatabase dataBase;
@@ -37,7 +38,8 @@ public class Login_Verification_Activity extends AppCompatActivity {
 
     private static final String INSTITUTES = "Institutes";
     private static final String PATIENTS = "Patients";
-    private static  String PATIENTSorINSTITUTES ="";
+    private static String PATIENTSorINSTITUTES = "";
+    private int LOCK_ACCOUNT = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,28 +67,35 @@ public class Login_Verification_Activity extends AppCompatActivity {
                     if (snapshot.child(PATIENTS).child(inputUserFromLoginActivity.getID()).exists()) {
                         PATIENTSorINSTITUTES = PATIENTS;
                         /*if the user is not locked, can move on*/
-                        found_Valid_USER = ValidUSER(snapshot, inputUserFromLoginActivity.getID(), inputUserFromLoginActivity , PATIENTSorINSTITUTES);
+                        found_Valid_USER = ValidUSER(snapshot, inputUserFromLoginActivity.getID(), inputUserFromLoginActivity, PATIENTSorINSTITUTES);
+                    } else {
+                        Toast.makeText(Login_Verification_Activity.this, "פרטים שגויים, התחל שוב בבקשה", Toast.LENGTH_LONG).show();
+                        goBackToLogin_Activity();
                     }
                 }
 
                 /**if the input details will match to institute details*/
-                if (inputUserFromLoginActivity.getID().charAt(0) == 'i') {
+                else if (inputUserFromLoginActivity.getID().charAt(0) == 'i') {
                     if (snapshot.child(INSTITUTES).child(inputUserFromLoginActivity.getID()).exists()) {
                         PATIENTSorINSTITUTES = INSTITUTES;
                         /*if the user is not locked, can move on*/
-                        found_Valid_USER = ValidUSER(snapshot, inputUserFromLoginActivity.getID(), inputUserFromLoginActivity , PATIENTSorINSTITUTES);
+                        found_Valid_USER = ValidUSER(snapshot, inputUserFromLoginActivity.getID(), inputUserFromLoginActivity, PATIENTSorINSTITUTES);
+                    } else {
+                        Toast.makeText(Login_Verification_Activity.this, "פרטים שגויים, התחל שוב בבקשה", Toast.LENGTH_LONG).show();
+                        goBackToLogin_Activity();
                     }
                 }
 
                 /**if the input details is NOT match to institutes or patients details*/
-                if(!found_Valid_USER){
+                else {
                     Toast.makeText(Login_Verification_Activity.this, "פרטים שגויים, התחל שוב בבקשה", Toast.LENGTH_LONG).show();
-                    goBackToLogin_Activity();
+                    finish();
                 }
             }
 
             @Override
-            public void onCancelled(@NonNull DatabaseError error) { }
+            public void onCancelled(@NonNull DatabaseError error) {
+            }
         });
     }
     //*************************************************************//
@@ -107,6 +116,7 @@ public class Login_Verification_Activity extends AppCompatActivity {
                     FirebaseUser patient = emailCheck.getCurrentUser();
                     if (patient.isEmailVerified()) {
                         Toast.makeText(Login_Verification_Activity.this, "ברוכים הבאים !", Toast.LENGTH_LONG).show();
+                        Unlock_user(SingInUserName, PATIENTSorINSTITUTES);
                         goToRightActivity(SingInUserName, PATIENTorINSTITUTE);
                     } else {
                         Toast.makeText(Login_Verification_Activity.this, "לא אישרתם את כתובת האי-מייל, אשרו כתובתכם לצורך התחברות", Toast.LENGTH_LONG).show();
@@ -127,8 +137,8 @@ public class Login_Verification_Activity extends AppCompatActivity {
      * @param userName_ID
      * @return
      */
-    private Login_Input_Data checkValidDetails(DataSnapshot snapshot, String  PATIENTSorINSTITUTES, String userName_ID) {
-        return DB_validation.checkValidDetails(snapshot,PATIENTSorINSTITUTES,userName_ID);
+    private Login_Input_Data checkValidDetails(DataSnapshot snapshot, String PATIENTSorINSTITUTES, String userName_ID) {
+        return DB_validation.checkValidDetails(snapshot, PATIENTSorINSTITUTES, userName_ID);
     }
 
     /**
@@ -137,31 +147,36 @@ public class Login_Verification_Activity extends AppCompatActivity {
      * @param user_ID
      * @param inputUserFromLoginActivity
      */
-    private boolean ValidUSER(DataSnapshot snapshot , String user_ID, Login_Input_Data inputUserFromLoginActivity, String PATIENTSorINSTITUTES) {
-        boolean isValid = false;
-        if (!DB_LockUser.isUserLocked(snapshot, user_ID,PATIENTSorINSTITUTES)) {
+    private boolean ValidUSER(DataSnapshot snapshot, String user_ID, Login_Input_Data inputUserFromLoginActivity, String PATIENTSorINSTITUTES) {
+        if (!isUserLocked(snapshot, user_ID, PATIENTSorINSTITUTES)) {
             Login_Input_Data backFromDB_LOGINdata = checkValidDetails(snapshot, PATIENTSorINSTITUTES, inputUserFromLoginActivity.getID());
             if (inputUserFromLoginActivity.equals(backFromDB_LOGINdata)) {
                 /*if the password and the ID is verified, we have to check the email address*/
                 emailVerification(inputUserFromLoginActivity.getID(), inputUserFromLoginActivity.getPassword(), inputUserFromLoginActivity.getEmail(), PATIENTSorINSTITUTES);
-                DB_LockUser.Unlock_user(snapshot,user_ID,PATIENTSorINSTITUTES);
-                isValid=true;
+                return true;
+
                 /*else: incurrect password*/
-//            }else {
-//                if(Integer.valueOf(DB_LockUser.get_num_of_tries_login(snapshot,user_ID,PATIENTSorINSTITUTES)) == 3){
-//                    //DB_LockUser.lock_user(snapshot,user_ID,PATIENTSorINSTITUTES);
-//                    lockedUSER();
-//                }else {
-//                    DB_LockUser.upTo_3_tries(snapshot, user_ID, PATIENTSorINSTITUTES);
-//                    goBackToLogin_Activity();
-//                }
             }
-        }else { lockedUSER();}
-        return isValid;
+            if (LOCK_ACCOUNT == 0) {
+                LOCK_ACCOUNT = 1;
+                if (Integer.valueOf(get_num_of_tries_login(snapshot, user_ID, PATIENTSorINSTITUTES)) == 3) {
+                    lock_user(user_ID, PATIENTSorINSTITUTES);
+                    lockedUSER();
+                } else {
+                    upTo_3_tries(snapshot, user_ID, PATIENTSorINSTITUTES);
+                    Toast.makeText(Login_Verification_Activity.this, "חלק מן פרטים שגויים, התחל שוב בבקשה", Toast.LENGTH_LONG).show();
+                    goBackToLogin_Activity();
+                    return false;
+                }
+            }
+        } else {
+            lockedUSER();
+        }
+        return false;
     }
 
     /**/
-    private void lockedUSER(){
+    private void lockedUSER() {
         Toast.makeText(Login_Verification_Activity.this, "החשבון חסום, אנא החלף סיסמא", Toast.LENGTH_LONG).show();
         open_ForgetPassword_Activity();
     }
@@ -175,6 +190,8 @@ public class Login_Verification_Activity extends AppCompatActivity {
     /*Activate login activity*/
     private void goBackToLogin_Activity() {
         Intent open_login = new Intent(this, Login_Activity.class);
+        open_login.setFlags( Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NO_HISTORY);
+        open_login.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         startActivity(open_login);
     }
 
@@ -191,13 +208,50 @@ public class Login_Verification_Activity extends AppCompatActivity {
     private void openPatientMenu_Activity(String Patient_ID) {
         Intent open_patient_menu = new Intent(this, com.example.dimot_bekalot.clientActivities.Main_Client_View.class);
         open_patient_menu.putExtra("client_id", Patient_ID);
+        open_patient_menu.setFlags( Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NO_HISTORY);
+        open_patient_menu.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         startActivity(open_patient_menu);
     }
 
     /*Activate Institute Menu activity*/
     private void openInstituteMenu_Activity(String Institute_ID) {
         Intent open_institute_menu = new Intent(this, InstituteMain.class);
-        open_institute_menu.putExtra("instituteID",Institute_ID);
+        open_institute_menu.putExtra("instituteID", Institute_ID);
         startActivity(open_institute_menu);
+    }
+
+
+    /************************************************************************************************/
+
+    /*checks if the uer account already was tried to enter 3 times without success*/
+    public boolean isUserLocked(DataSnapshot snapshot, String userName_ID, String PATIENTSorINSTITUTES) {
+        if (snapshot.child(PATIENTSorINSTITUTES).child(userName_ID).child("lockedAccount").child("locked").getValue().toString().equals("true"))
+            return true;
+        return false;
+    }
+
+    /**/
+    public void upTo_3_tries(DataSnapshot snapshot, String userName_ID, String PATIENTSorINSTITUTES) {
+        String tryToLog = snapshot.child(PATIENTSorINSTITUTES).child(userName_ID).child("lockedAccount").child("logintry").getValue().toString();
+        int tryToLog_INT = Integer.valueOf(tryToLog);
+        tryToLog_INT++;
+        myDataBase.child(PATIENTSorINSTITUTES).child(userName_ID).child("lockedAccount").child("logintry").setValue(String.valueOf(tryToLog_INT));
+    }
+
+    /**/
+    public String get_num_of_tries_login(DataSnapshot snapshot, String userName_ID, String PATIENTSorINSTITUTES) {
+        return snapshot.child(PATIENTSorINSTITUTES).child(userName_ID).child("lockedAccount").child("logintry").getValue().toString();
+    }
+
+    /**/
+    public void lock_user(String userName_ID, String PATIENTSorINSTITUTES) {
+        myDataBase.child(PATIENTSorINSTITUTES).child(userName_ID).child("lockedAccount").child("logintry").setValue("0");
+        myDataBase.child(PATIENTSorINSTITUTES).child(userName_ID).child("lockedAccount").child("locked").setValue("true");
+    }
+
+    /**/
+    public void Unlock_user(String userName_ID, String PATIENTSorINSTITUTES) {
+        myDataBase.child(PATIENTSorINSTITUTES).child(userName_ID).child("lockedAccount").child("logintry").setValue("0");
+        myDataBase.child(PATIENTSorINSTITUTES).child(userName_ID).child("lockedAccount").child("locked").setValue("false");
     }
 }

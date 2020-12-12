@@ -156,12 +156,14 @@ public class Register_Institute_Activity extends AppCompatActivity {
         Intent open_email_verification = new Intent(this, EMail_Verification_Activity.class);
         open_email_verification.putExtra("InstituteUser", currentInstituteUser);
         open_email_verification.putExtra("userName_ID",this.costumer_details_institute.getInstituteID());
+        this.finish();
         startActivity(open_email_verification);
     }
 
     /*Activate login activity*/
     private void openLogin_Activity() {
         Intent open_login = new Intent(this, Login_Activity.class);
+        this.finish();
         startActivity(open_login);
     }
 

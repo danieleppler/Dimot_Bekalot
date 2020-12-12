@@ -11,6 +11,7 @@ import com.google.firebase.database.FirebaseDatabase;
 public class DB_LockUser {
     private static FirebaseDatabase dataBase;
     private static DatabaseReference myDataBase;
+    //*************************************************************//
 
 
     /*checks if the uer account already was tried to enter 3 times without success*/
@@ -37,7 +38,7 @@ public class DB_LockUser {
     }
 
     /**/
-    public static void lock_user(DataSnapshot snapshot, String userName_ID, String PATIENTSorINSTITUTES){
+    public static void lock_user(String userName_ID, String PATIENTSorINSTITUTES){
         /*FireBase_connection*/
         dataBase = FirebaseDatabase.getInstance();
         myDataBase = dataBase.getReference();
@@ -46,7 +47,7 @@ public class DB_LockUser {
     }
 
     /**/
-    public static void Unlock_user(DataSnapshot snapshot, String userName_ID, String PATIENTSorINSTITUTES){
+    public static void Unlock_user(String userName_ID, String PATIENTSorINSTITUTES){
         /*FireBase_connection*/
         dataBase = FirebaseDatabase.getInstance();
         myDataBase = dataBase.getReference();

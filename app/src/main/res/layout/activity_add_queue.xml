@@ -67,8 +67,6 @@
         android:layout_height="46dp"
         android:background="#DAC4DD"
         android:ems="10"
-        android:hint="333333333"
-        android:inputType="number"
         app:layout_constraintBottom_toTopOf="@+id/date"
         app:layout_constraintEnd_toEndOf="@+id/user_id"
         app:layout_constraintHorizontal_bias="1.0"

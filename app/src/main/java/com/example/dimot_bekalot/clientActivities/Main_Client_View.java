@@ -35,7 +35,6 @@ public class Main_Client_View extends AppCompatActivity implements View.OnClickL
     TextView client_name;
 
     String client_id=" ";
-    List<String> client_names=new ArrayList<>();
 
     FirebaseDatabase mDatabase;
     DatabaseReference db_ref;
@@ -45,22 +44,38 @@ public class Main_Client_View extends AppCompatActivity implements View.OnClickL
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         mDatabase = FirebaseDatabase.getInstance();
-
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_client_view);
-       client_id=getIntent().getStringExtra("client_id");// real-time
-       // client_id = "p:111111111"; //debugging
+
+        List<String> client_names=new ArrayList<>();
+
+       //client_id=getIntent().getStringExtra("client_id");// real-time
+        client_id = "p:111111111"; //debugging
         db_ref = mDatabase.getReference().child("Patients").child(client_id);
 
 
         queue_order = (Button) findViewById(R.id.queue_order);
         inst_list = (Button) findViewById(R.id.inst_list);
         Private_Area = (Button) findViewById(R.id.Private_Area);
-
+        inst_list.setVisibility(View.INVISIBLE)
+        ;
         queue_order.setOnClickListener(this);
         inst_list.setOnClickListener(this);
         Private_Area.setOnClickListener(this);
 
+        db_ref.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                client_names.add(dataSnapshot.child("first_name").getValue(String.class));
+                client_names.add(dataSnapshot.child("second_name").getValue(String.class));
+                client_name = (TextView) findViewById(R.id.client_name);
+                client_name.setText(client_names.get(0)+" "+client_names.get(1));
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {}
+
+        });
     }
 
     @Override
@@ -81,31 +96,9 @@ public class Main_Client_View extends AppCompatActivity implements View.OnClickL
             Intent il_intent = new Intent(this, com.example.dimot_bekalot.clientActivities.inst_list.class);
             startActivity(il_intent);
         }
-
-    }
-
-    private void readData(FireBaseCallBack myCallback) {
-        db_ref.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                client_names.add(dataSnapshot.child("first_name").getValue(String.class));
-                client_names.add(dataSnapshot.child("second_name").getValue(String.class));
-                client_name = (TextView) findViewById(R.id.client_name);
-                client_name.setText(client_names.get(0)+" "+client_names.get(1));
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {}
-
-        });
-        myCallback.onCallBack(client_names);
-    }
-    private interface FireBaseCallBack{
-        void onCallBack(List<String> list);
     }
 
     CountDownTimer timer = new CountDownTimer(15 *60 * 1000, 1000) {
-
         public void onTick(long millisUntilFinished) {
             //Some code
         }

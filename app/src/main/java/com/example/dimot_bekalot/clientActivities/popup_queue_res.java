@@ -34,7 +34,7 @@ public class popup_queue_res extends AppCompatActivity implements View.OnClickLi
     Context context=this;
 
     String type = "", nameInstitute = "", city = "", day="", year = "20";
-    int hour,minute,month;
+
 
     FirebaseDatabase mDatabase;
     DatabaseReference Queues_ref,queues_src_ref,queues_inst_ref;
@@ -44,7 +44,7 @@ public class popup_queue_res extends AppCompatActivity implements View.OnClickLi
 
     Intent intent;
 
-    String chosen_queue,time,date,client_id;
+    String chosen_queue,client_id;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -137,19 +137,8 @@ public class popup_queue_res extends AppCompatActivity implements View.OnClickLi
     public void onClick(View v) {
         if(v == confirm_btn)
         {
-
-            Log.d(TAG,tq.getDate().getMonth()+" "+tq.getDate().getHour());
             uq=new Update_Queues();
-            if(uq.update_new_Patient(client_id,tq))
-                 Toast.makeText(getBaseContext(), "booked successfully!", Toast.LENGTH_SHORT).show();
-            Intent m_intent=new Intent(context, com.example.dimot_bekalot.clientActivities.Main_Client_View.class);
-            m_intent.putExtra("client_id",client_id);
-            try {
-                Thread.sleep(2000);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-            startActivity(m_intent);
+            uq.update_new_Patient(client_id,tq,this);
         }
 
         CountDownTimer timer = new CountDownTimer(15 *60 * 1000, 1000) {

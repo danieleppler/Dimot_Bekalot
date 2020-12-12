@@ -31,8 +31,8 @@ public class Private_Area extends AppCompatActivity implements View.OnClickListe
     FirebaseDatabase mDatabase;
     DatabaseReference db_ref;
 
-    List<String> queues=new ArrayList<>();
-    List<String> queues_id=new ArrayList<>();
+    List<String> queues;
+    List<String> queues_id;
 
     String client_id;
 
@@ -42,6 +42,7 @@ public class Private_Area extends AppCompatActivity implements View.OnClickListe
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_private__area);
+
 
         client_id=getIntent().getStringExtra("id");
 
@@ -61,13 +62,17 @@ public class Private_Area extends AppCompatActivity implements View.OnClickListe
     public void onClick(View v) {
         if (v==edit_det)
         {
-
+            Intent intent=new Intent(context, com.example.dimot_bekalot.clientActivities.edit_client_det.class);
+            intent.putExtra("client_id",client_id);
+            startActivity(intent);
         }
         if (v==show_queues)
         {
             db_ref.addValueEventListener(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    queues=new ArrayList<>();
+                    queues_id=new ArrayList<>();
                     for (DataSnapshot data:snapshot.getChildren()
                          ) {
                         String temp=data.child("city").getValue()+"     "+data.child("institute").getValue()+"     "+

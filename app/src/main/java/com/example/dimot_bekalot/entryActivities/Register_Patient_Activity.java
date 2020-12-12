@@ -157,12 +157,17 @@ public class Register_Patient_Activity extends AppCompatActivity {
         Intent open_email_verification = new Intent(this, EMail_Verification_Activity.class);
         open_email_verification.putExtra("PatientUser",currentPatientUser);
         open_email_verification.putExtra("userName_ID",this.costumer_details_patient.getPatientID());
+
+        open_email_verification.setFlags( Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NO_HISTORY);
+        open_email_verification.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         startActivity(open_email_verification);
     }
 
     /*Activate login activity*/
     private void openLogin_Activity() {
         Intent open_login = new Intent(this, Login_Activity.class);
+        open_login.setFlags( Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NO_HISTORY);
+        open_login.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         startActivity(open_login);
     }
 

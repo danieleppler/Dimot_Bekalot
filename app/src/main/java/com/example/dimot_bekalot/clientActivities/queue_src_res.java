@@ -55,8 +55,17 @@ public class queue_src_res extends AppCompatActivity implements View.OnClickList
         queues_DB= mDatabase.getReference().child("Queues");
 
         intent=getIntent();
-        queues= (List<String>) intent.getSerializableExtra("queues");
+
         client_id=intent.getStringExtra("client_id");
+        boolean toStay=intent.getBooleanExtra("toStay",true);
+        if (!toStay)
+        {
+            Intent t_intent = new Intent(context, com.example.dimot_bekalot.clientActivities.Main_Client_View.class);
+            t_intent.putExtra("client_id",client_id);
+            startActivity(t_intent);
+        }
+        queues= (List<String>) intent.getSerializableExtra("queues");
+
 
         num_of_options=(TextView)findViewById(R.id.res_num2);
         temp1=(TextView)findViewById(R.id.res_num1);
@@ -64,53 +73,47 @@ public class queue_src_res extends AppCompatActivity implements View.OnClickList
         num_of_options.setText(String.valueOf(queues.size()));
         queues2=(TextView)findViewById(R.id.Queues2);
 
+        results=new String[queues.size()];
+        listView=(ListView) findViewById(R.id.results);
+
         if(queues.size()==0) {
             num_of_options.setVisibility(View.INVISIBLE);
             temp1.setVisibility(View.INVISIBLE);
             temp2.setVisibility(View.INVISIBLE);
         }
-        else
+        else {
             queues2.setVisibility(View.INVISIBLE);
-
-
-
-        results=new String[queues.size()];
-
-        listView=(ListView) findViewById(R.id.results);
-
-        queues_DB.addValueEventListener(new ValueEventListener()
-        {
-
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                int check=0;
-                int j=0;
-                for (DataSnapshot data:snapshot.getChildren()
-                     ) {
-                    for (int i=0;i<queues.size();i++) {
-                        if (data.getKey().equals(queues.get(i))) {
-                            results[j++]=data.child("city").getValue()+"     "+data.child("treat_type").getValue()+"     "+data.child("institute").getValue()+"     "+data.child("date").getValue()+"     "+data.child("time").getValue();
-                            Log.d("TAG",data.getKey()+"  "+ "added to the arraylist");
-                            break;
+            queues_DB.addValueEventListener(new ValueEventListener()
+            {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    int check=0;
+                    int j=0;
+                    for (DataSnapshot data:snapshot.getChildren()
+                    ) {
+                        for (int i=0;i<queues.size();i++) {
+                            if (data.getKey().equals(queues.get(i))) {
+                                results[j++]=data.child("city").getValue()+"     "+data.child("treat_type").getValue()+"     "+data.child("institute").getValue()+"     "+data.child("date").getValue()+"     "+data.child("time").getValue();
+                                break;
+                            }
                         }
                     }
+                    ArrayAdapter adapter = new ArrayAdapter <String> (context,R.layout.simple_list_view,R.id.textView, results);
+                    listView.setAdapter(adapter);
+                    listView.setClickable(true);
+                    listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                        @Override
+                        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                            showPopup(position);
+                        }
+                    });
                 }
-                ArrayAdapter adapter = new ArrayAdapter <String> (context,R.layout.simple_list_view,R.id.textView, results);
-                listView.setAdapter(adapter);
-                listView.setClickable(true);
-                listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                    @Override
-                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                        showPopup(position);
-                    }
-                });
-            }
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
+                }
+            });
+        }
 
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
-        });
     }
 
     @Override

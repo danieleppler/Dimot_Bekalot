@@ -44,7 +44,7 @@ public class Login_Activity extends AppCompatActivity {
 
         /*connecting the Buttons from view*/
         submitLoginButton = (Button) findViewById(R.id.LOGIN_Button);
-        forgetButton = (Button)findViewById(R.id.forget_login_button);
+        forgetButton = (Button) findViewById(R.id.forget_login_button);
         registerButton = (Button) findViewById(R.id.register_button_login);
 
         //*************************************************************//
@@ -57,8 +57,12 @@ public class Login_Activity extends AppCompatActivity {
                 email = emailInput.getText().toString().trim();
 
                 /*checking if the inputs is valid inputs*/
-                if (!validationTools.isLoginInputValid(UserName, password, UsernameInput, passwordInput)) { return; }
-                if (!validationTools.CheckIfNumber(Strings_Tools.only_number_at_ID(UserName), UsernameInput)) { return; }
+                if (!validationTools.isLoginInputValid(UserName, password, UsernameInput, passwordInput)) {
+                    return;
+                }
+                if (!validationTools.CheckIfNumber(Strings_Tools.only_number_at_ID(UserName), UsernameInput)) {
+                    return;
+                }
                 if (TextUtils.isEmpty(email)) {
                     emailInput.setError("שדה זה הוא חובה");
                     return;
@@ -102,6 +106,7 @@ public class Login_Activity extends AppCompatActivity {
     /*Activate register activity*/
     private void openMainRegister_Activity() {
         Intent open_main_register = new Intent(this, Register_Main_Activity.class);
+        this.finish();
         startActivity(open_main_register);
     }
 
@@ -109,6 +114,7 @@ public class Login_Activity extends AppCompatActivity {
     private void open_login_Verification_Activity() {
         Intent open_verification = new Intent(this, Login_Verification_Activity.class);
         open_verification.putExtra("Login_Input_Data", loginCostumerInput);
+        this.finish();
         startActivity(open_verification);
     }
 }
