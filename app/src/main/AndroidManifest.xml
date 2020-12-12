@@ -12,7 +12,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Dimot_Bekalot2">
-        <activity android:name=".clientActivities.edit_client_det"></activity>
+        <activity android:name=".ListQueuesInstituteActivity"></activity>
+        <activity android:name=".clientActivities.edit_client_det" />
         <activity android:name=".clientActivities.popup_queue_show_res" />
         <activity android:name=".clientActivities.show_queues_res" />
         <activity android:name=".entryActivities.Forget_Password_Activity" />
