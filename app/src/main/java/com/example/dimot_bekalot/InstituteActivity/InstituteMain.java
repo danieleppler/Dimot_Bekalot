@@ -1,6 +1,7 @@
 package com.example.dimot_bekalot.InstituteActivity;
 
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -28,9 +29,12 @@ public class InstituteMain extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_institute_main);
+        /*lock the screen-rotation for this activity*/
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+        /**************************************/
 
-        Intent institute_details = getIntent();
 
+//        Intent institute_details = getIntent();
 //        institute_id = institute_details.getExtras().getString("instituteID"); //Real-time
         institute_id = "i:123456123";
         dataBase = FirebaseDatabase.getInstance();

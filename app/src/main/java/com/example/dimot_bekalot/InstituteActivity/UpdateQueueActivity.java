@@ -1,7 +1,9 @@
 package com.example.dimot_bekalot.InstituteActivity;
 
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -20,17 +22,15 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
-public class UpdateQueueActivity extends AppCompatActivity implements View.OnClickListener, AdapterView.OnItemSelectedListener{
-    Spinner spinner;
-    TextView IDInput, dateInput, timeInput;
+public class UpdateQueueActivity extends AppCompatActivity implements View.OnClickListener{
+    TextView IDInput, dateInput, timeInput, typeInput;
     Button updateClientToQueue;
-    String type;
 
     private static final String Queues = "Queues_institute";
     private FirebaseDatabase dataBase;
     private DatabaseReference dbRef_queue_institute;
     private DatabaseReference dbRef;
-    private String institute_id;
+    private String institute_id, queue, date, typeOfTreatment, theTime;
 
     private int STOP_RUN = 0;
 
@@ -38,23 +38,35 @@ public class UpdateQueueActivity extends AppCompatActivity implements View.OnCli
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_update_queue);
+        /*lock the screen-rotation for this activity*/
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+        /**************************************/
 
         Intent intent = getIntent();
         institute_id = intent.getExtras().getString("instituteID");
-
-        /* <Spinner> */
-        spinner = (Spinner) findViewById(R.id.update_chooseTreatmentType);
-        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource
-                (this, R.array.treatment_type, android.R.layout.simple_spinner_item);
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spinner.setAdapter(adapter);
-        spinner.setOnItemSelectedListener(this);
-        /* </Spinner> */
+        typeOfTreatment = intent.getExtras().getString("type");
+        date = intent.getExtras().getString("date");
+        queue = intent.getExtras().getString("queue");
 
         IDInput = (TextView) findViewById(R.id.id_input);
         dateInput = (TextView) findViewById(R.id.date_input);
         timeInput = (TextView) findViewById(R.id.hour_input);
-        updateClientToQueue = (Button) findViewById(R.id.adding);
+        typeInput = (TextView) findViewById(R.id.update_chooseTreatmentType);
+        updateClientToQueue = (Button) findViewById(R.id.update);
+
+        typeInput.setText(typeOfTreatment);
+
+        String dateOfQueue[] = queue.split("\n");
+        theTime = dateOfQueue[0];
+        StringBuilder timeNew = new StringBuilder(theTime);
+        timeNew.insert(2,":");
+        timeInput.setText(timeNew.toString());
+
+        StringBuilder dateNewName = new StringBuilder(date);
+        dateNewName.insert(2, "/");
+        dateNewName.insert(5, "/20");
+
+        dateInput.setText(dateNewName.toString());
 
         dataBase = FirebaseDatabase.getInstance();
         dbRef = dataBase.getReference();
@@ -65,36 +77,22 @@ public class UpdateQueueActivity extends AppCompatActivity implements View.OnCli
 
     @Override
     public void onClick(View v) {
-        if (v == updateClientToQueue) {
-            String id_patient_input = IDInput.getText().toString().trim();
-            String date_input = dateInput.getText().toString().trim();
-            String time_input = timeInput.getText().toString().trim();
+        if (updateClientToQueue == v) {
+            String idOfPatient = IDInput.getText().toString().trim();
+            StringBuilder id_patient_input = new StringBuilder(idOfPatient);
+            if(!idOfPatient.equals("TBD")){
+                id_patient_input.insert(0, "p:");
+            }
 
-            String str_date[] = date_input.split("/", 3);
-            String theDate = str_date[0] + "" + str_date[1] + "" + str_date[2];
-
-            String str_time[] = time_input.split(":", 2);
-            String theTime = str_time[0] + "" + str_time[1];
             dbRef_queue_institute.addValueEventListener(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot snapshot) {
-
                     if (STOP_RUN == 0) {
-                        if (snapshot.child(institute_id).child("Treat_type").child(type).child(theDate).exists()) {
-                            // if don't exist yet=
-                            if (snapshot.child(institute_id).child("Treat_type").child(type).child(theDate).child(theTime).exists()) {
-                                Toast.makeText(UpdateQueueActivity.this,
-                                        "התור כבר תפוס לתאריך והשעה הנתונים", Toast.LENGTH_SHORT).show();
-                            } else {
-                                STOP_RUN=1;
-                                update_DB_time(institute_id, theDate, theTime, id_patient_input);
-                                Toast.makeText(UpdateQueueActivity.this,
-                                        "התור נקבע בהצלחה!", Toast.LENGTH_SHORT).show();
-                            }
-                        } else {
-                            STOP_RUN=1;
-                            update_DB_Date_time(institute_id, theDate, theTime, id_patient_input);
-                        }
+                        dbRef_queue_institute.child(institute_id).child("Treat_type")
+                                .child(typeOfTreatment).child(date).child(theTime)
+                                .child("Patient_id_attending").setValue(id_patient_input.toString());
+                        STOP_RUN = 1;
+                        goBackToCalenar();
                     }
                 }
 
@@ -108,26 +106,9 @@ public class UpdateQueueActivity extends AppCompatActivity implements View.OnCli
         this.onStop();
     }
 
-    /* <Spinner> */
-    @Override
-    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-        type = parent.getItemAtPosition(position).toString();
-        Toast.makeText(parent.getContext(), type, Toast.LENGTH_SHORT).show();
+    private void goBackToCalenar(){
+        Intent goBack_intent = new Intent(this, WatchingQueueActivity.class);
+        goBack_intent.putExtra("instituteID", institute_id);
+        startActivity(goBack_intent);
     }
-    @Override
-    public void onNothingSelected(AdapterView<?> parent) { }
-    /* </Spinner> */
-
-    private void update_DB_Date_time(String institute_id, String theDate, String theTime, String id_patient_input) {
-        dbRef_queue_institute.child(institute_id).child("Treat_type").child(type).setValue(theDate);
-        dbRef_queue_institute.child(institute_id).child("Treat_type").child(type).child(theDate).setValue(theTime);
-        dbRef_queue_institute.child(institute_id).child("Treat_type").child(type).child(theDate).child(theTime).child("Patient_id_attending");
-        dbRef_queue_institute.child(institute_id).child("Treat_type").child(type).child(theDate).child(theTime).child("Patient_id_attending").setValue(id_patient_input);
-    }
-
-    private void update_DB_time(String institute_id, String theDate, String theTime, String id_patient_input) {
-        dbRef_queue_institute.child(institute_id).child("Treat_type").child(type).child(theDate).setValue(theTime);
-        dbRef_queue_institute.child(institute_id).child("Treat_type").child(type).child(theDate).child(theTime).setValue("Patient_id_attending", id_patient_input);
-    }
-
 }

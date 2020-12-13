@@ -138,7 +138,7 @@ public class queue_search extends AppCompatActivity implements View.OnClickListe
                                 Intent intent = new Intent(context, com.example.dimot_bekalot.clientActivities.queue_src_res.class);
                                 intent.putExtra("queues", (Serializable) queues_id);
                                 intent.putExtra("client_id", client_id);
-                                intent.putExtra("toStay", true);
+                                intent.putExtra("check", "0");
                                 startActivity(intent);
                             }
                         }

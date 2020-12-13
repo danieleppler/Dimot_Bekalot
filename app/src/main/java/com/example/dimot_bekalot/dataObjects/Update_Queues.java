@@ -24,7 +24,7 @@ public class Update_Queues {
     {
 
     }
-    public  boolean update_new_Patient(String client_id, TreatmentQueue tq, Context context)
+    public  void update_new_Patient(String client_id, TreatmentQueue tq, Context context)
     {
         mDatabase=FirebaseDatabase.getInstance();
         Queues_ref=mDatabase.getReference().child("Queues");
@@ -103,11 +103,11 @@ public class Update_Queues {
         Toast.makeText( context, "booked successfully", Toast.LENGTH_LONG).show();
         Intent intent=new Intent(context,com.example.dimot_bekalot.clientActivities.Main_Client_View.class);
         intent.putExtra("client_id",client_id);
+        intent.putExtra("check","1");
         context.startActivity(intent);
-        return true;
     }
 
-    public  boolean cancel_patient(String client_id,TreatmentQueue tq,Context context)
+    public  void cancel_patient(String client_id,TreatmentQueue tq,Context context)
     {
         mDatabase=FirebaseDatabase.getInstance();
         Queues_ref=mDatabase.getReference().child("Queues");
@@ -181,9 +181,8 @@ public class Update_Queues {
             }
         });
         Toast.makeText( context, "cancelled successfully", Toast.LENGTH_LONG).show();
-        Intent intent=new Intent(context,com.example.dimot_bekalot.clientActivities.Main_Client_View.class);
+        Intent intent=new Intent(context,com.example.dimot_bekalot.clientActivities.Private_Area.class);
         intent.putExtra("client_id",client_id);
         context.startActivity(intent);
-        return true;
     }
 }

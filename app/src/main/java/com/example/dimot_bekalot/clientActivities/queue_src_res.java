@@ -45,7 +45,7 @@ public class queue_src_res extends AppCompatActivity implements View.OnClickList
 
     FirebaseDatabase mDatabase;
     DatabaseReference queues_DB;
-
+    String check;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -56,65 +56,63 @@ public class queue_src_res extends AppCompatActivity implements View.OnClickList
 
         intent=getIntent();
 
-        client_id=intent.getStringExtra("client_id");
-        boolean toStay=intent.getBooleanExtra("toStay",true);
-        if (!toStay)
-        {
-            Intent t_intent = new Intent(context, com.example.dimot_bekalot.clientActivities.Main_Client_View.class);
-            t_intent.putExtra("client_id",client_id);
-            startActivity(t_intent);
-        }
-        queues= (List<String>) intent.getSerializableExtra("queues");
+            client_id = intent.getStringExtra("client_id");
+            boolean toStay = intent.getBooleanExtra("toStay", true);
+            if (!toStay) {
+                Intent t_intent = new Intent(context, com.example.dimot_bekalot.clientActivities.Main_Client_View.class);
+                t_intent.putExtra("client_id", client_id);
+                startActivity(t_intent);
+            }
+            queues = (List<String>) intent.getSerializableExtra("queues");
 
 
-        num_of_options=(TextView)findViewById(R.id.res_num2);
-        temp1=(TextView)findViewById(R.id.res_num1);
-        temp2=(TextView)findViewById(R.id.res_num3);
-        num_of_options.setText(String.valueOf(queues.size()));
-        queues2=(TextView)findViewById(R.id.Queues2);
+            num_of_options = (TextView) findViewById(R.id.res_num2);
+            temp1 = (TextView) findViewById(R.id.res_num1);
+            temp2 = (TextView) findViewById(R.id.res_num3);
+            num_of_options.setText(String.valueOf(queues.size()));
+            queues2 = (TextView) findViewById(R.id.Queues2);
 
-        results=new String[queues.size()];
-        listView=(ListView) findViewById(R.id.results);
+            results = new String[queues.size()];
+            listView = (ListView) findViewById(R.id.results);
 
-        if(queues.size()==0) {
-            num_of_options.setVisibility(View.INVISIBLE);
-            temp1.setVisibility(View.INVISIBLE);
-            temp2.setVisibility(View.INVISIBLE);
-        }
-        else {
-            queues2.setVisibility(View.INVISIBLE);
-            queues_DB.addValueEventListener(new ValueEventListener()
-            {
-                @Override
-                public void onDataChange(@NonNull DataSnapshot snapshot) {
-                    int check=0;
-                    int j=0;
-                    for (DataSnapshot data:snapshot.getChildren()
-                    ) {
-                        for (int i=0;i<queues.size();i++) {
-                            if (data.getKey().equals(queues.get(i))) {
-                                results[j++]=data.child("city").getValue()+"     "+data.child("treat_type").getValue()+"     "+data.child("institute").getValue()+"     "+data.child("date").getValue()+"     "+data.child("time").getValue();
-                                break;
+            if (queues.size() == 0) {
+                num_of_options.setVisibility(View.INVISIBLE);
+                temp1.setVisibility(View.INVISIBLE);
+                temp2.setVisibility(View.INVISIBLE);
+            } else {
+                queues2.setVisibility(View.INVISIBLE);
+                queues_DB.addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        int check = 0;
+                        int j = 0;
+                        for (DataSnapshot data : snapshot.getChildren()
+                        ) {
+                            for (int i = 0; i < queues.size(); i++) {
+                                if (data.getKey().equals(queues.get(i))) {
+                                    results[j++] = data.child("city").getValue() + "     " + data.child("treat_type").getValue() + "     " + data.child("institute").getValue() + "     " + data.child("date").getValue() + "     " + data.child("time").getValue();
+                                    break;
+                                }
                             }
                         }
+                        ArrayAdapter adapter = new ArrayAdapter<String>(context, R.layout.simple_list_view, R.id.textView, results);
+                        listView.setAdapter(adapter);
+                        listView.setClickable(true);
+                        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                            @Override
+                            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                                showPopup(position);
+                            }
+                        });
                     }
-                    ArrayAdapter adapter = new ArrayAdapter <String> (context,R.layout.simple_list_view,R.id.textView, results);
-                    listView.setAdapter(adapter);
-                    listView.setClickable(true);
-                    listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                        @Override
-                        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                            showPopup(position);
-                        }
-                    });
-                }
-                @Override
-                public void onCancelled(@NonNull DatabaseError error) {
-                }
-            });
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+                    }
+                });
+            }
         }
 
-    }
 
     @Override
     public void onClick(View v) {
@@ -127,6 +125,9 @@ public class queue_src_res extends AppCompatActivity implements View.OnClickList
         intent.putExtra("chosen_queue",results[position]);
         intent.putExtra("client_id",client_id);
         intent.putExtra("queue_id", queues.get(position));
+        intent.setFlags( Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NO_HISTORY);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+
         startActivity(intent);
     }
 
