@@ -74,7 +74,7 @@ public class queue_src_res extends AppCompatActivity implements View.OnClickList
         queues2=(TextView)findViewById(R.id.Queues2);
 
         results=new String[queues.size()];
-        listView=   (ListView) findViewById(R.id.results);
+        listView=(ListView) findViewById(R.id.results);
 
         if(queues.size()==0) {
             num_of_options.setVisibility(View.INVISIBLE);

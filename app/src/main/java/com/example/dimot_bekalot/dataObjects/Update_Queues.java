@@ -103,8 +103,6 @@ public class Update_Queues {
         Toast.makeText( context, "booked successfully", Toast.LENGTH_LONG).show();
         Intent intent=new Intent(context,com.example.dimot_bekalot.clientActivities.Main_Client_View.class);
         intent.putExtra("client_id",client_id);
-      //  intent.setFlags( Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NO_HISTORY);
-     //   intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         context.startActivity(intent);
         return true;
     }
