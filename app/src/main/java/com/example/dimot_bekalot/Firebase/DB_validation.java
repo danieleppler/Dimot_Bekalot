@@ -7,6 +7,8 @@ public class DB_validation {
 
     private static final String PATIENTS = "Patients";
     private static final String INSTITUTES = "Institutes";
+    //*************************************************************//
+
 
     /**
      * check if the input user login details is correct

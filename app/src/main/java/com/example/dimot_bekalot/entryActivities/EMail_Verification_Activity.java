@@ -9,6 +9,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -22,6 +23,7 @@ import com.google.firebase.auth.FirebaseUser;
 public class EMail_Verification_Activity extends AppCompatActivity {
 
     private Intent retrieveFromRegister;
+    private Handler mainHandler = new Handler();
 
     private Button toLogin;
     private TextView screenMassege;
@@ -38,6 +40,7 @@ public class EMail_Verification_Activity extends AppCompatActivity {
 
         /*go to Login Button will connecting from view*/
         toLogin = (Button) findViewById(R.id.email_verification_move_to_login_button);
+        toLogin.setVisibility(View.INVISIBLE);
 
         /*FireBase_connection*/
         mAuth = FirebaseAuth.getInstance();
@@ -55,7 +58,7 @@ public class EMail_Verification_Activity extends AppCompatActivity {
                         @Override
                         public void run() {
                             try {
-                                Thread.sleep(4000);
+                                Thread.sleep(5000);
                                 runOnUiThread(new Runnable() {
                                     @Override
                                     public void run() {
@@ -65,18 +68,24 @@ public class EMail_Verification_Activity extends AppCompatActivity {
                                     }
                                 });
 
-                            } catch (InterruptedException e) { e.printStackTrace(); }
+                                /**waiting for user permission before move to login activity, so the user can read the text
+                                 * and remember the user name*/
+                                Thread.sleep(5000);
+                                mainHandler.post(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        toLogin.setVisibility(View.VISIBLE);
+                                        toLogin.setOnClickListener(new View.OnClickListener() {
+                                            @Override
+                                            public void onClick(View v) { openLogin_Activity(); }
+                                        });
+                                    }
+                                });
 
-                            /**waiting for user permission before move to login activity, so the user can read the text
-                            * and remember the user name
-                            */
+                            } catch (InterruptedException e) { e.printStackTrace(); }
                         }
                     };
                     showText.start();
-                    toLogin.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) { openLogin_Activity(); }
-                    });
                 }
             }
         });

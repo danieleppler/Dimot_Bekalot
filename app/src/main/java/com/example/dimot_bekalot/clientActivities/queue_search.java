@@ -39,7 +39,6 @@ public class queue_search extends AppCompatActivity implements View.OnClickListe
 
     String treat_type=" ";
     String city=" ";
-    List<String> queues_id=new ArrayList<>();
     String client_id;
 
     Context context=this;
@@ -102,12 +101,12 @@ public class queue_search extends AppCompatActivity implements View.OnClickListe
     public void onClick(View v) {
         if(v==src_btn)
         {
-            if(city.equals(" ") || treat_type.equals(" ")) {
-                if (treat_type.equals(" ")) {
+            if(city.equals("choose") || treat_type.equals("choose")) {
+                if (treat_type.equals("choose")) {
                     Toast toast = Toast.makeText(getApplicationContext(), "please choose a treatment type", Toast.LENGTH_SHORT);
                     toast.show();
                 }
-                if (city.equals(" ")) {
+                if (city.equals("choose")) {
                     Toast toast = Toast.makeText(getApplicationContext(), "please choose a city", Toast.LENGTH_SHORT);
                     toast.show();
                 }
@@ -115,7 +114,7 @@ public class queue_search extends AppCompatActivity implements View.OnClickListe
             else {
                 queues_DB.addValueEventListener(new ValueEventListener()
                 {
-                    String check;
+                    List<String> queues_id=new ArrayList<>();
                     @Override
                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                         for(DataSnapshot data   :   dataSnapshot.getChildren()) {
@@ -130,10 +129,18 @@ public class queue_search extends AppCompatActivity implements View.OnClickListe
                                         }
                                 }
                         }
-                            Intent intent = new Intent(context, com.example.dimot_bekalot.clientActivities.queue_src_res.class);
-                            intent.putExtra("queues", (Serializable) queues_id);
-                            intent.putExtra("client_id", client_id);
-                            startActivity(intent);
+                            if(queues_id.size()==0)
+                            {
+                                Toast toast = Toast.makeText(getApplicationContext(), "there is no results for your preference", Toast.LENGTH_SHORT);
+                                toast.show();
+                            }
+                            else {
+                                Intent intent = new Intent(context, com.example.dimot_bekalot.clientActivities.queue_src_res.class);
+                                intent.putExtra("queues", (Serializable) queues_id);
+                                intent.putExtra("client_id", client_id);
+                                intent.putExtra("toStay", true);
+                                startActivity(intent);
+                            }
                         }
 
                     @Override

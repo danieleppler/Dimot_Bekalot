@@ -139,11 +139,7 @@ public class popup_queue_show_res extends AppCompatActivity implements View.OnCl
         if(v==confirm_btn)
         {
             uq=new Update_Queues();
-            if(uq.cancel_patient(client_id,tq))
-                Toast.makeText(getBaseContext(), "cancelled successfully!", Toast.LENGTH_SHORT).show();
-            Intent intent=new Intent(this,com.example.dimot_bekalot.clientActivities.Main_Client_View.class);
-            intent.putExtra("client_id",client_id);
-            startActivity(intent);
+            uq.cancel_patient(client_id,tq,this);
         }
     }
 

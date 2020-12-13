@@ -50,9 +50,10 @@ public class WatchingQueueActivity extends AppCompatActivity implements AdapterV
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_watching_queue);
-        queueWithHourAndNumID = new ArrayList<>();
+
         Intent intent = getIntent();
         String institute_id  = intent.getExtras().getString("instituteID");
 //        String type = intent.getExtras().getString("Treatment_type");
@@ -72,10 +73,10 @@ public class WatchingQueueActivity extends AppCompatActivity implements AdapterV
         dbRef = dataBase.getReference(QUEUE);
         calendar_view = (CalendarView)findViewById(R.id.calendar);
         // touch date on the screen:
-        lvQueues = (ListView)findViewById(R.id.lvQueues);
         dbRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
+                queueWithHourAndNumID = new ArrayList<>();
                 calendar_view.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
                     @Override
                     public void onSelectedDayChange(@NonNull CalendarView view, int year, int month, int day) {
@@ -92,8 +93,8 @@ public class WatchingQueueActivity extends AppCompatActivity implements AdapterV
                     String allQueue = t + "\n" + id;
                     queueWithHourAndNumID.add(allQueue);
                 }
-                ArrayAdapter queuesAdapter = new ArrayAdapter <String> (context,R.layout.simple_list,R.id.textView_stam, queueWithHourAndNumID);
-                lvQueues.setAdapter(queuesAdapter);
+               ArrayAdapter queuesAdapter = new ArrayAdapter <String> (context,R.layout.simple_list,R.id.textView_stam, queueWithHourAndNumID);
+               lvQueues.setAdapter(queuesAdapter);
                 lvQueues.setClickable(true);
                 lvQueues.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                     @Override
@@ -134,6 +135,7 @@ public class WatchingQueueActivity extends AppCompatActivity implements AdapterV
         final String[] ans = {""};
         dialogBuilder = new AlertDialog.Builder(context);
         final View popupView = getLayoutInflater().inflate(R.layout.popup_queue_per_day, null);
+//        lvQueues = (ListView)findViewById();
 
         dialogBuilder.setView(popupView);
         dialog = dialogBuilder.create();

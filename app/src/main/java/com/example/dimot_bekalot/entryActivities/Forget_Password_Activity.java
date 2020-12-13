@@ -16,6 +16,8 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.dimot_bekalot.Firebase.DB_ChangePassword;
+import com.example.dimot_bekalot.Firebase.DB_LockUser;
 import com.example.dimot_bekalot.R;
 import com.example.dimot_bekalot.dataObjects.Login_Input_Data;
 import com.example.dimot_bekalot.Tools.Strings_Tools;
@@ -73,12 +75,8 @@ public class Forget_Password_Activity extends AppCompatActivity {
 
                 /*checking if the inputs is valid inputs*/
                 if (!validationTools.isForgetPasswordInputValid_User_email(userName_ID, email,
-                        userName_ID_input_and_password_1, email_input_and_password_2)) {
-                    return;
-                }
-                if (!validationTools.CheckIfNumber(Strings_Tools.only_number_at_ID(userName_ID), userName_ID_input_and_password_1)) {
-                    return;
-                }
+                        userName_ID_input_and_password_1, email_input_and_password_2)) { return; }
+                if (!validationTools.CheckIfNumber(Strings_Tools.only_number_at_ID(userName_ID), userName_ID_input_and_password_1)) { return; }
                 /*end_validation_checking*/
 
                 InputToChangePassword = new Login_Input_Data(Strings_Tools.createNOTCleanUserName(userName_ID), email);
@@ -130,8 +128,7 @@ public class Forget_Password_Activity extends AppCompatActivity {
                     }
 
                     @Override
-                    public void onCancelled(@NonNull DatabaseError error) {
-                    }
+                    public void onCancelled(@NonNull DatabaseError error) { }
                 });
             }
         });
@@ -148,12 +145,8 @@ public class Forget_Password_Activity extends AppCompatActivity {
                     String newPassword_2 = email_input_and_password_2.getText().toString().trim();
 
                     /*checking if the inputs is valid inputs*/
-                    if (!validationTools.isForgetPasswordInputValid(newPassword_1, userName_ID_input_and_password_1)) {
-                        return;
-                    }
-                    if (!validationTools.isForgetPasswordInputValid(newPassword_2, email_input_and_password_2)) {
-                        return;
-                    }
+                    if (!validationTools.isForgetPasswordInputValid(newPassword_1, userName_ID_input_and_password_1)) { return; }
+                    if (!validationTools.isForgetPasswordInputValid(newPassword_2, email_input_and_password_2)) { return; }
                     /*end_validation_checking*/
 
                     if (!newPassword_1.equals(newPassword_2)) {
@@ -161,7 +154,7 @@ public class Forget_Password_Activity extends AppCompatActivity {
                         email_input_and_password_2.setError("שדה זה הוא חובה");
                         return;
                     } else {
-                        updateDB(newPassword_2);
+                        updatePASSWORD(newPassword_2);
                         Toast.makeText(Forget_Password_Activity.this, "הסיסמא שונתה, מועבר לעמוד ההתחברות", Toast.LENGTH_LONG).show();
                         goBackToLogin_Activity();
                     }
@@ -175,22 +168,16 @@ public class Forget_Password_Activity extends AppCompatActivity {
     }
 
     /************private function************/
-    /**
-     * write the new password of the user in real DB
-     *
-     * @param newValidPassword
-     */
-    private void updateDB(String newValidPassword) {
-        if (PATIENTSorINSTITUTES.equals(PATIENTS)) {
-            myDataBase.child(PATIENTS).child(InputToChangePassword.getID()).child("password").setValue(newValidPassword);
-        } else if (PATIENTSorINSTITUTES.equals(INSTITUTES)) {
-            myDataBase.child(INSTITUTES).child(InputToChangePassword.getID()).child("password").setValue(newValidPassword);
-        }
+
+    /*write the new password of the user in real DB and Unlock the user*/
+    private void updatePASSWORD(String newValidPassword) {
+        DB_ChangePassword.changePasswordAtAuthentication(PATIENTSorINSTITUTES, this.InputToChangePassword , newValidPassword);
+        DB_ChangePassword.changePasswordAtRealDB(PATIENTSorINSTITUTES, this.InputToChangePassword, newValidPassword);
+        DB_LockUser.Unlock_user(this.InputToChangePassword.getID(),PATIENTSorINSTITUTES);
     }
 
     /**
      * check if the input user details is correct
-     *
      * @param snapshot
      * @param PATIENTorINSTITUTE
      * @param userName_ID
