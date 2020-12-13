@@ -52,9 +52,6 @@ public class Register_Patient_Activity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_patient_register);
-        /*lock the screen-rotation for this activity*/
-        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
-        /*******************************************/
 
         first_nameInput = findViewById(R.id.user_first_name_input_register_patient);
         last_nameInput = findViewById(R.id.user_last_name_input_register_patient);
@@ -156,14 +153,18 @@ public class Register_Patient_Activity extends AppCompatActivity {
                 });
     }
 
+    @Override
+    public void onBackPressed() {
+        Intent open_login = new Intent(this, Main_Activity.class);
+        open_login.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        startActivity(open_login);
+    }
+
     /************private function************/
     private void update_Authentication(FirebaseUser currentPatientUser) {
         Intent open_email_verification = new Intent(this, EMail_Verification_Activity.class);
         open_email_verification.putExtra("PatientUser",currentPatientUser);
         open_email_verification.putExtra("userName_ID",this.costumer_details_patient.getPatientID());
-
-        open_email_verification.setFlags( Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NO_HISTORY);
-        open_email_verification.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         startActivity(open_email_verification);
     }
 

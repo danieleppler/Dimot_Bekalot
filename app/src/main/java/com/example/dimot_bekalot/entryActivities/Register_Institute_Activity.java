@@ -54,9 +54,6 @@ public class Register_Institute_Activity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register_institute);
-        /*lock the screen-rotation for this activity*/
-        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
-        /*******************************************/
 
         institute_nameInput = findViewById(R.id.user_first_name_input_register_institute);
         instituteID_Input = findViewById(R.id.user_ID_input_register_institute);
@@ -154,6 +151,12 @@ public class Register_Institute_Activity extends AppCompatActivity {
                 });
     }
 
+    @Override
+    public void onBackPressed() {
+        Intent open_login = new Intent(this, Main_Activity.class);
+        open_login.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        startActivity(open_login);
+    }
 
     /************private function************/
     private void update_Authentication(FirebaseUser currentInstituteUser) {
@@ -166,8 +169,6 @@ public class Register_Institute_Activity extends AppCompatActivity {
     /*Activate login activity*/
     private void openLogin_Activity() {
         Intent open_login = new Intent(this, Login_Activity.class);
-        open_login.setFlags( Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NO_HISTORY);
-        open_login.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         startActivity(open_login);
     }
 

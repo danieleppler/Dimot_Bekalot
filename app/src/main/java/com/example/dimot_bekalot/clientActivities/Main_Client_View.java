@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.ActivityInfo;
 import android.nfc.Tag;
 import android.os.Bundle;
 import android.os.CountDownTimer;
@@ -48,6 +49,7 @@ public class Main_Client_View extends AppCompatActivity implements View.OnClickL
         mDatabase = FirebaseDatabase.getInstance();
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_client_view);
+
         check=getIntent().getStringExtra("check");
         if (check.equals("0")) {
             List<String> client_names = new ArrayList<>();
