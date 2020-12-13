@@ -14,6 +14,7 @@ import android.os.Handler;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.dimot_bekalot.R;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -36,9 +37,6 @@ public class EMail_Verification_Activity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_e_mail__varification);
-        /*lock the screen-rotation for this activity*/
-        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
-        /*******************************************/
 
         screenMassege = (TextView) findViewById(R.id.email_verification_text_thread);
 
@@ -93,6 +91,11 @@ public class EMail_Verification_Activity extends AppCompatActivity {
                 }
             }
         });
+    }
+
+    @Override
+    public void onBackPressed() {
+        Toast.makeText(this, "אנא המתן מספר שניות, מוודא פרטים , אין אפשרות לחזור אחורה", Toast.LENGTH_LONG).show();
     }
 
     /************private function************/

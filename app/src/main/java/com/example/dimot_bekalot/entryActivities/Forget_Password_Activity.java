@@ -53,9 +53,6 @@ public class Forget_Password_Activity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_forget_password);
-        /*lock the screen-rotation for this activity*/
-        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
-        /*******************************************/
 
         userName_ID_input_and_password_1 = findViewById(R.id.forget_password_userName_ID);
         email_input_and_password_2 = findViewById(R.id.forget_password_user_email);
@@ -98,6 +95,7 @@ public class Forget_Password_Activity extends AppCompatActivity {
                             } else {
                                 Toast.makeText(Forget_Password_Activity.this, "פרטים שגויים, התחל שוב בבקשה", Toast.LENGTH_LONG).show();
                                 goBackToLogin_Activity();
+                                return;
                             }
                         }
 
@@ -109,6 +107,7 @@ public class Forget_Password_Activity extends AppCompatActivity {
                             } else {
                                 Toast.makeText(Forget_Password_Activity.this, "פרטים שגויים, התחל שוב בבקשה", Toast.LENGTH_LONG).show();
                                 goBackToLogin_Activity();
+                                return;
                             }
                         }
 
@@ -117,6 +116,7 @@ public class Forget_Password_Activity extends AppCompatActivity {
                         if (!found_User) {
                             Toast.makeText(Forget_Password_Activity.this, "פרטים שגויים, התחל שוב בבקשה", Toast.LENGTH_LONG).show();
                             goBackToLogin_Activity();
+                            return;
                         }
 
                         send_new_password.setVisibility(View.VISIBLE);
@@ -163,10 +163,18 @@ public class Forget_Password_Activity extends AppCompatActivity {
                 } else {
                     Toast.makeText(Forget_Password_Activity.this, "פרטי ההזדהות הראשונים היו שגויים, התחל שוב בבקשה", Toast.LENGTH_LONG).show();
                     goBackToLogin_Activity();
+                    return;
                 }
             }
         });
 
+    }
+
+    @Override
+    public void onBackPressed() {
+        Intent open_login = new Intent(this, Main_Activity.class);
+        open_login.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        startActivity(open_login);
     }
 
     /************private function************/
@@ -182,6 +190,7 @@ public class Forget_Password_Activity extends AppCompatActivity {
         DB_LockUser.Unlock_user(this.InputToChangePassword.getID(),PATIENTSorINSTITUTES);
         Toast.makeText(Forget_Password_Activity.this, "הסיסמא שונתה, מועבר לעמוד ההתחברות", Toast.LENGTH_LONG).show();
         goBackToLogin_Activity();
+        return;
     }
 
     /**
@@ -212,8 +221,6 @@ public class Forget_Password_Activity extends AppCompatActivity {
     /*Activate login activity*/
     private void goBackToLogin_Activity() {
         Intent open_login = new Intent(this, Login_Activity.class);
-        open_login.setFlags( Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NO_HISTORY);
-        open_login.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         startActivity(open_login);
     }
 }

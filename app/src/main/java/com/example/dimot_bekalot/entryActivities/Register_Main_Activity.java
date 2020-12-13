@@ -22,9 +22,6 @@ public class Register_Main_Activity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_register);
-        /*lock the screen-rotation for this activity*/
-        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
-        /*******************************************/
 
         /*patient register button will start to work*/
         main_register_patient_button = (Button) findViewById(R.id.patient_register_button);
@@ -46,6 +43,13 @@ public class Register_Main_Activity extends AppCompatActivity {
         });
         /*end_institute_register_button*/
 
+    }
+
+    @Override
+    public void onBackPressed() {
+        Intent open_login = new Intent(this, Main_Activity.class);
+        open_login.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        startActivity(open_login);
     }
 
     /************private function************/

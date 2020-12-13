@@ -38,9 +38,6 @@ public class Login_Activity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-        /*lock the screen-rotation for this activity*/
-        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
-        /*******************************************/
 
         UsernameInput = (EditText) findViewById(R.id.user_userName_input_login);
         passwordInput = (EditText) findViewById(R.id.user_password_input_login);
@@ -100,12 +97,17 @@ public class Login_Activity extends AppCompatActivity {
 
     }
 
+    @Override
+    public void onBackPressed() {
+        Intent open_login = new Intent(this, Main_Activity.class);
+        open_login.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        startActivity(open_login);
+    }
+
     /************private function************/
     /*Activate forgot password activity*/
     private void open_Forgot_Password_Activity() {
         Intent open_forget_register = new Intent(this, Forget_Password_Activity.class);
-        open_forget_register.setFlags( Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NO_HISTORY);
-        open_forget_register.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         startActivity(open_forget_register);
     }
 
