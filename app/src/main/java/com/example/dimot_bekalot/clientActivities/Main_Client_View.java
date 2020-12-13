@@ -49,7 +49,6 @@ public class Main_Client_View extends AppCompatActivity implements View.OnClickL
         mDatabase = FirebaseDatabase.getInstance();
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_client_view);
-        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
         check=getIntent().getStringExtra("check");
         if (check.equals("0")) {

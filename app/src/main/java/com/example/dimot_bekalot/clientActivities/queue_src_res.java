@@ -51,7 +51,6 @@ public class queue_src_res extends AppCompatActivity implements View.OnClickList
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_queue_src_res);
-        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
         mDatabase = FirebaseDatabase.getInstance();
         queues_DB= mDatabase.getReference().child("Queues");

@@ -34,7 +34,7 @@ public class show_queues_res extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_show_queues_res);
-        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+
         queues=new ArrayList<>();
         intent=getIntent();
 

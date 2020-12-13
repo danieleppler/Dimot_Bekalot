@@ -51,7 +51,6 @@ public class popup_queue_res extends AppCompatActivity implements View.OnClickLi
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_popup_queue_res);
-        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         intent=getIntent();
         chosen_queue=intent.getStringExtra("chosen_queue");
         client_id=intent.getStringExtra("client_id");

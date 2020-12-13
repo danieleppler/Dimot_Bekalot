@@ -24,11 +24,10 @@ import com.google.firebase.database.ValueEventListener;
 
 
 public class AddQueueActivity extends AppCompatActivity implements View.OnClickListener, AdapterView.OnItemSelectedListener {
-    private Spinner spinner;
-    private TextView IDInput, dateInput, timeInput;
-    private Button addClientToQueue;
-    private String type;
-
+    Spinner spinner;
+    TextView IDInput, dateInput, timeInput;
+    Button addClientToQueue;
+    String type;
     private static final String Queues = "Queues_institute";
     private FirebaseDatabase dataBase;
     private DatabaseReference dbRef_queue_institute;
@@ -108,10 +107,13 @@ public class AddQueueActivity extends AppCompatActivity implements View.OnClickL
                 @Override
                 public void onCancelled(@NonNull DatabaseError error) {
                 }
-            });
+
+            }); // addValueEventListener
 
         }
     }
+
+    // onCreate
 
     /* <Spinner> */
     @Override
@@ -131,6 +133,7 @@ public class AddQueueActivity extends AppCompatActivity implements View.OnClickL
         dbRef_queue_institute.child(institute_id).child("Treat_type").child(type).child(theDate).child(theTime).child("Patient_id_attending");
         dbRef_queue_institute.child(institute_id).child("Treat_type").child(type).child(theDate).child(theTime).child("Patient_id_attending").setValue(id_patient_input);
     }
+
 
     private void add_DB_time(String institute_id, String theDate, String theTime, String id_patient_input) {
         dbRef_queue_institute.child(institute_id).child("Treat_type").child(type).child(theDate).setValue(theTime);
