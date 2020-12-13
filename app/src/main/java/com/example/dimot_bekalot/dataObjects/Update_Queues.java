@@ -17,7 +17,7 @@ import com.google.firebase.database.ValueEventListener;
 public class Update_Queues {
 
     FirebaseDatabase mDatabase;
-    DatabaseReference Queues_ref,queues_src_ref,queues_inst_ref,inst_ref;
+    DatabaseReference Queues_ref, queues_src_ref, queues_inst_ref, inst_ref;
     private static final String TAG = "Update_Queues";
     String inst_id="";
     public Update_Queues()

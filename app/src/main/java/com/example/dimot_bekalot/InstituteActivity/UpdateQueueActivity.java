@@ -16,6 +16,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.dimot_bekalot.R;
+import com.example.dimot_bekalot.dataObjects.UpdatesAndAddsQueues;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -25,6 +26,7 @@ import com.google.firebase.database.ValueEventListener;
 public class UpdateQueueActivity extends AppCompatActivity implements View.OnClickListener{
     TextView IDInput, dateInput, timeInput, typeInput;
     Button updateClientToQueue;
+
 
     private static final String Queues = "Queues_institute";
     private FirebaseDatabase dataBase;
@@ -38,9 +40,6 @@ public class UpdateQueueActivity extends AppCompatActivity implements View.OnCli
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_update_queue);
-        /*lock the screen-rotation for this activity*/
-        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
-        /**************************************/
 
         Intent intent = getIntent();
         institute_id = intent.getExtras().getString("instituteID");
@@ -88,11 +87,13 @@ public class UpdateQueueActivity extends AppCompatActivity implements View.OnCli
                 @Override
                 public void onDataChange(@NonNull DataSnapshot snapshot) {
                     if (STOP_RUN == 0) {
-                        dbRef_queue_institute.child(institute_id).child("Treat_type")
-                                .child(typeOfTreatment).child(date).child(theTime)
-                                .child("Patient_id_attending").setValue(id_patient_input.toString());
+                        UpdatesAndAddsQueues up = new UpdatesAndAddsQueues(institute_id, id_patient_input.toString(), date, theTime, typeOfTreatment);
+                        up.update();
+//                        dbRef_queue_institute.child(institute_id).child("Treat_type")
+//                                .child(typeOfTreatment).child(date).child(theTime)
+//                                .child("Patient_id_attending").setValue(id_patient_input.toString());
                         STOP_RUN = 1;
-                        goBackToCalenar();
+                        goBackToCalendar();
                     }
                 }
 
@@ -106,7 +107,7 @@ public class UpdateQueueActivity extends AppCompatActivity implements View.OnCli
         this.onStop();
     }
 
-    private void goBackToCalenar(){
+    private void goBackToCalendar(){
         Intent goBack_intent = new Intent(this, WatchingQueueActivity.class);
         goBack_intent.putExtra("instituteID", institute_id);
         startActivity(goBack_intent);

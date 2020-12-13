@@ -46,9 +46,6 @@ public class Login_Verification_Activity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_verification);
-        /*lock the screen-rotation for this activity*/
-        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
-        /*******************************************/
 
         /*retrieve the login input data from Login_Activity in the Intent*/
         retrieveFromLogin = getIntent();
@@ -177,17 +174,23 @@ public class Login_Verification_Activity extends AppCompatActivity {
         return false;
     }
 
+    @Override
+    public void onBackPressed() {
+        Intent open_login = new Intent(this, Main_Activity.class);
+        open_login.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        startActivity(open_login);
+    }
+
     /*if the user is locked, sho this Toast*/
     private void lockedUSER() {
         Toast.makeText(Login_Verification_Activity.this, "החשבון חסום, אנא הכיסנו ל'שכחתי סיסמא' והחליפו אותה", Toast.LENGTH_LONG).show();
         goBackToLogin_Activity();
+        return;
     }
 
     /*Activate login activity*/
     private void goBackToLogin_Activity() {
         Intent open_login = new Intent(this, Login_Activity.class);
-        open_login.setFlags( Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NO_HISTORY);
-        open_login.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         startActivity(open_login);
     }
 
@@ -205,8 +208,6 @@ public class Login_Verification_Activity extends AppCompatActivity {
         Intent open_patient_menu = new Intent(this, com.example.dimot_bekalot.clientActivities.Main_Client_View.class);
         open_patient_menu.putExtra("client_id", Patient_ID);
         open_patient_menu.putExtra("check","0");
-       // open_patient_menu.setFlags( Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NO_HISTORY);
-        //open_patient_menu.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         startActivity(open_patient_menu);
     }
 
@@ -214,8 +215,6 @@ public class Login_Verification_Activity extends AppCompatActivity {
     private void openInstituteMenu_Activity(String Institute_ID) {
         Intent open_institute_menu = new Intent(this, InstituteMain.class);
         open_institute_menu.putExtra("instituteID", Institute_ID);
-        open_institute_menu.setFlags( Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NO_HISTORY);
-        open_institute_menu.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         startActivity(open_institute_menu);
     }
 }
