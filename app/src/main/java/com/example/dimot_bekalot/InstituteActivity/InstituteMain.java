@@ -3,15 +3,11 @@ package com.example.dimot_bekalot.InstituteActivity;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
-
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
-
 import com.example.dimot_bekalot.R;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -28,11 +24,6 @@ public class InstituteMain extends AppCompatActivity {
 
     private FirebaseDatabase dataBase;
     private DatabaseReference dbRef;
-
-    // for pop up
-    private AlertDialog.Builder dialogBuilder;
-    private AlertDialog dialog;
-    private Button mri, ct, bone_mapping;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

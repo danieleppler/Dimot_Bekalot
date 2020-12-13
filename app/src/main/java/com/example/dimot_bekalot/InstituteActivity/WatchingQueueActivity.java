@@ -57,7 +57,8 @@ public class WatchingQueueActivity extends AppCompatActivity implements AdapterV
         /**************************************/
 
         Intent intent = getIntent();
-        institute_id = intent.getExtras().getString("instituteID");
+        institute_id = "i:123456123";
+//        institute_id = intent.getExtras().getString("instituteID");
 
         /* <Spinner> */
         spinner = (Spinner) findViewById(R.id.watching_chooseTreatmentType);
@@ -81,6 +82,7 @@ public class WatchingQueueActivity extends AppCompatActivity implements AdapterV
                 calendar_view.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
                     @Override
                     public void onSelectedDayChange(@NonNull CalendarView view, int year, int month, int day) {
+
                         if(day >= 1 && day <= 9){ date = "0"+day; }
                         else{ date = day + ""; }
                         month++;
@@ -105,7 +107,10 @@ public class WatchingQueueActivity extends AppCompatActivity implements AdapterV
                 });
 
             }
-            @Override public void onCancelled(@NonNull DatabaseError error) {}
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+            }
 
         }); // dbRef.addValueEventListener
 
@@ -117,12 +122,18 @@ public class WatchingQueueActivity extends AppCompatActivity implements AdapterV
         typeOfTreatment = parent.getItemAtPosition(position).toString();
         Toast.makeText(parent.getContext(), typeOfTreatment, Toast.LENGTH_SHORT).show();
     }
-    @Override
-    public void onNothingSelected(AdapterView<?> parent) { }
-    /* </Spinner> */
 
     @Override
-    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {}
+    public void onNothingSelected(AdapterView<?> parent) {
+    }
+    /* </Spinner> */
+
+
+
+    @Override
+    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+    }
+
 
 
     private void goToList(){

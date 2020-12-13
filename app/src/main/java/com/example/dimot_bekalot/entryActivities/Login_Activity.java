@@ -6,6 +6,7 @@ package com.example.dimot_bekalot.entryActivities;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
@@ -37,6 +38,9 @@ public class Login_Activity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+        /*lock the screen-rotation for this activity*/
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+        /*******************************************/
 
         UsernameInput = (EditText) findViewById(R.id.user_userName_input_login);
         passwordInput = (EditText) findViewById(R.id.user_password_input_login);
@@ -100,13 +104,14 @@ public class Login_Activity extends AppCompatActivity {
     /*Activate forgot password activity*/
     private void open_Forgot_Password_Activity() {
         Intent open_forget_register = new Intent(this, Forget_Password_Activity.class);
+        open_forget_register.setFlags( Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NO_HISTORY);
+        open_forget_register.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         startActivity(open_forget_register);
     }
 
     /*Activate register activity*/
     private void openMainRegister_Activity() {
         Intent open_main_register = new Intent(this, Register_Main_Activity.class);
-        this.finish();
         startActivity(open_main_register);
     }
 
@@ -114,7 +119,6 @@ public class Login_Activity extends AppCompatActivity {
     private void open_login_Verification_Activity() {
         Intent open_verification = new Intent(this, Login_Verification_Activity.class);
         open_verification.putExtra("Login_Input_Data", loginCostumerInput);
-        this.finish();
         startActivity(open_verification);
     }
 }

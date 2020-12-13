@@ -1,6 +1,7 @@
 package com.example.dimot_bekalot.Firebase;
 /**
- *
+ * This class write the new user password to the real DB and
+ * to Firebase Authentication
  */
 
 import androidx.annotation.NonNull;

@@ -7,6 +7,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -51,6 +52,9 @@ public class Register_Patient_Activity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_patient_register);
+        /*lock the screen-rotation for this activity*/
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+        /*******************************************/
 
         first_nameInput = findViewById(R.id.user_first_name_input_register_patient);
         last_nameInput = findViewById(R.id.user_last_name_input_register_patient);
