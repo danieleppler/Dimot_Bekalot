@@ -31,9 +31,8 @@ public class InstituteMain extends AppCompatActivity {
 
         Intent institute_details = getIntent();
 
-        //institute_id = institute_details.getExtras().getString("instituteID"); //Real-time
-        institute_id = "i:123456123"; //DE-BUGING
-
+//        institute_id = institute_details.getExtras().getString("instituteID"); //Real-time
+        institute_id = "i:123456123";
         dataBase = FirebaseDatabase.getInstance();
         dbRef = dataBase.getReference(INSTITUTE);
 
@@ -82,10 +81,8 @@ public class InstituteMain extends AppCompatActivity {
         startActivity(add_in);
     }
     private void open_watchingQueueActivity(){
-//        String type = createPopupWatching();
         Intent watching_in = new Intent(this, WatchingQueueActivity.class);
         watching_in.putExtra("instituteID", institute_id);
-//        watching_in.putExtra("Treatment_type", type);
         startActivity(watching_in);
     }
     private void open_dateActivity() {

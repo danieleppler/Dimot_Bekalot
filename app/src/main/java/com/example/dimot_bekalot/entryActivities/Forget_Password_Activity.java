@@ -8,6 +8,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -52,6 +53,9 @@ public class Forget_Password_Activity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_forget_password);
+        /*lock the screen-rotation for this activity*/
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+        /*******************************************/
 
         userName_ID_input_and_password_1 = findViewById(R.id.forget_password_userName_ID);
         email_input_and_password_2 = findViewById(R.id.forget_password_user_email);
@@ -155,8 +159,6 @@ public class Forget_Password_Activity extends AppCompatActivity {
                         return;
                     } else {
                         updatePASSWORD(newPassword_2);
-                        Toast.makeText(Forget_Password_Activity.this, "הסיסמא שונתה, מועבר לעמוד ההתחברות", Toast.LENGTH_LONG).show();
-                        goBackToLogin_Activity();
                     }
                 } else {
                     Toast.makeText(Forget_Password_Activity.this, "פרטי ההזדהות הראשונים היו שגויים, התחל שוב בבקשה", Toast.LENGTH_LONG).show();
@@ -172,8 +174,14 @@ public class Forget_Password_Activity extends AppCompatActivity {
     /*write the new password of the user in real DB and Unlock the user*/
     private void updatePASSWORD(String newValidPassword) {
         DB_ChangePassword.changePasswordAtAuthentication(PATIENTSorINSTITUTES, this.InputToChangePassword , newValidPassword);
+        /*wait until the Firebase Authentication will update the password*/
+        try {
+            Thread.sleep(2000);
+        } catch (InterruptedException e) { e.printStackTrace(); }
         DB_ChangePassword.changePasswordAtRealDB(PATIENTSorINSTITUTES, this.InputToChangePassword, newValidPassword);
         DB_LockUser.Unlock_user(this.InputToChangePassword.getID(),PATIENTSorINSTITUTES);
+        Toast.makeText(Forget_Password_Activity.this, "הסיסמא שונתה, מועבר לעמוד ההתחברות", Toast.LENGTH_LONG).show();
+        goBackToLogin_Activity();
     }
 
     /**
@@ -204,6 +212,8 @@ public class Forget_Password_Activity extends AppCompatActivity {
     /*Activate login activity*/
     private void goBackToLogin_Activity() {
         Intent open_login = new Intent(this, Login_Activity.class);
+        open_login.setFlags( Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NO_HISTORY);
+        open_login.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         startActivity(open_login);
     }
 }

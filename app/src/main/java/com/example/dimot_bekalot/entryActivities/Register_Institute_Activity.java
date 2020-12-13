@@ -7,6 +7,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -53,6 +54,9 @@ public class Register_Institute_Activity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register_institute);
+        /*lock the screen-rotation for this activity*/
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+        /*******************************************/
 
         institute_nameInput = findViewById(R.id.user_first_name_input_register_institute);
         instituteID_Input = findViewById(R.id.user_ID_input_register_institute);
@@ -156,14 +160,14 @@ public class Register_Institute_Activity extends AppCompatActivity {
         Intent open_email_verification = new Intent(this, EMail_Verification_Activity.class);
         open_email_verification.putExtra("InstituteUser", currentInstituteUser);
         open_email_verification.putExtra("userName_ID",this.costumer_details_institute.getInstituteID());
-        this.finish();
         startActivity(open_email_verification);
     }
 
     /*Activate login activity*/
     private void openLogin_Activity() {
         Intent open_login = new Intent(this, Login_Activity.class);
-        this.finish();
+        open_login.setFlags( Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NO_HISTORY);
+        open_login.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         startActivity(open_login);
     }
 

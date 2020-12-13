@@ -43,7 +43,7 @@ public class UpdateQueueActivity extends AppCompatActivity implements View.OnCli
         institute_id = intent.getExtras().getString("instituteID");
 
         /* <Spinner> */
-        spinner = (Spinner) findViewById(R.id.chooseTreatmentType);
+        spinner = (Spinner) findViewById(R.id.update_chooseTreatmentType);
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource
                 (this, R.array.treatment_type, android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);

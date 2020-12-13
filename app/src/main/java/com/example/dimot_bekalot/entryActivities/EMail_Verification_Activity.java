@@ -8,6 +8,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.View;
@@ -35,6 +36,9 @@ public class EMail_Verification_Activity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_e_mail__varification);
+        /*lock the screen-rotation for this activity*/
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+        /*******************************************/
 
         screenMassege = (TextView) findViewById(R.id.email_verification_text_thread);
 
@@ -70,7 +74,7 @@ public class EMail_Verification_Activity extends AppCompatActivity {
 
                                 /**waiting for user permission before move to login activity, so the user can read the text
                                  * and remember the user name*/
-                                Thread.sleep(5000);
+                                Thread.sleep(8000);
                                 mainHandler.post(new Runnable() {
                                     @Override
                                     public void run() {

@@ -6,6 +6,7 @@ package com.example.dimot_bekalot.entryActivities;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.View;
@@ -27,6 +28,9 @@ public class Main_Activity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        /*lock the screen-rotation for this activity*/
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+        /*******************************************/
 
         /*Login button will start to work*/
         login_button = (Button) findViewById(R.id.login_button);
@@ -48,15 +52,15 @@ public class Main_Activity extends AppCompatActivity {
         });
         /*end_Register_button*/
 
-        /*test section*/
-        test_connect = (Button) findViewById(R.id.conect_button);
-        test_connect.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                openConnect_Activity();
-            }
-        });
-        /*end test section*/
+//        /*test section*/
+//        test_connect = (Button) findViewById(R.id.conect_button);
+//        test_connect.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                openConnect_Activity();
+//            }
+//        });
+//        /*end test section*/
     }
 
     /************private function************/
