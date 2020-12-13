@@ -208,8 +208,9 @@ public class Login_Verification_Activity extends AppCompatActivity {
     private void openPatientMenu_Activity(String Patient_ID) {
         Intent open_patient_menu = new Intent(this, com.example.dimot_bekalot.clientActivities.Main_Client_View.class);
         open_patient_menu.putExtra("client_id", Patient_ID);
-        open_patient_menu.setFlags( Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NO_HISTORY);
-        open_patient_menu.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        open_patient_menu.putExtra("check","0");
+       // open_patient_menu.setFlags( Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NO_HISTORY);
+        //open_patient_menu.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         startActivity(open_patient_menu);
     }
 

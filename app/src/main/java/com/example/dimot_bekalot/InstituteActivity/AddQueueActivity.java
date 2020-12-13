@@ -112,6 +112,7 @@ public class AddQueueActivity extends AppCompatActivity implements View.OnClickL
 
         }
     }
+
     // onCreate
 
     /* <Spinner> */
@@ -138,4 +139,6 @@ public class AddQueueActivity extends AppCompatActivity implements View.OnClickL
         dbRef_queue_institute.child(institute_id).child("Treat_type").child(type).child(theDate).setValue(theTime);
         dbRef_queue_institute.child(institute_id).child("Treat_type").child(type).child(theDate).child(theTime).setValue("Patient_id_attending", id_patient_input);
     }
+
+ //   public void add_queue_src()
 }

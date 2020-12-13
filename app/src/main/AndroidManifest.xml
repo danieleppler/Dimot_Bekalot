@@ -19,7 +19,6 @@
         <activity android:name=".entryActivities.Forget_Password_Activity" />
         <activity android:name=".entryActivities.EMail_Verification_Activity" />
         <activity android:name=".clientActivities.inst_list" />
-        <activity android:name=".clientActivities.Main_Client_View" />
         <activity android:name=".clientActivities.popup_queue_res" />
         <activity android:name=".clientActivities.Private_Area" />
         <activity android:name=".clientActivities.queue_search" />
