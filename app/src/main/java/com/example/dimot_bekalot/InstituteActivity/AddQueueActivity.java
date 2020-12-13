@@ -16,6 +16,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.dimot_bekalot.R;
+import com.example.dimot_bekalot.dataObjects.UpdatesAndAddsQueues;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.DataSnapshot;
@@ -41,9 +42,6 @@ public class AddQueueActivity extends AppCompatActivity implements View.OnClickL
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_queue);
-        /*lock the screen-rotation for this activity*/
-        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
-        /**************************************/
 
         Intent intent = getIntent();
         institute_id = intent.getExtras().getString("instituteID");
@@ -81,7 +79,7 @@ public class AddQueueActivity extends AppCompatActivity implements View.OnClickL
 
             String str_time[] = time_input.split(":", 2);
             String theTime = str_time[0] + "" + str_time[1];
-            Log.d("add queue", institute_id + " " + type + " " + theDate + " " + theTime);
+//            Log.d("add queue", institute_id + " " + type + " " + theDate + " " + theTime);
             dbRef_queue_institute.addValueEventListener(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -126,15 +124,19 @@ public class AddQueueActivity extends AppCompatActivity implements View.OnClickL
     /* </Spinner> */
 
     private void add_DB_Date_time(String institute_id, String theDate, String theTime, String id_patient_input) {
-        dbRef_queue_institute.child(institute_id).child("Treat_type").child(type).setValue(theDate);
-        dbRef_queue_institute.child(institute_id).child("Treat_type").child(type).child(theDate).setValue(theTime);
-        dbRef_queue_institute.child(institute_id).child("Treat_type").child(type).child(theDate).child(theTime).child("Patient_id_attending");
-        dbRef_queue_institute.child(institute_id).child("Treat_type").child(type).child(theDate).child(theTime).child("Patient_id_attending").setValue(id_patient_input);
+        UpdatesAndAddsQueues a = new UpdatesAndAddsQueues(institute_id, id_patient_input, theDate, theTime, type);
+        a.add();
+//        dbRef_queue_institute.child(institute_id).child("Treat_type").child(type).setValue(theDate);
+//        dbRef_queue_institute.child(institute_id).child("Treat_type").child(type).child(theDate).setValue(theTime);
+//        dbRef_queue_institute.child(institute_id).child("Treat_type").child(type).child(theDate).child(theTime).child("Patient_id_attending");
+//        dbRef_queue_institute.child(institute_id).child("Treat_type").child(type).child(theDate).child(theTime).child("Patient_id_attending").setValue(id_patient_input);
     }
 
     private void add_DB_time(String institute_id, String theDate, String theTime, String id_patient_input) {
-        dbRef_queue_institute.child(institute_id).child("Treat_type").child(type).child(theDate).setValue(theTime);
-        dbRef_queue_institute.child(institute_id).child("Treat_type").child(type).child(theDate).child(theTime).setValue("Patient_id_attending", id_patient_input);
+        UpdatesAndAddsQueues a = new UpdatesAndAddsQueues(institute_id, id_patient_input, theDate, theTime, type);
+        a.add();
+//        dbRef_queue_institute.child(institute_id).child("Treat_type").child(type).child(theDate).setValue(theTime);
+//        dbRef_queue_institute.child(institute_id).child("Treat_type").child(type).child(theDate).child(theTime).setValue("Patient_id_attending", id_patient_input);
     }
 
  //   public void add_queue_src()

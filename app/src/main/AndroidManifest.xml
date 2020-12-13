@@ -29,10 +29,10 @@
         <activity android:name=".dataObjects.Institute_data_activity" />
         <activity android:name=".entryActivities.Register_Institute_Activity" />
         <activity android:name=".entryActivities.Register_Main_Activity" />
-        <activity android:name=".InstituteActivity.InstituteMain" />
+        <activity android:name=".entryActivities.Main_Activity" />
         <activity android:name=".InstituteActivity.AddQueueActivity" />
         <activity android:name=".InstituteActivity.WatchingQueueActivity" />
-        <activity android:name=".entryActivities.Main_Activity">
+        <activity android:name=".InstituteActivity.InstituteMain">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
