@@ -90,7 +90,6 @@ public class UpdatesAndAddsQueues {
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 ref_Queues.child(numOfQueue).child("Patient_id_attending").setValue(id_patient);
             }
-
             @Override
             public void onCancelled(@NonNull DatabaseError error) {}
         });
