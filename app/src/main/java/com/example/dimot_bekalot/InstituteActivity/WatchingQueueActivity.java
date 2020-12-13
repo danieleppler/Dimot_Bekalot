@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -17,7 +18,7 @@ import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.Toast;
 
-import com.example.dimot_bekalot.ListQueuesInstituteActivity;
+//import com.example.dimot_bekalot.ListQueuesInstituteActivity;
 import com.example.dimot_bekalot.R;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -51,6 +52,9 @@ public class WatchingQueueActivity extends AppCompatActivity implements AdapterV
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_watching_queue);
+        /*lock the screen-rotation for this activity*/
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+        /**************************************/
 
         Intent intent = getIntent();
         institute_id = intent.getExtras().getString("instituteID");
@@ -66,7 +70,7 @@ public class WatchingQueueActivity extends AppCompatActivity implements AdapterV
 
         dataBase = FirebaseDatabase.getInstance();
         dbRef = dataBase.getReference(QUEUE);
-        calendar_view = (CalendarView)findViewById(R.id.calendar);
+        calendar_view = (CalendarView) findViewById(R.id.calendar);
 
         queueWithHourAndNumID = new ArrayList<>();
         // touch date on the screen:
@@ -79,18 +83,26 @@ public class WatchingQueueActivity extends AppCompatActivity implements AdapterV
                     public void onSelectedDayChange(@NonNull CalendarView view, int year, int month, int day) {
                         if(day >= 1 && day <= 9){ date = "0"+day; }
                         else{ date = day + ""; }
-                        if(month >= 1 && month <= 9){ date += ""+"0"+month;}
+                        month++;
+                        if(month >= 0 && month <= 8){ date += ""+"0"+month;}
                         else{ date += month + "";}
-                        date += ""+ year;
+                        date += ""+ String.valueOf(year).substring(2);
+
+                        if(typeOfTreatment.equals("choose"))
+                            Toast.makeText(context,
+                                    "נא לבחור סוג טיפול", Toast.LENGTH_SHORT).show();
+                        else {
+//                            Log.d("check", typeOfTreatment+" "+ date);
+                            for (DataSnapshot data : snapshot.child(institute_id).child("Treat_type").child(typeOfTreatment).child(date).getChildren()) {
+                                String hour = data.getKey();
+                                String id = data.child("Patient_id_attending").getValue().toString();
+                                String allQueue = hour + "\n" + id;
+                                queueWithHourAndNumID.add(allQueue);
+                            }
+                            goToList();
+                        }
                     }
                 });
-                for (DataSnapshot data : snapshot.child(institute_id).child("Treat_type").child(typeOfTreatment).child(date).getChildren()) {
-                    String hour = data.getKey();
-                    String id = data.child("Patient_id_attending").getValue().toString();
-                    String allQueue = hour + "\n" + id;
-                    queueWithHourAndNumID.add(allQueue);
-                }
-                goToList();
 
             }
             @Override public void onCancelled(@NonNull DatabaseError error) {}
@@ -114,10 +126,15 @@ public class WatchingQueueActivity extends AppCompatActivity implements AdapterV
 
 
     private void goToList(){
-        Intent list_intent = new Intent(context, ListQueuesInstituteActivity.class);
-        list_intent.putExtra("instituteID", institute_id);
-        list_intent.putExtra("type", typeOfTreatment);
-        list_intent.putExtra("queues", (Serializable)queueWithHourAndNumID);
-        startActivity(list_intent);
+        if(queueWithHourAndNumID.size()==0)
+            Toast.makeText(this, "אין תורים להצגה ביום שנבחר", Toast.LENGTH_SHORT).show();
+        else {
+            Intent list_intent = new Intent(context, ListQueuesInstituteActivity.class);
+            list_intent.putExtra("instituteID", institute_id);
+            list_intent.putExtra("type", typeOfTreatment);
+            list_intent.putExtra("date", date);
+            list_intent.putExtra("queues", (Serializable) queueWithHourAndNumID);
+            startActivity(list_intent);
+        }
     }
 }
