@@ -29,20 +29,15 @@ public class InstituteMain extends AppCompatActivity {
     private FirebaseDatabase dataBase;
     private DatabaseReference dbRef;
 
-    // for pop up
-    private AlertDialog.Builder dialogBuilder;
-    private AlertDialog dialog;
-    private Button mri, ct, bone_mapping;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_institute_main);
 
-
-       Intent institute_details = getIntent();
-       institute_id = institute_details.getExtras().getString("instituteID"); //Real-time
-       // institute_id = "i:123456123"; //debuging
+//       Intent institute_details = getIntent();
+//       institute_id = institute_details.getExtras().getString("instituteID"); //Real-time
+        institute_id = "i:123456123"; //debuging
         dataBase = FirebaseDatabase.getInstance();
         dbRef = dataBase.getReference(INSTITUTE);
 
@@ -97,6 +92,7 @@ public class InstituteMain extends AppCompatActivity {
     }
     private void open_dateActivity() {
         Intent personal_data = new Intent(this, com.example.dimot_bekalot.dataObjects.Institute_data_activity.class);
+        personal_data.putExtra("instituteID", institute_id);
         startActivity(personal_data);
     }
 }

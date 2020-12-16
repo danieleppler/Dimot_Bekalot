@@ -11,42 +11,28 @@
     >
 
     <TextView
-        android:id="@+id/title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="רשימת תורים"
+        android:text="התורים של היום"
         android:textColor="@color/white"
         android:textSize="32sp"
-        android:layout_marginBottom="5dp"
+        android:layout_marginBottom="15dp"
         />
+
     <ListView
         android:id="@+id/lvQueues"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:clickable="true">
+        android:layout_marginBottom="15dp"
+        android:clickable="true"/>
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical">
-
-            <TextView
-                android:id="@+id/hour_watch_queue"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text=""
-                android:textSize="20sp"/>
-
-            <TextView
-                android:id="@+id/numberID_watch_queue"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text=""
-                android:textSize="16sp"/>
-
-
-        </LinearLayout>
-    </ListView>
-
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="נא ללחוץ על תור כדי לעדכן אותו"
+        android:textColor="@color/white"
+        android:textSize="20sp"
+        android:layout_marginBottom="20dp"
+        />
 
 </LinearLayout>
