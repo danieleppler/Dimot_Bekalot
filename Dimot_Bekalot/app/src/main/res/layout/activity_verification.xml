@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/pale_blue_background"
-    tools:context=".entryActivities.login_Verification_Activity"
+    tools:context=".entryActivities.Login_Verification_Activity"
     >
 
     <pl.droidsonroids.gif.GifImageView
@@ -32,10 +32,12 @@
 
     <TextView
         android:id="@+id/waiting_loading_verification"
-        android:layout_width="327dp"
-        android:layout_height="73dp"
-        android:text="אנא המתן, מאמת נתונים"
+        android:layout_width="347dp"
+        android:layout_height="103dp"
+        android:text="המתינו בבקשה, המערכת מאמתת נתונים"
+        android:textAlignment="center"
         android:textSize="31sp"
+        android:textStyle="bold"
         app:layout_constraintBottom_toTopOf="@+id/gifImageView"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

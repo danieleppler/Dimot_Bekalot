@@ -61,12 +61,4 @@
         app:layout_constraintVertical_bias="0.959"
         app:srcCompat="@drawable/brain_mri_icon" />
 
-    <Button
-        android:id="@+id/conect_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="test_Button_temp"
-        tools:layout_editor_absoluteX="16dp"
-        tools:layout_editor_absoluteY="11dp" />
-
 </androidx.constraintlayout.widget.ConstraintLayout>
