@@ -137,6 +137,7 @@ public class popup_queue_res extends AppCompatActivity implements View.OnClickLi
     public void onClick(View v) {
         if(v == confirm_btn)
         {
+            Log.d("check",tq.getDate()+""+tq.getNameInstitute()+""+tq.getNameInstitute()+""+tq.getCity()+""+tq.getIdPatient());
             uq=new Update_Queues();
             uq.update_new_Patient(client_id,tq,this);
         }

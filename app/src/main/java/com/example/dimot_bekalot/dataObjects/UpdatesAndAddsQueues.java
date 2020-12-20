@@ -195,7 +195,7 @@ public class UpdatesAndAddsQueues {
                 newHour.insert(2, ":");
 
                 ref_Queues.child(numOfQueue).child("Patient_id_attending").setValue(id_patient);
-                ref_Queues.child(numOfQueue).child("city").setValue(id_patient);
+                ref_Queues.child(numOfQueue).child("city").setValue(city);
                 ref_Queues.child(numOfQueue).child("date").setValue(newDate.toString());
                 ref_Queues.child(numOfQueue).child("institute").setValue(nameInstitute);
                 ref_Queues.child(numOfQueue).child("time").setValue(newHour.toString());

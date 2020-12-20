@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -68,11 +69,21 @@ public class show_queues_res extends AppCompatActivity {
     {
         Intent intent = new Intent(this, com.example.dimot_bekalot.clientActivities.popup_queue_show_res.class);
         intent.putExtra("chosen_queue",queues.get(position));
+
         intent.putExtra("chosen_queue_id",queues_id.get(position));
         intent.putExtra("client_id",client_id);
         startActivity(intent);
     }
+    /*
+    @Override
+    public void onBackPressed() {
+        Intent open_login = new Intent(this, Main_Client_View.class);
+        intent.putExtra("check","0");
+        open_login.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        startActivity(open_login);
+    }
 
+     */
     CountDownTimer timer = new CountDownTimer(15 *60 * 1000, 1000) {
 
         public void onTick(long millisUntilFinished) {

@@ -126,9 +126,7 @@ public class queue_src_res extends AppCompatActivity implements View.OnClickList
         intent.putExtra("chosen_queue",results[position]);
         intent.putExtra("client_id",client_id);
         intent.putExtra("queue_id", queues.get(position));
-        intent.setFlags( Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NO_HISTORY);
-        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-
+        Log.d("check",queues.get(position));
         startActivity(intent);
     }
 

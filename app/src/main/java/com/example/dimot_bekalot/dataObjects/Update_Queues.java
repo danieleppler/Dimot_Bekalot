@@ -103,7 +103,7 @@ public class Update_Queues {
         Toast.makeText( context, "booked successfully", Toast.LENGTH_LONG).show();
         Intent intent=new Intent(context,com.example.dimot_bekalot.clientActivities.Main_Client_View.class);
         intent.putExtra("client_id",client_id);
-        intent.putExtra("check","1");
+    //    intent.putExtra("check","1");
         context.startActivity(intent);
     }
 
@@ -181,7 +181,7 @@ public class Update_Queues {
             }
         });
         Toast.makeText( context, "cancelled successfully", Toast.LENGTH_LONG).show();
-        Intent intent=new Intent(context,com.example.dimot_bekalot.clientActivities.Private_Area.class);
+        Intent intent=new Intent(context,com.example.dimot_bekalot.clientActivities.Main_Client_View.class);
         intent.putExtra("client_id",client_id);
         context.startActivity(intent);
     }
