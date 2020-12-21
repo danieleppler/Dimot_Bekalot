@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
@@ -16,6 +17,7 @@ import android.widget.Button;
 import android.widget.CalendarView;
 import android.widget.ListView;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 //import com.example.dimot_bekalot.ListQueuesInstituteActivity;
@@ -39,22 +41,24 @@ public class WatchingQueueActivity extends AppCompatActivity implements AdapterV
     private String institute_id;
 
     private FirebaseDatabase dataBase;
-    private DatabaseReference dbRef;
+    private DatabaseReference ref_queue;
 
     CalendarView calendar_view;
     Context context = this;
     Spinner spinner;
 
-
     List<String> queueWithHourAndNumID;
+
+    // for popup
+    Dialog dialog;
+    private TextView queue;
+    ListView lvQueues;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_watching_queue);
-        /*lock the screen-rotation for this activity*/
-        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
-        /**************************************/
 
         Intent intent = getIntent();
         institute_id = intent.getExtras().getString("instituteID");
@@ -69,13 +73,13 @@ public class WatchingQueueActivity extends AppCompatActivity implements AdapterV
         /* </Spinner> */
 
         dataBase = FirebaseDatabase.getInstance();
-        dbRef = dataBase.getReference(QUEUE);
+        ref_queue = dataBase.getReference(QUEUE);
         calendar_view = (CalendarView) findViewById(R.id.calendar);
 
         queueWithHourAndNumID = new ArrayList<>();
-        // touch date on the screen:
 
-        dbRef.addValueEventListener(new ValueEventListener() {
+        // touch date on the screen:
+        ref_queue.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 calendar_view.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
@@ -84,7 +88,7 @@ public class WatchingQueueActivity extends AppCompatActivity implements AdapterV
                         if(day >= 1 && day <= 9){ date = "0"+day; }
                         else{ date = day + ""; }
                         month++;
-                        if(month >= 0 && month <= 8){ date += ""+"0"+month;}
+                        if(month >= 1 && month <= 9){ date += ""+"0"+month;}
                         else{ date += month + "";}
                         date += ""+ String.valueOf(year).substring(2);
 
@@ -92,14 +96,15 @@ public class WatchingQueueActivity extends AppCompatActivity implements AdapterV
                             Toast.makeText(context,
                                     "נא לבחור סוג טיפול", Toast.LENGTH_SHORT).show();
                         else {
-//                            Log.d("check", typeOfTreatment+" "+ date);
                             for (DataSnapshot data : snapshot.child(institute_id).child("Treat_type").child(typeOfTreatment).child(date).getChildren()) {
                                 String hour = data.getKey();
                                 String id = data.child("Patient_id_attending").getValue().toString();
                                 String allQueue = hour + "\n" + id;
+                                Log.d("queue", allQueue);
                                 queueWithHourAndNumID.add(allQueue);
                             }
-                            goToList();
+//                            goToList();
+                            CreatePopupList();
                         }
                     }
                 });
@@ -109,6 +114,41 @@ public class WatchingQueueActivity extends AppCompatActivity implements AdapterV
 
         }); // dbRef.addValueEventListener
 
+    }
+
+    private void CreatePopupList(){
+            dialog = new Dialog(this);
+            dialog.setContentView(R.layout.popup_queue_per_day);
+
+            dialog.setTitle("Queue per day");
+
+            lvQueues = (ListView) dialog.findViewById(R.id.lvQueues);
+//            queue = (TextView) dialog.findViewById(R.id.watch_queue);
+
+        if(queueWithHourAndNumID.size()==0)
+            Toast.makeText(this, "אין תורים להצגה ביום שנבחר", Toast.LENGTH_SHORT).show();
+        else{
+            ArrayAdapter queuesAdapter = new ArrayAdapter <String> (context, R.layout.simple_list, R.id.textView_stam, queueWithHourAndNumID);
+            lvQueues.setAdapter(queuesAdapter);
+            lvQueues.setClickable(true);
+            lvQueues.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                    open_updateActivity(position);
+                }
+            });
+            dialog.show();
+        }
+    }
+
+    private void open_updateActivity(int position){
+        Intent update_intent = new Intent(context, UpdateQueueActivity.class);
+        update_intent.putExtra("instituteID", institute_id);
+        update_intent.putExtra("type", typeOfTreatment);
+        String q = queueWithHourAndNumID.get(position);
+        update_intent.putExtra("queue", q);
+        update_intent.putExtra("date", date);
+        startActivity(update_intent);
     }
 
     /* <Spinner> */
@@ -124,17 +164,16 @@ public class WatchingQueueActivity extends AppCompatActivity implements AdapterV
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {}
 
-
-    private void goToList(){
-        if(queueWithHourAndNumID.size()==0)
-            Toast.makeText(this, "אין תורים להצגה ביום שנבחר", Toast.LENGTH_SHORT).show();
-        else {
-            Intent list_intent = new Intent(context, ListQueuesInstituteActivity.class);
-            list_intent.putExtra("instituteID", institute_id);
-            list_intent.putExtra("type", typeOfTreatment);
-            list_intent.putExtra("date", date);
-            list_intent.putExtra("queues", (Serializable) queueWithHourAndNumID);
-            startActivity(list_intent);
-        }
-    }
+//    private void goToList(){
+//        if(queueWithHourAndNumID.size()==0)
+//            Toast.makeText(this, "אין תורים להצגה ביום שנבחר", Toast.LENGTH_SHORT).show();
+//        else {
+//            Intent list_intent = new Intent(context, ListQueuesInstituteActivity.class);
+//            list_intent.putExtra("instituteID", institute_id);
+//            list_intent.putExtra("type", typeOfTreatment);
+//            list_intent.putExtra("date", date);
+//            list_intent.putExtra("queues", (Serializable) queueWithHourAndNumID);
+//            startActivity(list_intent);
+//        }
+//    }
 }

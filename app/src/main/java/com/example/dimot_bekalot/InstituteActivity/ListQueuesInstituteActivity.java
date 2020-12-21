@@ -31,9 +31,6 @@ public class ListQueuesInstituteActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_list_queues_institute);
-        /*lock the screen-rotation for this activity*/
-        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
-        /**************************************/
 
         Intent intent = getIntent();
         institute_id = intent.getExtras().getString("instituteID");
@@ -41,7 +38,7 @@ public class ListQueuesInstituteActivity extends AppCompatActivity {
         date = intent.getExtras().getString("date");
         queues = (List<String>) intent.getSerializableExtra("queues");
 
-        lvQueues = (ListView)findViewById(R.id.lvQueues);
+        lvQueues = (ListView) findViewById(R.id.lvQueues);
 
         ArrayAdapter queuesAdapter = new ArrayAdapter <String> (context,R.layout.simple_list,R.id.textView_stam, queues);
         lvQueues.setAdapter(queuesAdapter);
