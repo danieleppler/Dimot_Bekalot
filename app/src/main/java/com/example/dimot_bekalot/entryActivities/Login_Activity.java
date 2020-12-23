@@ -70,7 +70,7 @@ public class Login_Activity extends AppCompatActivity {
                 }
                 /*end_validation_checking*/
 
-                loginCostumerInput = new Login_Input_Data(Strings_Tools.createNOTCleanUserName(UserName), password, email);
+                loginCostumerInput = new Login_Input_Data(Strings_Tools.createNOTCleanUserName(UserName,1,":"), password, email);
                 open_login_Verification_Activity();
             }
         });
