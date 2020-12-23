@@ -3,27 +3,35 @@ package com.example.dimot_bekalot.clientActivities;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.dimot_bekalot.R;
+import com.example.dimot_bekalot.dataObjects.MyDate;
 import com.example.dimot_bekalot.dataObjects.TreatmentQueue;
+import com.example.dimot_bekalot.dataObjects.Update_Queues;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -46,7 +54,11 @@ public class queue_src_res extends AppCompatActivity implements View.OnClickList
 
     FirebaseDatabase mDatabase;
     DatabaseReference queues_DB;
-    String check;
+
+    TreatmentQueue tq=new TreatmentQueue();
+    TextView queue_det;
+    String type = "", nameInstitute = "", city = "", day="", year = "20",chosen_queue;
+    Update_Queues uq;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -122,14 +134,34 @@ public class queue_src_res extends AppCompatActivity implements View.OnClickList
 
     void showPopup(int position)
     {
-        Intent intent = new Intent(context, com.example.dimot_bekalot.clientActivities.popup_queue_res.class);
-        intent.putExtra("chosen_queue",results[position]);
-        intent.putExtra("client_id",client_id);
-        intent.putExtra("queue_id", queues.get(position));
-        intent.setFlags( Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NO_HISTORY);
-        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-
-        startActivity(intent);
+        chosen_queue=results[position];
+        LayoutInflater inflater = this.getLayoutInflater();
+        View view = inflater.inflate(R.layout.activity_popup_queue_res, null);
+        queue_det = (TextView)view.findViewById(R.id.queue_det);
+        queue_det.setText(chosen_queue);
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setView(view);
+        builder.setTitle("האם אתה בטוח שברצונך לקבוע את התור")
+                .setNegativeButton("בטל", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        Intent intent=new Intent(context, com.example.dimot_bekalot.clientActivities.queue_src_res.class);
+                        intent.putExtra("queues", (Serializable) queues);
+                        intent.putExtra("client_id", client_id);
+                        startActivity(intent);
+                    }
+                })
+                .setPositiveButton("קבע", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        parse_treatment(tq);
+                        Log.d("check",tq.getDate()+""+tq.getNameInstitute()+""+tq.getNameInstitute()+""+tq.getCity()+""+tq.getIdPatient());
+                        uq=new Update_Queues();
+                        uq.update_new_Patient(client_id,tq,context);
+                    }
+                });
+        builder.create();
+        builder.show();
     }
 
     CountDownTimer timer = new CountDownTimer(15 *60 * 1000, 1000) {
@@ -147,4 +179,58 @@ public class queue_src_res extends AppCompatActivity implements View.OnClickList
             startActivity(intent);
         }
     };
+    private void parse_treatment(TreatmentQueue tq) {
+        int i = 0;
+        String hourT = "",minuteT = "",monthT = "";
+        while (chosen_queue.charAt(i) != ' ') {
+            city += chosen_queue.charAt(i);
+            i++;
+        }
+        while (chosen_queue.charAt(i) == ' ')
+            i++;
+        while (chosen_queue.charAt(i) != ' ') {
+            type += chosen_queue.charAt(i);
+            i++;
+        }
+        while (chosen_queue.charAt(i) == ' ')
+            i++;
+        while (chosen_queue.charAt(i) != ' ') {
+            nameInstitute += chosen_queue.charAt(i);
+            i++;
+        }
+        while (chosen_queue.charAt(i) == ' ')
+            i++;
+        while (chosen_queue.charAt(i) != '.') {
+            day += chosen_queue.charAt(i);
+            i++;
+        }
+        i++;
+        while (chosen_queue.charAt(i) != '.') {
+            monthT += chosen_queue.charAt(i);
+            i++;
+        }
+        i++;
+        while (chosen_queue.charAt(i) != ' ') {
+            year += chosen_queue.charAt(i);
+            i++;
+        }
+        while (chosen_queue.charAt(i) == ' ')
+            i++;
+
+        while (chosen_queue.charAt(i) != ':') {
+            hourT += chosen_queue.charAt(i);
+            i++;
+        }
+        i++;
+        while (i<chosen_queue.length()) {
+            minuteT += chosen_queue.charAt(i);
+            i++;
+        }
+        MyDate date=new MyDate(day,monthT,year,hourT,minuteT);
+        tq.setType(type);
+        tq.setCity(city);
+        tq.setDate(date);
+        tq.setNameInstitute(nameInstitute);
+        tq.setIdPatient(client_id);
+    }
 }

@@ -51,7 +51,7 @@ public class Main_Client_View extends AppCompatActivity implements View.OnClickL
         setContentView(R.layout.activity_main_client_view);
 
         check=getIntent().getStringExtra("check");
-        if (check.equals("0")) {
+       // if (check.equals("0")) {
             List<String> client_names = new ArrayList<>();
 
             //client_id=getIntent().getStringExtra("client_id");// real-time
@@ -83,7 +83,7 @@ public class Main_Client_View extends AppCompatActivity implements View.OnClickL
 
             });
         }
-    }
+    //}
 
     @Override
     public void onClick(View v) {

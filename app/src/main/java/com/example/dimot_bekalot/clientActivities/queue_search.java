@@ -3,19 +3,19 @@ package com.example.dimot_bekalot.clientActivities;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.DatePickerDialog;
 import android.content.Context;
 import android.content.Intent;
-import android.content.pm.ActivityInfo;
-import android.nfc.Tag;
 import android.os.Bundle;
 import android.os.CountDownTimer;
-import android.os.Parcel;
-import android.os.Parcelable;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.DatePicker;
+import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.dimot_bekalot.R;
@@ -26,9 +26,12 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.io.Serializable;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
-import java.util.concurrent.CountDownLatch;
+import java.util.Locale;
 
 public class queue_search extends AppCompatActivity implements View.OnClickListener, Serializable {
     private static final String TAG = "queue_search";
@@ -42,24 +45,80 @@ public class queue_search extends AppCompatActivity implements View.OnClickListe
     String city=" ";
     String client_id;
 
+    Date fromDate,toDate;
+
     Context context=this;
 
     FirebaseDatabase mDatabase;
     DatabaseReference queues_DB;
-
-
+    TextView toDate2,fromDate2;
+    DatePickerDialog.OnDateSetListener from_dateListener,to_dateListener;
+    Calendar toCalendar,fromCalendar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_queue_search);
+        //calender
+        toDate2= (TextView) findViewById(R.id.toDate);
+        fromDate2= (TextView) findViewById(R.id.fromDate);
+        fromDate2.setText("בחר");
+        toDate2.setText("בחר");
+        toCalendar = Calendar.getInstance();
+        fromCalendar=Calendar.getInstance();
+        from_dateListener = new DatePickerDialog.OnDateSetListener() {
+            @Override
+            public void onDateSet(DatePicker view, int year, int monthOfYear,
+                                  int dayOfMonth) {
+                // TODO Auto-generated method stub
+                Log.d("picked date",year+" "+(monthOfYear+1)+" "+dayOfMonth);
+                fromDate=new Date();
+                fromDate.setYear(year);
+                fromDate.setMonth(monthOfYear);
+                fromDate.setDate(dayOfMonth);
+                fromDate2.setText(dayOfMonth+"/"+monthOfYear+"/"+year);
+            }
+        };
+
+        to_dateListener = new DatePickerDialog.OnDateSetListener() {
+            @Override
+            public void onDateSet(DatePicker view, int year, int monthOfYear,
+                                  int dayOfMonth) {
+                // TODO Auto-generated method stub
+                toDate=new Date();
+                toDate.setYear(year);
+                toDate.setMonth(monthOfYear);
+                toDate.setDate(dayOfMonth);
+                toDate2.setText(dayOfMonth+"/"+monthOfYear+"/"+year);
+            }
+        };
+
+        fromDate2.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                // TODO Auto-generated method stub
+                new DatePickerDialog(context, from_dateListener, fromCalendar
+                        .get(Calendar.YEAR), fromCalendar.get(Calendar.MONTH),
+                        fromCalendar.get(Calendar.DAY_OF_MONTH)).show();
+            }
+        });
+
+        toDate2.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                // TODO Auto-generated method stub
+                new DatePickerDialog(context, to_dateListener, toCalendar
+                        .get(Calendar.YEAR), toCalendar.get(Calendar.MONTH),
+                        toCalendar.get(Calendar.DAY_OF_MONTH)).show();
+            }
+        });
 
         client_id=this.getIntent().getStringExtra("id");
 
         mDatabase = FirebaseDatabase.getInstance();
         queues_DB= mDatabase.getReference().child("Queues_search").child("City");
-
-        //need to see how to extract data from the db
 
         src_btn=(Button)findViewById(R.id.search_btn);
         src_btn.setOnClickListener(this);
@@ -105,11 +164,21 @@ public class queue_search extends AppCompatActivity implements View.OnClickListe
         {
             if(city.equals("choose") || treat_type.equals("choose")) {
                 if (treat_type.equals("choose")) {
-                    Toast toast = Toast.makeText(getApplicationContext(), "please choose a treatment type", Toast.LENGTH_SHORT);
+                    Toast toast = Toast.makeText(getApplicationContext(), "אנא בחר סוג טיפול", Toast.LENGTH_SHORT);
                     toast.show();
                 }
                 if (city.equals("choose")) {
-                    Toast toast = Toast.makeText(getApplicationContext(), "please choose a city", Toast.LENGTH_SHORT);
+                    Toast toast = Toast.makeText(getApplicationContext(), "אנא בחר עיר", Toast.LENGTH_SHORT);
+                    toast.show();
+                }
+                if(fromDate==null&& toDate!=null)
+                {
+                    Toast toast = Toast.makeText(getApplicationContext(), "אנא בחר טווח תאריך מקסימלי", Toast.LENGTH_SHORT);
+                    toast.show();
+                }
+                if(fromDate!=null&&toDate==null)
+                {
+                    Toast toast = Toast.makeText(getApplicationContext(), "אנא בחר טווח תאריך מינימלי", Toast.LENGTH_SHORT);
                     toast.show();
                 }
             }
@@ -126,8 +195,30 @@ public class queue_search extends AppCompatActivity implements View.OnClickListe
                                     if(data2.getKey().equals(treat_type))
                                         for (DataSnapshot data3:data2.getChildren()
                                              ) {
-                                            if(data3.child("Patient_id_attending").getValue().toString().equals("TBD"))
-                                                queues_id.add(data3.getKey());
+                                            if(data3.child("Patient_id_attending").getValue().toString().equals("TBD")){
+                                                if(fromDate!=null && toDate!=null)
+                                                {
+                                                    String tempDate=data3.child("date").getValue().toString();
+                                                    int year=Integer.parseInt("20"+tempDate.substring(6,8));
+                                                    int month=Integer.parseInt(tempDate.substring(3,5))-1;
+                                                    int day=Integer.parseInt(tempDate.substring(0,2));
+                                                    Log.d("check from date", String.valueOf(fromDate.getDate())+" "+(fromDate.getYear())+" "
+                                                            +(fromDate.getMonth()));
+                                                    Log.d("check to date", String.valueOf(toDate.getDate())+" "+(toDate.getYear())+" "
+                                                            +(toDate.getMonth()));
+                                                    Log.d("check tempDate", year+" "+month+" "+day);
+                                                    if ((year>=fromDate.getYear() && year<=toDate.getYear())
+                                                    &&(month>=fromDate.getMonth() && month<=toDate.getMonth())
+                                                    &&(day>=fromDate.getDate() && day<=toDate.getDate()))
+                                                        queues_id.add(data3.getKey());
+                                                }
+                                                else
+                                                    queues_id.add(data3.getKey());
+                                        }
+                                        else
+                                            {
+                                                //רשימת המתנה
+                                            }
                                         }
                                 }
                         }
@@ -170,5 +261,6 @@ public class queue_search extends AppCompatActivity implements View.OnClickListe
             startActivity(intent);
         }
     };
+
 
 }

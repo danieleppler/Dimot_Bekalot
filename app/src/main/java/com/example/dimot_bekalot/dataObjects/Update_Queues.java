@@ -124,6 +124,7 @@ public class Update_Queues {
                     if (data.child("institute").getValue().equals(tq.getNameInstitute())&&data.child("date").getValue().equals(date)
                             &&data.child("time").getValue().equals(time)&&data.child("treat_type").getValue().equals(tq.getType())) {
                         Queues_ref.child(data.getKey()).child("Patient_id_attending").setValue("TBD");
+                        Log.d("check","booked in queues");
                         break;
                     }
                 }
@@ -140,6 +141,7 @@ public class Update_Queues {
                 ) {
                     if (data.child("date").getValue().equals(date) && data.child("time").getValue().equals(time) && data.child("institute").getValue().equals(tq.getNameInstitute())) {
                         queues_src_ref.child("City").child(tq.getCity()).child("treat_type").child(tq.getType()).child(data.getKey()).child("Patient_id_attending").setValue("TBD");
+                        Log.d("check","booked in queue_src");
                         break;
                     }
                 }
@@ -165,6 +167,7 @@ public class Update_Queues {
                             queues_inst_ref.child(inst_id).child("Treat_type").child(tq.getType()).
                                     child(tq.getDate().getDay() + tq.getDate().getMonth() + tq.getDate().getYear().substring(2))
                                     .child(tq.getDate().getHour() + tq.getDate().getMinute()).child("Patient_id_attending").setValue("TBD");
+                            Log.d("check","booked in inst_ref");
                         }
 
                         @Override
