@@ -3,7 +3,9 @@ package com.example.dimot_bekalot.dataObjects;
 
 public class TreatmentQueue {
     public MyDate _date;
-    private String _type, _nameInstitute, _city, _idPatient;
+    private String _type,
+            _nameInstitute, _city,
+            _idPatient;
 
     public TreatmentQueue(){}
 
