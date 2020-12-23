@@ -11,7 +11,6 @@
     <include android:id="@+id/include" layout="@layout/toolbar" />
 
     <TextView
-        android:id="@+id/title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="100dp"
@@ -30,7 +29,31 @@
 
         <TableRow>
             <TextView
-                android:id="@+id/data_email"
+                android:id="@+id/input_name_contact"
+                android:layout_width="250dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="שם איש קשר"
+            android:textStyle="bold"
+            android:layout_weight="1"
+            android:gravity="center"/>
+
+        </TableRow>
+
+<!--    space between 2 rows    -->
+        <TableRow>
+            <TextView/>
+        </TableRow>
+
+
+        <TableRow>
+            <TextView
+                android:id="@+id/input_email"
                 android:layout_width="250dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -51,13 +74,10 @@
         <TableRow>
             <TextView/>
         </TableRow>
-        <TableRow>
-            <TextView/>
-        </TableRow>
 
         <TableRow>
             <TextView
-                android:id="@+id/data_phone_number"
+                android:id="@+id/input_phone_number"
                 android:layout_width="250dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -79,13 +99,10 @@
         <TableRow>
             <TextView/>
         </TableRow>
-        <TableRow>
-            <TextView/>
-        </TableRow>
 
         <TableRow>
             <TextView
-                android:id="@+id/data_password"
+                android:id="@+id/input_password"
                 android:layout_width="250dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -106,12 +123,10 @@
         <TableRow>
             <TextView/>
         </TableRow>
-        <TableRow>
-            <TextView/>
-        </TableRow>
+
         <TableRow>
             <TextView
-                    android:id="@+id/data_name_institute"
+                android:id="@+id/input_name_institute"
                 android:layout_width="250dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -128,9 +143,6 @@
 
         </TableRow>
 
-        <TableRow>
-            <TextView/>
-        </TableRow>
         <!--    space between 2 rows    -->
         <TableRow>
             <TextView
@@ -141,7 +153,7 @@
 
         <TableRow>
             <TextView
-                android:id="@+id/data_id"
+                android:id="@+id/input_id"
                 android:layout_width="250dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -163,14 +175,11 @@
         <TableRow>
             <TextView/>
         </TableRow>
-        <TableRow>
-            <TextView/>
-        </TableRow>
 
 
         <TableRow>
             <TextView
-                android:id="@+id/data_location"
+                android:id="@+id/input_location"
                 android:layout_width="250dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"

@@ -14,12 +14,10 @@
         android:theme="@style/Theme.Dimot_Bekalot2">
         <activity android:name=".InstituteActivity.ListQueuesInstituteActivity"></activity>
         <activity android:name=".clientActivities.edit_client_det" />
-        <activity android:name=".clientActivities.popup_queue_show_res" />
         <activity android:name=".clientActivities.show_queues_res" />
         <activity android:name=".entryActivities.Forget_Password_Activity" />
         <activity android:name=".entryActivities.EMail_Verification_Activity" />
         <activity android:name=".clientActivities.inst_list" />
-        <activity android:name=".clientActivities.popup_queue_res" />
         <activity android:name=".clientActivities.Main_Client_View" />
         <activity android:name=".clientActivities.Private_Area" />
         <activity android:name=".clientActivities.queue_search" />
@@ -33,6 +31,7 @@
         <activity android:name=".InstituteActivity.InstituteMain" />
         <activity android:name=".InstituteActivity.AddQueueActivity" />
         <activity android:name=".InstituteActivity.WatchingQueueActivity" />
+
         <activity android:name=".entryActivities.Main_Activity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
