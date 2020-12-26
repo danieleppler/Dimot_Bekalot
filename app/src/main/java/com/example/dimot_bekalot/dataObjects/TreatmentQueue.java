@@ -59,4 +59,9 @@ public class TreatmentQueue {
         this._city = _city;
     }
 
+    public String toString()
+    {
+        return _nameInstitute+"     "+_city+"       "+_date.toString();
+    }
+
 }
