@@ -38,7 +38,7 @@ public class Forget_Password_Activity extends AppCompatActivity {
 
     private EditText userName_ID_input_and_password_1;
     private EditText email_input_and_password_2;
-    private TextView forgetPassword_MainTaxt;
+    private TextView forgetPassword_MainText;
 
     private FirebaseDatabase dataBase;
     private DatabaseReference myDataBase;
@@ -121,9 +121,9 @@ public class Forget_Password_Activity extends AppCompatActivity {
 
                         send_new_password.setVisibility(View.VISIBLE);
                         send_emailAndUserID_and_newPassword.setVisibility(View.INVISIBLE);
-                        forgetPassword_MainTaxt = (TextView) findViewById(R.id.forget_password_main_text);
-                        forgetPassword_MainTaxt.setText("זיכרו, תוכלו לשנות את הסיסמא רק אם הרפטים הקודמים שמלאתם נכונים");
-                        forgetPassword_MainTaxt.setTextSize(25);
+                        forgetPassword_MainText = (TextView) findViewById(R.id.forget_password_main_text);
+                        forgetPassword_MainText.setText("זיכרו, תוכלו לשנות את הסיסמא רק אם הרפטים הקודמים שמלאתם נכונים");
+                        forgetPassword_MainText.setTextSize(25);
                         userName_ID_input_and_password_1.setText("");
                         email_input_and_password_2.setText("");
                         userName_ID_input_and_password_1.setHint("הכנס סיסמא חדשה");

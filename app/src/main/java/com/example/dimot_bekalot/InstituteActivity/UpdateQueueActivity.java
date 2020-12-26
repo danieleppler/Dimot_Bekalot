@@ -27,7 +27,6 @@ public class UpdateQueueActivity extends AppCompatActivity implements View.OnCli
     TextView IDInput, dateInput, timeInput, typeInput;
     Button updateClientToQueue;
 
-
     private static final String Queues = "Queues_institute";
     private FirebaseDatabase dataBase;
     private DatabaseReference dbRef_queue_institute;
@@ -89,9 +88,6 @@ public class UpdateQueueActivity extends AppCompatActivity implements View.OnCli
                     if (STOP_RUN == 0) {
                         UpdatesAndAddsQueues up = new UpdatesAndAddsQueues(institute_id, id_patient_input.toString(), date, theTime, typeOfTreatment);
                         up.update();
-//                        dbRef_queue_institute.child(institute_id).child("Treat_type")
-//                                .child(typeOfTreatment).child(date).child(theTime)
-//                                .child("Patient_id_attending").setValue(id_patient_input.toString());
                         STOP_RUN = 1;
                         goBackToCalendar();
                     }
@@ -108,6 +104,7 @@ public class UpdateQueueActivity extends AppCompatActivity implements View.OnCli
     }
 
     private void goBackToCalendar(){
+
         Intent goBack_intent = new Intent(this, WatchingQueueActivity.class);
         goBack_intent.putExtra("instituteID", institute_id);
         startActivity(goBack_intent);

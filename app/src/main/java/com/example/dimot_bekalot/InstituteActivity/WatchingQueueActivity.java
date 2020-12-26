@@ -21,6 +21,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 //import com.example.dimot_bekalot.ListQueuesInstituteActivity;
+import com.example.dimot_bekalot.Tools.Strings_Tools;
 import com.example.dimot_bekalot.R;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -98,12 +99,12 @@ public class WatchingQueueActivity extends AppCompatActivity implements AdapterV
                         else {
                             for (DataSnapshot data : snapshot.child(institute_id).child("Treat_type").child(typeOfTreatment).child(date).getChildren()) {
                                 String hour = data.getKey();
+                                String hourToViewInList = Strings_Tools.createNOTCleanUserName(hour, 2, ":");
                                 String id = data.child("Patient_id_attending").getValue().toString();
-                                String allQueue = hour + "\n" + id;
+                                String allQueue = hourToViewInList + "\n" + id;
                                 Log.d("queue", allQueue);
                                 queueWithHourAndNumID.add(allQueue);
                             }
-//                            goToList();
                             CreatePopupList();
                         }
                     }
@@ -123,30 +124,33 @@ public class WatchingQueueActivity extends AppCompatActivity implements AdapterV
             dialog.setTitle("Queue per day");
 
             lvQueues = (ListView) dialog.findViewById(R.id.lvQueues);
-//            queue = (TextView) dialog.findViewById(R.id.watch_queue);
+            List<String> tmp = new ArrayList<String>();
+            for(String data : queueWithHourAndNumID){ tmp.add(data); }
+            queueWithHourAndNumID.clear();
 
-        if(queueWithHourAndNumID.size()==0)
+        if(0 == tmp.size())
             Toast.makeText(this, "אין תורים להצגה ביום שנבחר", Toast.LENGTH_SHORT).show();
         else{
-            ArrayAdapter queuesAdapter = new ArrayAdapter <String> (context, R.layout.simple_list, R.id.textView_stam, queueWithHourAndNumID);
+            ArrayAdapter queuesAdapter = new ArrayAdapter <String> (context, R.layout.simple_list, R.id.textView_stam, tmp);
             lvQueues.setAdapter(queuesAdapter);
             lvQueues.setClickable(true);
             lvQueues.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                    open_updateActivity(position);
+                    open_updateActivity(position, tmp);
                 }
             });
             dialog.show();
         }
     }
 
-    private void open_updateActivity(int position){
+    private void open_updateActivity(int position, List<String> tmp){
         Intent update_intent = new Intent(context, UpdateQueueActivity.class);
         update_intent.putExtra("instituteID", institute_id);
         update_intent.putExtra("type", typeOfTreatment);
-        String q = queueWithHourAndNumID.get(position);
-        update_intent.putExtra("queue", q);
+        String q = tmp.get(position);
+        String queueOutput = q.substring(0,2) + "" +q.substring(3); // erase ":"
+        update_intent.putExtra("queue", queueOutput);
         update_intent.putExtra("date", date);
         startActivity(update_intent);
     }
@@ -164,16 +168,4 @@ public class WatchingQueueActivity extends AppCompatActivity implements AdapterV
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {}
 
-//    private void goToList(){
-//        if(queueWithHourAndNumID.size()==0)
-//            Toast.makeText(this, "אין תורים להצגה ביום שנבחר", Toast.LENGTH_SHORT).show();
-//        else {
-//            Intent list_intent = new Intent(context, ListQueuesInstituteActivity.class);
-//            list_intent.putExtra("instituteID", institute_id);
-//            list_intent.putExtra("type", typeOfTreatment);
-//            list_intent.putExtra("date", date);
-//            list_intent.putExtra("queues", (Serializable) queueWithHourAndNumID);
-//            startActivity(list_intent);
-//        }
-//    }
 }
