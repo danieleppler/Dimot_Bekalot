@@ -3,7 +3,9 @@ package com.example.dimot_bekalot.dataObjects;
 
 public class TreatmentQueue {
     public MyDate _date;
-    private String _type, _nameInstitute, _city, _idPatient;
+    private String _type,
+            _nameInstitute, _city,
+            _idPatient;
 
     public TreatmentQueue(){}
 
@@ -55,6 +57,11 @@ public class TreatmentQueue {
 
     public void setCity(String _city) {
         this._city = _city;
+    }
+
+    public String toString()
+    {
+        return _nameInstitute+"     "+_city+"       "+_date.toString();
     }
 
 }

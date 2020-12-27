@@ -17,7 +17,7 @@
         <activity android:name=".entryActivities.Forget_Password_Activity" />
         <activity android:name=".entryActivities.EMail_Verification_Activity" />
         <activity android:name=".clientActivities.inst_list" />
-        <activity android:name=".clientActivities.Main_Client_View" />
+        <activity android:name=".entryActivities.Main_Activity" />
         <activity android:name=".clientActivities.Private_Area" />
         <activity android:name=".clientActivities.queue_search" />
         <activity android:name=".clientActivities.queue_src_res" />
@@ -27,11 +27,10 @@
         <activity android:name=".dataObjects.Institute_data_activity" />
         <activity android:name=".entryActivities.Register_Institute_Activity" />
         <activity android:name=".entryActivities.Register_Main_Activity" />
-        <activity android:name=".InstituteActivity.InstituteMain" />
+        <activity android:name=".clientActivities.Main_Client_View" />
         <activity android:name=".InstituteActivity.AddQueueActivity" />
         <activity android:name=".InstituteActivity.WatchingQueueActivity" />
-
-        <activity android:name=".entryActivities.Main_Activity">
+        <activity android:name=".InstituteActivity.InstituteMain">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

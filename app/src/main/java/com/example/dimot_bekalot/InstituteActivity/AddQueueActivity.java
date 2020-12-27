@@ -79,13 +79,17 @@ public class AddQueueActivity extends AppCompatActivity implements View.OnClickL
             String str_time[] = time_input.split(":", 2);
             String theTime = str_time[0] + "" + str_time[1];
 
+            Log.d("hey -> ", "jey");
+
             dbRef_queue_institute.addValueEventListener(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot snapshot) {
 
                     if (STOP_RUN == 0) {
                         if (snapshot.child(institute_id).exists()) {
-
+                            if(!snapshot.child(institute_id).child("Treat_type").exists()){
+                                dbRef_queue_institute.child(institute_id).setValue("Treat_type");
+                            }
                             if (snapshot.child(institute_id).child("Treat_type").child(type).exists()) {
 
                                 if (snapshot.child(institute_id).child("Treat_type").child(type).child(theDate).exists()) {
@@ -105,6 +109,7 @@ public class AddQueueActivity extends AppCompatActivity implements View.OnClickL
                                 }
                             } else { // child(type) not exist
                                 STOP_RUN = 1;
+                                Log.d("type => ", "type");
                                 add_DB_Type(institute_id, theDate, theTime, id_patient_input);
                             }
                         }
@@ -139,21 +144,28 @@ public class AddQueueActivity extends AppCompatActivity implements View.OnClickL
 
     private void add_DB_ID(String institute_id, String theDate, String theTime, String id_patient_input){
         UpdatesAndAddsQueues a = new UpdatesAndAddsQueues(institute_id, id_patient_input, theDate, theTime, type);
+        Log.d("add_1 => ", "bye");
         a.addID();
     }
 
     private void add_DB_Type(String institute_id, String theDate, String theTime, String id_patient_input){
         UpdatesAndAddsQueues a = new UpdatesAndAddsQueues(institute_id, id_patient_input, theDate, theTime, type);
+        Log.d("add_2 => ", "bye");
+
         a.addType();
     }
 
     private void add_DB_Date_time(String institute_id, String theDate, String theTime, String id_patient_input) {
         UpdatesAndAddsQueues a = new UpdatesAndAddsQueues(institute_id, id_patient_input, theDate, theTime, type);
+        Log.d("add_3 => ", "bye");
+
         a.addDate();
     }
 
     private void add_DB_time(String institute_id, String theDate, String theTime, String id_patient_input) {
         UpdatesAndAddsQueues a = new UpdatesAndAddsQueues(institute_id, id_patient_input, theDate, theTime, type);
+        Log.d("add_4 => ", "bye");
+
         a.addTime();
     }
 

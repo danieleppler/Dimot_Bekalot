@@ -110,6 +110,8 @@ public class UpdatesAndAddsQueues {
 
         String patientIdToDB = id_patient.substring(2);
 
+        Log.d("add() => ", "enter");
+
         ref_institute.addListenerForSingleValueEvent(new ValueEventListener() {
              @Override
              public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -125,10 +127,26 @@ public class UpdatesAndAddsQueues {
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 numOfQueue = ref_QueuesSearch.push().getKey();
 
-                ref_QueuesSearch.setValue("City");
-                ref_QueuesSearch.child("City").setValue(city);
-                ref_QueuesSearch.child("City").child(city).setValue("Treat_type");
-                ref_QueuesSearch.child("City").child(city).child("Treat_type").setValue(type);
+                Log.d("ref_QueuesSearch => ", "enter");
+
+                Log.d("city => ", city);
+
+
+                if (!snapshot.child("City").exists()) {
+                    ref_QueuesSearch.setValue("City");
+                }
+                if (!snapshot.child("City").child(city).exists()){
+                    Log.d("1 => ", "yes");
+                    ref_QueuesSearch.child("City").setValue(city);
+                }
+                if(!snapshot.child("City").child(city).child("Treat_type").exists()) {
+                    Log.d("2 => ", "yes");
+                    ref_QueuesSearch.child("City").child(city).setValue("Treat_type");
+                }
+                if(!snapshot.child("City").child(city).child("Treat_type").child(type).exists()) {
+                    ref_QueuesSearch.child("City").child(city).child("Treat_type").setValue(type);
+                }
+
                 ref_QueuesSearch.child("City").child(city).child("Treat_type").child(type).setValue(numOfQueue);
 
                 ref_QueuesSearch.child("City").child(city).child("Treat_type").child(type).child(numOfQueue).setValue("patient_id_attending");

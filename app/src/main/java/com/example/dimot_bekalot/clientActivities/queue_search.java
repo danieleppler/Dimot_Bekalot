@@ -3,12 +3,15 @@ package com.example.dimot_bekalot.clientActivities;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
@@ -19,6 +22,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.dimot_bekalot.R;
+import com.example.dimot_bekalot.dataObjects.MyDate;
+import com.example.dimot_bekalot.dataObjects.TreatmentQueue;
+import com.example.dimot_bekalot.dataObjects.Update_Queues;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -54,6 +60,9 @@ public class queue_search extends AppCompatActivity implements View.OnClickListe
     TextView toDate2,fromDate2;
     DatePickerDialog.OnDateSetListener from_dateListener,to_dateListener;
     Calendar toCalendar,fromCalendar;
+
+    TextView queue_det;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -185,47 +194,69 @@ public class queue_search extends AppCompatActivity implements View.OnClickListe
             else {
                 queues_DB.addValueEventListener(new ValueEventListener()
                 {
+                    boolean isBetweenDate=true;
+                    boolean showPreferenceToast=true; //bin
+                    boolean alreadyOnTheList=false;
                     List<String> queues_id=new ArrayList<>();
                     @Override
                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                         for(DataSnapshot data   :   dataSnapshot.getChildren()) {
                             if (data.getKey().equals(city))
-                                for (DataSnapshot data2:data.child("treat_type").getChildren()
+                                for (DataSnapshot data2:data.child("Treat_type").getChildren()
                                      ) {
                                     if(data2.getKey().equals(treat_type))
                                         for (DataSnapshot data3:data2.getChildren()
                                              ) {
-                                            if(data3.child("Patient_id_attending").getValue().toString().equals("TBD")){
-                                                if(fromDate!=null && toDate!=null)
-                                                {
-                                                    String tempDate=data3.child("date").getValue().toString();
-                                                    int year=Integer.parseInt("20"+tempDate.substring(6,8));
-                                                    int month=Integer.parseInt(tempDate.substring(3,5))-1;
-                                                    int day=Integer.parseInt(tempDate.substring(0,2));
-                                                    Log.d("check from date", String.valueOf(fromDate.getDate())+" "+(fromDate.getYear())+" "
-                                                            +(fromDate.getMonth()));
-                                                    Log.d("check to date", String.valueOf(toDate.getDate())+" "+(toDate.getYear())+" "
-                                                            +(toDate.getMonth()));
-                                                    Log.d("check tempDate", year+" "+month+" "+day);
-                                                    if ((year>=fromDate.getYear() && year<=toDate.getYear())
-                                                    &&(month>=fromDate.getMonth() && month<=toDate.getMonth())
-                                                    &&(day>=fromDate.getDate() && day<=toDate.getDate()))
-                                                        queues_id.add(data3.getKey());
+                                            String tempDate = data3.child("date").getValue().toString();
+                                            int year = Integer.parseInt("20" + tempDate.substring(6, 8));
+                                            int month = Integer.parseInt(tempDate.substring(3, 5)) - 1;
+                                            int day = Integer.parseInt(tempDate.substring(0, 2));
+                                            String hour=data3.child("time").getValue().toString().substring(0,2);
+                                            String minute=data3.child("time").getValue().toString().substring(3,5);
+                                            if(fromDate!=null && toDate!=null) {
+                                                if ((year >= fromDate.getYear() && year <= toDate.getYear())
+                                                        && (month >= fromDate.getMonth() && month <= toDate.getMonth())
+                                                        && (day >= fromDate.getDate() && day <= toDate.getDate())) {
+                                                    isBetweenDate = true;
                                                 }
-                                                else
-                                                    queues_id.add(data3.getKey());
-                                        }
-                                        else
-                                            {
-                                                //רשימת המתנה
+                                                   else isBetweenDate = false;
                                             }
+                                            if(data3.child("patient_id_attending").getValue().toString().equals("TBD")) {
+                                                if (isBetweenDate)
+                                                    queues_id.add(data3.getKey());
+                                            }
+                                                else {
+                                                if (!data3.child("patient_id_attending").getValue().toString().equals(client_id))
+                                                    if (isBetweenDate)
+                                                    {
+                                                        for (DataSnapshot data4:data3.child("Waiting_list").getChildren()
+                                                             ) {
+                                                            if (data4.getKey().equals(client_id))
+                                                                alreadyOnTheList=true;
+                                                        }
+                                                        if (!alreadyOnTheList) {
+                                                            for (DataSnapshot data4 : data3.child("Waiting_list").getChildren()
+                                                            ) {
+                                                                if (data4.getValue().toString().equals("TBD")) {
+                                                                    TreatmentQueue tq = new TreatmentQueue(new MyDate(String.valueOf(day), String.valueOf(month + 1)
+                                                                            , String.valueOf(year), hour, minute), client_id, treat_type, data3.child("institute").getValue().toString()
+                                                                            , city);
+                                                                    Showpopup(tq, data4.getKey());
+                                                                    break;
+                                                                }
+                                                            }
+                                                        }
+                                                   }
+                                                }
                                         }
                                 }
                         }
                             if(queues_id.size()==0)
                             {
-                                Toast toast = Toast.makeText(getApplicationContext(), "there is no results for your preference", Toast.LENGTH_SHORT);
-                                toast.show();
+                                if(showPreferenceToast) { //bin
+                                    Toast toast = Toast.makeText(getApplicationContext(), "אין תוצאות העונות לחיפושך", Toast.LENGTH_SHORT);
+                                    toast.show();
+                                } // bin
                             }
                             else {
                                 Intent intent = new Intent(context, com.example.dimot_bekalot.clientActivities.queue_src_res.class);
@@ -262,5 +293,30 @@ public class queue_search extends AppCompatActivity implements View.OnClickListe
         }
     };
 
-
+    void Showpopup(TreatmentQueue tq,String position)
+    {
+        LayoutInflater inflater = this.getLayoutInflater();
+        View view = inflater.inflate(R.layout.popup_waiting_list, null);
+        queue_det = (TextView)view.findViewById(R.id.waiting_queue_det);
+        queue_det.setText(tq.toString());
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setView(view);
+        builder.setTitle("לא נמצאו תורים זמינים העונים לחיפושך, האם אתה רוצה להיכנה לרשימת המתנה לתור:")
+                .setNegativeButton("לא", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        Intent intent=new Intent(context, com.example.dimot_bekalot.clientActivities.queue_search.class);
+                        intent.putExtra("client_id", client_id);
+                        startActivity(intent);
+                    }
+                }).setPositiveButton("כן,תכניס אותי", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                Update_Queues uq=new Update_Queues();
+                uq.update_waiting_list(client_id,tq,position,context);
+            }
+        });
+        builder.create();
+        builder.show();
+    }
 }

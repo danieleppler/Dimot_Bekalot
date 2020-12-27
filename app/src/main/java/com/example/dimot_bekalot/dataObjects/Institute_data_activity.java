@@ -5,11 +5,14 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.Dialog;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -104,6 +107,7 @@ public class Institute_data_activity extends AppCompatActivity implements View.O
         address.setOnClickListener(this);
         email.setOnClickListener(this);
         institute_id.setOnClickListener(this);
+
 
     }
 
@@ -242,6 +246,5 @@ public class Institute_data_activity extends AppCompatActivity implements View.O
         }
         DB_ChangePassword.changePasswordAtRealDB(INSTITUTES, data_institute, newPassword);
     }
-
 
 }
