@@ -100,8 +100,8 @@ public class WatchingQueueActivity extends AppCompatActivity implements AdapterV
                             for (DataSnapshot data : snapshot.child(institute_id).child("Treat_type").child(typeOfTreatment).child(date).getChildren()) {
                                 String hour = data.getKey();
                                 String hourToViewInList = Strings_Tools.createNOTCleanUserName(hour, 2, ":");
-                                String id = data.child("Patient_id_attending").getValue().toString();
-                                String allQueue = hourToViewInList + "\n" + id;
+                                String id = data.child("patient_id_attending").getValue().toString();
+                                String allQueue = "שעה: " +hourToViewInList + "\n" + "מספר תעודת זהות: " + id;
                                 Log.d("queue", allQueue);
                                 queueWithHourAndNumID.add(allQueue);
                             }
@@ -149,7 +149,7 @@ public class WatchingQueueActivity extends AppCompatActivity implements AdapterV
         update_intent.putExtra("instituteID", institute_id);
         update_intent.putExtra("type", typeOfTreatment);
         String q = tmp.get(position);
-        String queueOutput = q.substring(0,2) + "" +q.substring(3); // erase ":"
+        String queueOutput = q.substring(0,2) + "" +q.substring(3); // erase ":" from time
         update_intent.putExtra("queue", queueOutput);
         update_intent.putExtra("date", date);
         startActivity(update_intent);

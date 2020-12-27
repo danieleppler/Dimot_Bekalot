@@ -93,22 +93,22 @@ public class AddQueueActivity extends AppCompatActivity implements View.OnClickL
                                     if (snapshot.child(institute_id).child("Treat_type").child(type).child(theDate).child(theTime).exists()) {
                                         Toast.makeText(AddQueueActivity.this,
                                                 "התור כבר תפוס לתאריך והשעה הנתונים", Toast.LENGTH_SHORT).show();
-                                    } else {
+                                    } else { // child(time) not exist
                                         STOP_RUN = 1;
                                         add_DB_time(institute_id, theDate, theTime, id_patient_input);
                                         Toast.makeText(AddQueueActivity.this,
                                                 "התור נקבע בהצלחה!", Toast.LENGTH_SHORT).show();
                                     }
-                                } else {
+                                } else { // child(date) not exist
                                     STOP_RUN = 1;
                                     add_DB_Date_time(institute_id, theDate, theTime, id_patient_input);
                                 }
-                            } else {
+                            } else { // child(type) not exist
                                 STOP_RUN = 1;
                                 add_DB_Type(institute_id, theDate, theTime, id_patient_input);
                             }
                         }
-                    } else {
+                    } else { // child(institute_id) not exist
                         STOP_RUN = 1;
                         add_DB_ID(institute_id, theDate, theTime, id_patient_input);
                     }

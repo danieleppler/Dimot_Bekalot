@@ -104,7 +104,6 @@ public class UpdateQueueActivity extends AppCompatActivity implements View.OnCli
     }
 
     private void goBackToCalendar(){
-
         Intent goBack_intent = new Intent(this, WatchingQueueActivity.class);
         goBack_intent.putExtra("instituteID", institute_id);
         startActivity(goBack_intent);

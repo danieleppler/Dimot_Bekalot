@@ -39,6 +39,8 @@ public class UpdatesAndAddsQueues {
         ref_QueuesSearch = dataBase.getReference(queues_search);
         ref_institute = dataBase.getReference(institute);
 
+        String patientIdToDB = id_patient.substring(2);
+
         ref_institute.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -55,8 +57,8 @@ public class UpdatesAndAddsQueues {
                 StringBuilder newDate = new StringBuilder(date);
                 newDate.insert(2, ".");
                 newDate.insert(5, ".");
-
                 String newHour = Strings_Tools.createNOTCleanUserName(hour, 2, ":");
+
                 for(DataSnapshot data : snapshot.getChildren()){
                     if( data.child("date").getValue().toString().equals(newDate.toString()) &&
                             data.child("time").getValue().toString().equals(newHour) ){
@@ -64,7 +66,7 @@ public class UpdatesAndAddsQueues {
                         break;
                     }
                 }
-                ref_Queues.child(numOfQueue).child("Patient_id_attending").setValue(id_patient);
+                ref_Queues.child(numOfQueue).child("patient_id_attending").setValue(patientIdToDB);
             }
             @Override
             public void onCancelled(@NonNull DatabaseError error) {}
@@ -74,7 +76,7 @@ public class UpdatesAndAddsQueues {
                 .child("treat_type").child(type).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                ref_QueuesSearch.child(numOfQueue).child("Patient_id_attending").setValue(id_patient);
+                ref_QueuesSearch.child(numOfQueue).child("patient_id_attending").setValue(patientIdToDB);
             }
             @Override
             public void onCancelled(@NonNull DatabaseError error) { }
@@ -85,7 +87,7 @@ public class UpdatesAndAddsQueues {
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                     ref_QueuesInstitute.child(id_institute).child("Treat_type")
                             .child(type).child(date).child(hour)
-                            .child("Patient_id_attending").setValue(id_patient);
+                            .child("patient_id_attending").setValue(patientIdToDB);
             }
 
             @Override
@@ -106,6 +108,7 @@ public class UpdatesAndAddsQueues {
         newDate.insert(5, ".");
         String newHour = Strings_Tools.createNOTCleanUserName(hour, 2, ":");
 
+        String patientIdToDB = id_patient.substring(2);
 
         ref_institute.addListenerForSingleValueEvent(new ValueEventListener() {
              @Override
@@ -124,22 +127,22 @@ public class UpdatesAndAddsQueues {
 
                 ref_QueuesSearch.setValue("City");
                 ref_QueuesSearch.child("City").setValue(city);
-                ref_QueuesSearch.child("City").child(city).setValue("treat_type");
-                ref_QueuesSearch.child("City").child(city).child("treat_type").setValue(type);
-                ref_QueuesSearch.child("City").child(city).child("treat_type").child(type).setValue(numOfQueue);
+                ref_QueuesSearch.child("City").child(city).setValue("Treat_type");
+                ref_QueuesSearch.child("City").child(city).child("Treat_type").setValue(type);
+                ref_QueuesSearch.child("City").child(city).child("Treat_type").child(type).setValue(numOfQueue);
 
-                ref_QueuesSearch.child("City").child(city).child("treat_type").child(type).child(numOfQueue).setValue("Patient_id_attending");
-                ref_QueuesSearch.child("City").child(city).child("treat_type").child(type).child(numOfQueue).setValue("date");
-                ref_QueuesSearch.child("City").child(city).child("treat_type").child(type).child(numOfQueue).setValue("institute");
-                ref_QueuesSearch.child("City").child(city).child("treat_type").child(type).child(numOfQueue).setValue("time");
+                ref_QueuesSearch.child("City").child(city).child("Treat_type").child(type).child(numOfQueue).setValue("patient_id_attending");
+                ref_QueuesSearch.child("City").child(city).child("Treat_type").child(type).child(numOfQueue).setValue("date");
+                ref_QueuesSearch.child("City").child(city).child("Treat_type").child(type).child(numOfQueue).setValue("institute");
+                ref_QueuesSearch.child("City").child(city).child("Treat_type").child(type).child(numOfQueue).setValue("time");
 
-                ref_QueuesSearch.child("City").child(city).child("treat_type").child(type)
-                        .child(numOfQueue).child("Patient_id_attending").setValue(id_patient);
-                ref_QueuesSearch.child("City").child(city).child("treat_type").child(type)
+                ref_QueuesSearch.child("City").child(city).child("Treat_type").child(type)
+                        .child(numOfQueue).child("patient_id_attending").setValue(patientIdToDB);
+                ref_QueuesSearch.child("City").child(city).child("Treat_type").child(type)
                         .child(numOfQueue).child("date").setValue(newDate.toString());
-                ref_QueuesSearch.child("City").child(city).child("treat_type").child(type)
+                ref_QueuesSearch.child("City").child(city).child("Treat_type").child(type)
                         .child(numOfQueue).child("institute").setValue(nameInstitute);
-                ref_QueuesSearch.child("City").child(city).child("treat_type").child(type)
+                ref_QueuesSearch.child("City").child(city).child("Treat_type").child(type)
                         .child(numOfQueue).child("time").setValue(newHour);
             }
 
@@ -159,9 +162,9 @@ public class UpdatesAndAddsQueues {
                     ref_QueuesInstitute.child(id_institute).child("Treat_type").child(type).child(date).setValue(hour);
 
                     ref_QueuesInstitute.child(id_institute).child("Treat_type")
-                            .child(type).child(date).child(hour).setValue("Patient_id_attending");
+                            .child(type).child(date).child(hour).setValue("patient_id_attending");
                     ref_QueuesInstitute.child(id_institute).child("Treat_type")
-                            .child(type).child(date).child(hour).child("Patient_id_attending").setValue(id_patient);
+                            .child(type).child(date).child(hour).child("patient_id_attending").setValue(patientIdToDB);
 
                     ref_QueuesInstitute.child(id_institute).child("Treat_type")
                             .child(type).child(date).child(hour).setValue("number_queue");
@@ -174,9 +177,9 @@ public class UpdatesAndAddsQueues {
                     ref_QueuesInstitute.child(id_institute).child("Treat_type").child(type).child(date).setValue(hour);
 
                     ref_QueuesInstitute.child(id_institute).child("Treat_type")
-                            .child(type).child(date).child(hour).setValue("Patient_id_attending");
+                            .child(type).child(date).child(hour).setValue("patient_id_attending");
                     ref_QueuesInstitute.child(id_institute).child("Treat_type")
-                            .child(type).child(date).child(hour).child("Patient_id_attending").setValue(id_patient);
+                            .child(type).child(date).child(hour).child("patient_id_attending").setValue(patientIdToDB);
 
                     ref_QueuesInstitute.child(id_institute).child("Treat_type")
                             .child(type).child(date).child(hour).setValue("number_queue");
@@ -188,9 +191,9 @@ public class UpdatesAndAddsQueues {
                     ref_QueuesInstitute.child(id_institute).child("Treat_type").child(type).child(date).setValue(hour);
 
                     ref_QueuesInstitute.child(id_institute).child("Treat_type")
-                            .child(type).child(date).child(hour).setValue("Patient_id_attending");
+                            .child(type).child(date).child(hour).setValue("patient_id_attending");
                     ref_QueuesInstitute.child(id_institute).child("Treat_type")
-                            .child(type).child(date).child(hour).child("Patient_id_attending").setValue(id_patient);
+                            .child(type).child(date).child(hour).child("patient_id_attending").setValue(patientIdToDB);
 
                     ref_QueuesInstitute.child(id_institute).child("Treat_type")
                             .child(type).child(date).child(hour).setValue("number_queue");
@@ -201,9 +204,9 @@ public class UpdatesAndAddsQueues {
                     ref_QueuesInstitute.child(id_institute).child("Treat_type").child(type).child(date).setValue(hour);
 
                     ref_QueuesInstitute.child(id_institute).child("Treat_type")
-                            .child(type).child(date).child(hour).setValue("Patient_id_attending");
+                            .child(type).child(date).child(hour).setValue("patient_id_attending");
                     ref_QueuesInstitute.child(id_institute).child("Treat_type")
-                            .child(type).child(date).child(hour).child("Patient_id_attending").setValue(id_patient);
+                            .child(type).child(date).child(hour).child("patient_id_attending").setValue(patientIdToDB);
 
                     ref_QueuesInstitute.child(id_institute).child("Treat_type")
                             .child(type).child(date).child(hour).setValue("number_queue");
@@ -220,14 +223,14 @@ public class UpdatesAndAddsQueues {
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 ref_Queues.setValue(numOfQueue);
 
-                ref_Queues.child(numOfQueue).setValue("Patient_id_attending");
+                ref_Queues.child(numOfQueue).setValue("patient_id_attending");
                 ref_Queues.child(numOfQueue).setValue("city");
                 ref_Queues.child(numOfQueue).setValue("date");
                 ref_Queues.child(numOfQueue).setValue("institute");
                 ref_Queues.child(numOfQueue).setValue("time");
                 ref_Queues.child(numOfQueue).setValue("treat_type");
 
-                ref_Queues.child(numOfQueue).child("Patient_id_attending").setValue(id_patient);
+                ref_Queues.child(numOfQueue).child("patient_id_attending").setValue(patientIdToDB);
                 ref_Queues.child(numOfQueue).child("city").setValue(city);
                 ref_Queues.child(numOfQueue).child("date").setValue(newDate.toString());
                 ref_Queues.child(numOfQueue).child("institute").setValue(nameInstitute);
