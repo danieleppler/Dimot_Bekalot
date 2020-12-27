@@ -1,5 +1,6 @@
 package com.example.dimot_bekalot.dataObjects;
 
+import android.content.Context;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
@@ -11,7 +12,9 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
-public class UpdatesAndAddsQueues {
+import java.io.Serializable;
+
+public class UpdatesAndAddsQueues implements Serializable {
     private String id_patient, id_institute, date, hour, type;
     private String city = "", numOfQueue = "", nameInstitute = "";
 
@@ -108,9 +111,7 @@ public class UpdatesAndAddsQueues {
         newDate.insert(5, ".");
         String newHour = Strings_Tools.createNOTCleanUserName(hour, 2, ":");
 
-        String patientIdToDB = id_patient.substring(2);
-
-        Log.d("add() => ", "enter");
+        String patientIdToDB = id_patient;
 
         ref_institute.addListenerForSingleValueEvent(new ValueEventListener() {
              @Override
@@ -127,20 +128,13 @@ public class UpdatesAndAddsQueues {
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 numOfQueue = ref_QueuesSearch.push().getKey();
 
-                Log.d("ref_QueuesSearch => ", "enter");
-
-                Log.d("city => ", city);
-
-
                 if (!snapshot.child("City").exists()) {
                     ref_QueuesSearch.setValue("City");
                 }
                 if (!snapshot.child("City").child(city).exists()){
-                    Log.d("1 => ", "yes");
                     ref_QueuesSearch.child("City").setValue(city);
                 }
                 if(!snapshot.child("City").child(city).child("Treat_type").exists()) {
-                    Log.d("2 => ", "yes");
                     ref_QueuesSearch.child("City").child(city).setValue("Treat_type");
                 }
                 if(!snapshot.child("City").child(city).child("Treat_type").child(type).exists()) {
@@ -153,15 +147,23 @@ public class UpdatesAndAddsQueues {
                 ref_QueuesSearch.child("City").child(city).child("Treat_type").child(type).child(numOfQueue).setValue("date");
                 ref_QueuesSearch.child("City").child(city).child("Treat_type").child(type).child(numOfQueue).setValue("institute");
                 ref_QueuesSearch.child("City").child(city).child("Treat_type").child(type).child(numOfQueue).setValue("time");
+                ref_QueuesSearch.child("City").child(city).child("Treat_type").child(type).child(numOfQueue).setValue("Waiting_list");
 
-                ref_QueuesSearch.child("City").child(city).child("Treat_type").child(type)
-                        .child(numOfQueue).child("patient_id_attending").setValue(patientIdToDB);
-                ref_QueuesSearch.child("City").child(city).child("Treat_type").child(type)
-                        .child(numOfQueue).child("date").setValue(newDate.toString());
-                ref_QueuesSearch.child("City").child(city).child("Treat_type").child(type)
-                        .child(numOfQueue).child("institute").setValue(nameInstitute);
-                ref_QueuesSearch.child("City").child(city).child("Treat_type").child(type)
-                        .child(numOfQueue).child("time").setValue(newHour);
+                ref_QueuesSearch.child("City").child(city).child("Treat_type").child(type).child(numOfQueue).child("patient_id_attending").setValue(patientIdToDB);
+                ref_QueuesSearch.child("City").child(city).child("Treat_type").child(type).child(numOfQueue).child("date").setValue(newDate.toString());
+                ref_QueuesSearch.child("City").child(city).child("Treat_type").child(type).child(numOfQueue).child("institute").setValue(nameInstitute);
+                ref_QueuesSearch.child("City").child(city).child("Treat_type").child(type).child(numOfQueue).child("time").setValue(newHour);
+
+                ref_QueuesSearch.child("City").child(city).child("Treat_type").child(type).child(numOfQueue).child("Waiting_list").setValue("patient_1");
+                ref_QueuesSearch.child("City").child(city).child("Treat_type").child(type).child(numOfQueue).child("Waiting_list").setValue("patient_2");
+                ref_QueuesSearch.child("City").child(city).child("Treat_type").child(type).child(numOfQueue).child("Waiting_list").setValue("patient_3");
+                ref_QueuesSearch.child("City").child(city).child("Treat_type").child(type).child(numOfQueue).child("Waiting_list").setValue("patient_4");
+                ref_QueuesSearch.child("City").child(city).child("Treat_type").child(type).child(numOfQueue).child("Waiting_list").setValue("patient_5");
+                ref_QueuesSearch.child("City").child(city).child("Treat_type").child(type).child(numOfQueue).child("Waiting_list").child("patient_1").setValue("TBD");
+                ref_QueuesSearch.child("City").child(city).child("Treat_type").child(type).child(numOfQueue).child("Waiting_list").child("patient_2").setValue("TBD");
+                ref_QueuesSearch.child("City").child(city).child("Treat_type").child(type).child(numOfQueue).child("Waiting_list").child("patient_3").setValue("TBD");
+                ref_QueuesSearch.child("City").child(city).child("Treat_type").child(type).child(numOfQueue).child("Waiting_list").child("patient_4").setValue("TBD");
+                ref_QueuesSearch.child("City").child(city).child("Treat_type").child(type).child(numOfQueue).child("Waiting_list").child("patient_5").setValue("TBD");
             }
 
             @Override
@@ -169,72 +171,6 @@ public class UpdatesAndAddsQueues {
             }
         });
 
-        ref_QueuesInstitute.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                if(1 == number){
-                    ref_QueuesInstitute.setValue(id_institute);
-                    ref_QueuesInstitute.child(id_institute).setValue("Treat_type");
-                    ref_QueuesInstitute.child(id_institute).child("Treat_type").setValue(type);
-                    ref_QueuesInstitute.child(id_institute).child("Treat_type").child(type).setValue(date);
-                    ref_QueuesInstitute.child(id_institute).child("Treat_type").child(type).child(date).setValue(hour);
-
-                    ref_QueuesInstitute.child(id_institute).child("Treat_type")
-                            .child(type).child(date).child(hour).setValue("patient_id_attending");
-                    ref_QueuesInstitute.child(id_institute).child("Treat_type")
-                            .child(type).child(date).child(hour).child("patient_id_attending").setValue(patientIdToDB);
-
-                    ref_QueuesInstitute.child(id_institute).child("Treat_type")
-                            .child(type).child(date).child(hour).setValue("number_queue");
-                    ref_QueuesInstitute.child(id_institute).child("Treat_type")
-                            .child(type).child(date).child(hour).child("number_queue").setValue(numOfQueue);
-                }
-                else if(2 == number){
-                    ref_QueuesInstitute.child(id_institute).child("Treat_type").setValue(type);
-                    ref_QueuesInstitute.child(id_institute).child("Treat_type").child(type).setValue(date);
-                    ref_QueuesInstitute.child(id_institute).child("Treat_type").child(type).child(date).setValue(hour);
-
-                    ref_QueuesInstitute.child(id_institute).child("Treat_type")
-                            .child(type).child(date).child(hour).setValue("patient_id_attending");
-                    ref_QueuesInstitute.child(id_institute).child("Treat_type")
-                            .child(type).child(date).child(hour).child("patient_id_attending").setValue(patientIdToDB);
-
-                    ref_QueuesInstitute.child(id_institute).child("Treat_type")
-                            .child(type).child(date).child(hour).setValue("number_queue");
-                    ref_QueuesInstitute.child(id_institute).child("Treat_type")
-                            .child(type).child(date).child(hour).child("number_queue").setValue(numOfQueue);
-                }
-                else if(3 == number){
-                    ref_QueuesInstitute.child(id_institute).child("Treat_type").child(type).setValue(date);
-                    ref_QueuesInstitute.child(id_institute).child("Treat_type").child(type).child(date).setValue(hour);
-
-                    ref_QueuesInstitute.child(id_institute).child("Treat_type")
-                            .child(type).child(date).child(hour).setValue("patient_id_attending");
-                    ref_QueuesInstitute.child(id_institute).child("Treat_type")
-                            .child(type).child(date).child(hour).child("patient_id_attending").setValue(patientIdToDB);
-
-                    ref_QueuesInstitute.child(id_institute).child("Treat_type")
-                            .child(type).child(date).child(hour).setValue("number_queue");
-                    ref_QueuesInstitute.child(id_institute).child("Treat_type")
-                            .child(type).child(date).child(hour).child("number_queue").setValue(numOfQueue);
-                }
-                else{ // number == 4
-                    ref_QueuesInstitute.child(id_institute).child("Treat_type").child(type).child(date).setValue(hour);
-
-                    ref_QueuesInstitute.child(id_institute).child("Treat_type")
-                            .child(type).child(date).child(hour).setValue("patient_id_attending");
-                    ref_QueuesInstitute.child(id_institute).child("Treat_type")
-                            .child(type).child(date).child(hour).child("patient_id_attending").setValue(patientIdToDB);
-
-                    ref_QueuesInstitute.child(id_institute).child("Treat_type")
-                            .child(type).child(date).child(hour).setValue("number_queue");
-                    ref_QueuesInstitute.child(id_institute).child("Treat_type")
-                            .child(type).child(date).child(hour).child("number_queue").setValue(numOfQueue);
-                }
-            }
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {}
-        });
 
         ref_Queues.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -247,6 +183,7 @@ public class UpdatesAndAddsQueues {
                 ref_Queues.child(numOfQueue).setValue("institute");
                 ref_Queues.child(numOfQueue).setValue("time");
                 ref_Queues.child(numOfQueue).setValue("treat_type");
+                ref_Queues.child(numOfQueue).setValue("Waiting_list");
 
                 ref_Queues.child(numOfQueue).child("patient_id_attending").setValue(patientIdToDB);
                 ref_Queues.child(numOfQueue).child("city").setValue(city);
@@ -254,10 +191,65 @@ public class UpdatesAndAddsQueues {
                 ref_Queues.child(numOfQueue).child("institute").setValue(nameInstitute);
                 ref_Queues.child(numOfQueue).child("time").setValue(newHour);
                 ref_Queues.child(numOfQueue).child("treat_type").setValue(type);
+
+                ref_Queues.child(numOfQueue).child("Waiting_list").setValue("patient_1");
+                ref_Queues.child(numOfQueue).child("Waiting_list").setValue("patient_2");
+                ref_Queues.child(numOfQueue).child("Waiting_list").setValue("patient_3");
+                ref_Queues.child(numOfQueue).child("Waiting_list").setValue("patient_4");
+                ref_Queues.child(numOfQueue).child("Waiting_list").setValue("patient_5");
+                ref_Queues.child(numOfQueue).child("Waiting_list").child("patient_1").setValue("TBD");
+                ref_Queues.child(numOfQueue).child("Waiting_list").child("patient_2").setValue("TBD");
+                ref_Queues.child(numOfQueue).child("Waiting_list").child("patient_3").setValue("TBD");
+                ref_Queues.child(numOfQueue).child("Waiting_list").child("patient_4").setValue("TBD");
+                ref_Queues.child(numOfQueue).child("Waiting_list").child("patient_5").setValue("TBD");
             }
             @Override
             public void onCancelled(@NonNull DatabaseError error) {}
         });
+
+        ref_QueuesInstitute.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if(1 == number){
+                    ref_QueuesInstitute.setValue(id_institute);
+                    ref_QueuesInstitute.child(id_institute).setValue("Treat_type");
+                    ref_QueuesInstitute.child(id_institute).child("Treat_type").setValue(type);
+                    ref_QueuesInstitute.child(id_institute).child("Treat_type").child(type).setValue(date);
+                }
+                if(2 == number){
+                    ref_QueuesInstitute.child(id_institute).child("Treat_type").setValue(type);
+                    ref_QueuesInstitute.child(id_institute).child("Treat_type").child(type).setValue(date);
+                }
+                if(3 == number) {
+                    ref_QueuesInstitute.child(id_institute).child("Treat_type").child(type).setValue(date);
+                }
+
+                ref_QueuesInstitute.child(id_institute).child("Treat_type").child(type).child(date).setValue(hour);
+
+                ref_QueuesInstitute.child(id_institute).child("Treat_type").child(type).child(date).child(hour).setValue("patient_id_attending");
+                ref_QueuesInstitute.child(id_institute).child("Treat_type").child(type).child(date).child(hour).setValue("number_queue");
+                ref_QueuesInstitute.child(id_institute).child("Treat_type").child(type).child(date).child(hour).setValue("Waiting_list");
+
+                ref_QueuesInstitute.child(id_institute).child("Treat_type").child(type).child(date).child(hour).child("patient_id_attending").setValue(patientIdToDB);
+
+                ref_QueuesInstitute.child(id_institute).child("Treat_type").child(type).child(date).child(hour).child("number_queue").setValue(numOfQueue);
+
+                ref_QueuesInstitute.child(id_institute).child("Treat_type").child(type).child(date).child(hour).child("Waiting_list").setValue("patient_1");
+                ref_QueuesInstitute.child(id_institute).child("Treat_type").child(type).child(date).child(hour).child("Waiting_list").setValue("patient_2");
+                ref_QueuesInstitute.child(id_institute).child("Treat_type").child(type).child(date).child(hour).child("Waiting_list").setValue("patient_3");
+                ref_QueuesInstitute.child(id_institute).child("Treat_type").child(type).child(date).child(hour).child("Waiting_list").setValue("patient_4");
+                ref_QueuesInstitute.child(id_institute).child("Treat_type").child(type).child(date).child(hour).child("Waiting_list").setValue("patient_5");
+
+                ref_QueuesInstitute.child(id_institute).child("Treat_type").child(type).child(date).child(hour).child("Waiting_list").child("patient_1").setValue("TBD");
+                ref_QueuesInstitute.child(id_institute).child("Treat_type").child(type).child(date).child(hour).child("Waiting_list").child("patient_2").setValue("TBD");
+                ref_QueuesInstitute.child(id_institute).child("Treat_type").child(type).child(date).child(hour).child("Waiting_list").child("patient_3").setValue("TBD");
+                ref_QueuesInstitute.child(id_institute).child("Treat_type").child(type).child(date).child(hour).child("Waiting_list").child("patient_4").setValue("TBD");
+                ref_QueuesInstitute.child(id_institute).child("Treat_type").child(type).child(date).child(hour).child("Waiting_list").child("patient_5").setValue("TBD");
+            }
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {}
+        });
+
     }
 
     public void addID() {

@@ -28,9 +28,9 @@
         <activity android:name=".entryActivities.Register_Institute_Activity" />
         <activity android:name=".entryActivities.Register_Main_Activity" />
         <activity android:name=".clientActivities.Main_Client_View" />
-        <activity android:name=".InstituteActivity.AddQueueActivity" />
+        <activity android:name=".InstituteActivity.InstituteMain" />
         <activity android:name=".InstituteActivity.WatchingQueueActivity" />
-        <activity android:name=".InstituteActivity.InstituteMain">
+        <activity android:name=".InstituteActivity.AddQueueActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
