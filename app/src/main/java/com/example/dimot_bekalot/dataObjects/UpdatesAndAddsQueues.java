@@ -42,7 +42,7 @@ public class UpdatesAndAddsQueues implements Serializable {
         ref_QueuesSearch = dataBase.getReference(queues_search);
         ref_institute = dataBase.getReference(institute);
 
-        String patientIdToDB = id_patient.substring(2);
+        String patientIdToDB = id_patient;
 
         ref_institute.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
