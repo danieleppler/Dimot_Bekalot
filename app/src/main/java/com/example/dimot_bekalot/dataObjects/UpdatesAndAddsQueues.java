@@ -110,7 +110,7 @@ public class UpdatesAndAddsQueues implements Serializable {
         newDate.insert(2, ".");
         newDate.insert(5, ".");
         String newHour = Strings_Tools.createNOTCleanUserName(hour, 2, ":");
-
+        String[] _numberOfQueue = new String[1];
         String patientIdToDB = id_patient;
 
         ref_institute.addListenerForSingleValueEvent(new ValueEventListener() {
@@ -127,6 +127,7 @@ public class UpdatesAndAddsQueues implements Serializable {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 numOfQueue = ref_QueuesSearch.push().getKey();
+                _numberOfQueue[0] = numOfQueue;
 
                 if (!snapshot.child("City").exists()) {
                     ref_QueuesSearch.setValue("City");
@@ -232,7 +233,7 @@ public class UpdatesAndAddsQueues implements Serializable {
 
                 ref_QueuesInstitute.child(id_institute).child("Treat_type").child(type).child(date).child(hour).child("patient_id_attending").setValue(patientIdToDB);
 
-                ref_QueuesInstitute.child(id_institute).child("Treat_type").child(type).child(date).child(hour).child("number_queue").setValue(numOfQueue);
+                ref_QueuesInstitute.child(id_institute).child("Treat_type").child(type).child(date).child(hour).child("number_queue").setValue(_numberOfQueue[0]);
 
                 ref_QueuesInstitute.child(id_institute).child("Treat_type").child(type).child(date).child(hour).child("Waiting_list").setValue("patient_1");
                 ref_QueuesInstitute.child(id_institute).child("Treat_type").child(type).child(date).child(hour).child("Waiting_list").setValue("patient_2");
