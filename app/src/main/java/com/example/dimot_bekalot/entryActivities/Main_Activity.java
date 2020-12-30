@@ -20,6 +20,9 @@ public class Main_Activity extends AppCompatActivity {
     private Button login_button;
     private Button register_button;
 
+    private Button test;
+
+
     /*test section*/
     private Button test_connect;
     /*end test section*/
@@ -49,15 +52,15 @@ public class Main_Activity extends AppCompatActivity {
         });
         /*end_Register_button*/
 
-//        /*test section*/
-//        test_connect = (Button) findViewById(R.id.conect_button);
-//        test_connect.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                openConnect_Activity();
-//            }
-//        });
-//        /*end test section*/
+        /*test section*/
+        test_connect = (Button) findViewById(R.id.testButton);
+        test_connect.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                openConnect_Activity();
+            }
+        });
+        /*end test section*/
     }
 
     /************private function************/
