@@ -13,6 +13,7 @@ import android.os.SharedMemory;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -40,7 +41,8 @@ public class Main_Client_View extends AppCompatActivity implements View.OnClickL
     FirebaseDatabase mDatabase;
     DatabaseReference db_ref;
 
-    Context context=this;
+    private ImageButton logOut;
+    Context context = this;
 
     String check;
 
@@ -58,12 +60,22 @@ public class Main_Client_View extends AppCompatActivity implements View.OnClickL
             client_id = "p:111111111"; //debugging
             db_ref = mDatabase.getReference().child("Patients").child(client_id);
 
+            /*Bottun_log-out*/
+            logOut = (ImageButton) findViewById(R.id.logOutButton);
+            logOut.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent logOutIntent = new Intent(context, com.example.dimot_bekalot.entryActivities.Main_Activity.class);
+                    startActivity(logOutIntent);
+                }
+            });
+            /*end_Bottun_log-out*/
+
 
             queue_order = (Button) findViewById(R.id.queue_order);
             inst_list = (Button) findViewById(R.id.inst_list);
             Private_Area = (Button) findViewById(R.id.Private_Area);
-            inst_list.setVisibility(View.INVISIBLE)
-            ;
+            inst_list.setVisibility(View.INVISIBLE);
             queue_order.setOnClickListener(this);
             inst_list.setOnClickListener(this);
             Private_Area.setOnClickListener(this);

@@ -1,5 +1,6 @@
 package com.example.dimot_bekalot.InstituteActivity;
 
+import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -33,6 +34,9 @@ public class InstituteMain extends AppCompatActivity {
 
     private FirebaseDatabase dataBase;
     private DatabaseReference dbRef;
+
+    private ImageButton logOut;
+    Context context = this;
 
     /* Image */
     private ImageView image;
@@ -103,6 +107,15 @@ public class InstituteMain extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 open_dateActivity();
+            }
+        });
+
+        logOut = (ImageButton) findViewById(R.id.logOutButton);
+        logOut.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent logOutIntent = new Intent(context, com.example.dimot_bekalot.entryActivities.Main_Activity.class);
+                startActivity(logOutIntent);
             }
         });
 

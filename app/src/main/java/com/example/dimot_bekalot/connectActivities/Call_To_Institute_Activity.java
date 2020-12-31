@@ -9,6 +9,7 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
 import android.Manifest;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
@@ -16,6 +17,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.ImageButton;
 import android.widget.Spinner;
 import android.widget.Toast;
 
@@ -39,6 +41,9 @@ public class Call_To_Institute_Activity extends AppCompatActivity implements Ada
     private String instituteNameAndPhone;
     private static final int REQUEST_CALL = 1;
 
+    private ImageButton logOut;
+    Context context = this;
+
     private FirebaseDatabase dataBase;
     private DatabaseReference myDataBase;
     private Spinner chooseInstituteSpinner;
@@ -57,6 +62,17 @@ public class Call_To_Institute_Activity extends AppCompatActivity implements Ada
         dataBase = FirebaseDatabase.getInstance();
         myDataBase = dataBase.getReference(INSTITUTES);
         /*end_FireBase_connection*/
+
+        /*Bottun_log-out*/
+        logOut = (ImageButton) findViewById(R.id.logOutButton);
+        logOut.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent logOutIntent = new Intent(context, com.example.dimot_bekalot.entryActivities.Main_Activity.class);
+                startActivity(logOutIntent);
+            }
+        });
+        /*end_Bottun_log-out*/
 
         /*asking for permission to use the dialer of the user*/
         if(ContextCompat.checkSelfPermission(Call_To_Institute_Activity.this,
