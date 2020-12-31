@@ -113,6 +113,7 @@ public class Call_To_Institute_Activity extends AppCompatActivity implements Ada
         if (!instituteNameAndPhone.equals("בחר מכון רצוי בבקשה")) {
             String phone = creteOnltPhoneNumber(instituteNameAndPhone);
             if (ContextCompat.checkSelfPermission(Call_To_Institute_Activity.this,
+
                     Manifest.permission.CALL_PHONE) == PackageManager.PERMISSION_GRANTED) {
                 Intent open_dialer = new Intent(Intent.ACTION_DIAL);
                 open_dialer.setData(Uri.parse("tel:" + phone));
