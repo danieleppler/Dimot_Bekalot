@@ -31,7 +31,6 @@ import com.google.firebase.database.ValueEventListener;
 public class Login_Verification_Activity extends AppCompatActivity {
 
     private Intent retrieveFromLogin;
-    private BlockAccount_Lopper blockAccount_lopper = new BlockAccount_Lopper();
 
     private FirebaseAuth emailCheck;
     private FirebaseDatabase dataBase;
