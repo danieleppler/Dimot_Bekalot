@@ -17,11 +17,16 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.dimot_bekalot.R;
+import com.example.dimot_bekalot.SendNotificationPack.Token;
+import com.example.dimot_bekalot.dataObjects.Update_Queues;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.iid.FirebaseInstanceId;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -51,19 +56,16 @@ public class Main_Client_View extends AppCompatActivity implements View.OnClickL
         setContentView(R.layout.activity_main_client_view);
 
         check=getIntent().getStringExtra("check");
-       // if (check.equals("0")) {
+
             List<String> client_names = new ArrayList<>();
 
-            //client_id=getIntent().getStringExtra("client_id");// real-time
-            client_id = "p:111111111"; //debugging
+            client_id=getIntent().getStringExtra("client_id");// real-time
+            //client_id = "p:111111111"; //debugging
             db_ref = mDatabase.getReference().child("Patients").child(client_id);
-
-
+            UpdateToken();
             queue_order = (Button) findViewById(R.id.queue_order);
             inst_list = (Button) findViewById(R.id.inst_list);
             Private_Area = (Button) findViewById(R.id.Private_Area);
-            inst_list.setVisibility(View.INVISIBLE)
-            ;
             queue_order.setOnClickListener(this);
             inst_list.setOnClickListener(this);
             Private_Area.setOnClickListener(this);
@@ -100,7 +102,7 @@ public class Main_Client_View extends AppCompatActivity implements View.OnClickL
         }
 
         if (v == inst_list) {
-            Intent il_intent = new Intent(this, com.example.dimot_bekalot.clientActivities.inst_list.class);
+            Intent il_intent = new Intent(this, com.example.dimot_bekalot.connectActivities.Call_To_Institute_Activity.class);
             startActivity(il_intent);
         }
     }
@@ -119,4 +121,13 @@ public class Main_Client_View extends AppCompatActivity implements View.OnClickL
             startActivity(intent);
         }
     };
+
+    private void UpdateToken(){
+        //FirebaseUser firebaseUser= FirebaseAuth.getInstance().getCurrentUser();
+        String refreshToken= FirebaseInstanceId.getInstance().getToken();
+        Token token= new Token(refreshToken);
+      //  FirebaseDatabase.getInstance().getReference("Patients").child(client_id).child(FirebaseAuth.getInstance().getCurrentUser().getUid()).setValue(token);
+        FirebaseDatabase.getInstance().getReference("Patients").child(client_id).child("token");
+        FirebaseDatabase.getInstance().getReference("Patients").child(client_id).child("token").setValue(token);
+    }
 }
