@@ -3,7 +3,7 @@
     <string name="LOGIN">LOGIN</string>
 
     <string-array name="treatment_type">
-        <item> choose</item>
+        <item>בחר סוג טיפול</item>
         <item>CT</item>
         <item>MRI</item>
         <item>BONE-MAPPING</item>
@@ -11,7 +11,7 @@
     </string-array>
 
     <string-array name="city__array">
-        <item> choose</item>
+        <item>בחר עיר</item>
         <item>Ramat-Gan</item>
         <item>Tel-Aviv</item>
         <item>Heifa</item>

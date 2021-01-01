@@ -5,10 +5,10 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="@drawable/pale_blue_background"
+    android:background="@drawable/gray_background"
     tools:context=".dataObjects.Institute_data_activity">
 
-    <include android:id="@+id/include" layout="@layout/toolbar" />
+    <include android:id="@+id/include" layout="@layout/toolbar_institute" />
 
     <TextView
         android:id="@+id/title"
@@ -26,6 +26,10 @@
         android:layout_marginTop="70dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
+
+        <TableRow>
+            <TextView/>
+        </TableRow>
 
         <TableRow>
             <TextView
@@ -186,6 +190,9 @@
 
         </TableRow>
 
+        <TableRow>
+            <TextView/>
+        </TableRow>
 
 
     </TableLayout>

@@ -171,12 +171,12 @@ public class queue_search extends AppCompatActivity implements View.OnClickListe
     public void onClick(View v) {
         if(v==src_btn)
         {
-            if(city.equals("choose") || treat_type.equals("choose")) {
-                if (treat_type.equals("choose")) {
+            if(city.equals("בחר עיר") || treat_type.equals("בחר סוג טיפול")) {
+                if (treat_type.equals("בחר עיר")) {
                     Toast toast = Toast.makeText(getApplicationContext(), "אנא בחר סוג טיפול", Toast.LENGTH_SHORT);
                     toast.show();
                 }
-                if (city.equals("choose")) {
+                if (city.equals("בחר סוג טיפול")) {
                     Toast toast = Toast.makeText(getApplicationContext(), "אנא בחר עיר", Toast.LENGTH_SHORT);
                     toast.show();
                 }
