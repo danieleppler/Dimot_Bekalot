@@ -10,6 +10,7 @@ public class Costumer_Details_Patient extends Costumer_Details implements Serial
     private String second_name;
     private String age;
     private String patientID;
+    private String Uid;//unique id created by GOOGLE
 
     public Costumer_Details_Patient(){
         super();
@@ -23,6 +24,7 @@ public class Costumer_Details_Patient extends Costumer_Details implements Serial
         this.second_name = second_name;
         this.age = age;
         this.patientID = patientID;
+        this.Uid =null;
     }
 
 
@@ -41,6 +43,8 @@ public class Costumer_Details_Patient extends Costumer_Details implements Serial
     public String getPatientID() {
         return patientID;
     }
+
+    public String GetUid(){return this.Uid;}
 
     public void setFirst_name(String first_name) {
         this.first_name = first_name;
