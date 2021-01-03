@@ -105,7 +105,7 @@ public class WatchingQueueActivity extends AppCompatActivity implements AdapterV
                         else{ date += month + "";}
                         date += ""+ String.valueOf(year).substring(2);
 
-                        if(typeOfTreatment.equals("choose"))
+                        if(typeOfTreatment.equals("בחר סוג טיפול"))
                             Toast.makeText(context,
                                     "נא לבחור סוג טיפול", Toast.LENGTH_SHORT).show();
                         else {

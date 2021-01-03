@@ -8,7 +8,6 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Context;
 import android.content.Intent;
-import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -19,9 +18,9 @@ import android.widget.Toast;
 
 import com.example.dimot_bekalot.R;
 import com.example.dimot_bekalot.dataObjects.Address;
-import com.example.dimot_bekalot.dataObjects.Costumer_Details_Institute;
+import com.example.dimot_bekalot.dataObjects.CostumerDetailsInstitute;
 import com.example.dimot_bekalot.dataObjects.LockedAccount;
-import com.example.dimot_bekalot.Tools.validationTools;
+import com.example.dimot_bekalot.Tools.validation_Tools;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
@@ -48,7 +47,7 @@ public class Register_Institute_Activity extends AppCompatActivity {
 
     private static final String INSTITUTES = "Institutes";
 
-    private Costumer_Details_Institute costumer_details_institute;
+    private CostumerDetailsInstitute costumer_details_institute;
     private Address instituteAddress;
     private LockedAccount lockedAccount;
 
@@ -104,11 +103,11 @@ public class Register_Institute_Activity extends AppCompatActivity {
                 String cityLiving = cityInput.getText().toString().trim();
 
                 /*checking if the inputs is valid inputs*/
-                if (!validationTools.CheckIfNumber(instituteID, instituteID_Input)) { return; }
-                if (!validationTools.CheckIfNumber(phone, phone_numberInput)) { return; }
-                if (!validationTools.isInstituteNamesIsValid(instituteName, instituteID, cityLiving,
+                if (!validation_Tools.CheckIfNumber(instituteID, instituteID_Input)) { return; }
+                if (!validation_Tools.CheckIfNumber(phone, phone_numberInput)) { return; }
+                if (!validation_Tools.isInstituteNamesIsValid(instituteName, instituteID, cityLiving,
                         cityInput, institute_nameInput, instituteID_Input)) { return; }
-                if (!validationTools.isAllCostumersNeedfulInputIsValid(email, password, phone,
+                if (!validation_Tools.isAllCostumersNeedfulInputIsValid(email, password, phone,
                         emailInput, passwordInput, phone_numberInput)) { return; }
                 /*end_validation_checking*/
 
@@ -129,7 +128,7 @@ public class Register_Institute_Activity extends AppCompatActivity {
                             /*create a new Patient*/
                             instituteAddress = new Address(cityLiving, streetLiving, buildingNumber);
                             lockedAccount  =new LockedAccount("false","0");
-                            costumer_details_institute = new Costumer_Details_Institute(email, phone,
+                            costumer_details_institute = new CostumerDetailsInstitute(email, phone,
                                     password, instituteAddress,lockedAccount, instituteName, "i:"+instituteID);
 
                             /**all the needful details are enters, can move to register
