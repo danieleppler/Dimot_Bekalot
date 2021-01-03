@@ -157,7 +157,7 @@ public class queue_src_res extends AppCompatActivity implements View.OnClickList
                         parse_treatment(tq);
                         Log.d("check",tq.getDate()+""+tq.getNameInstitute()+""+tq.getNameInstitute()+""+tq.getCity()+""+tq.getIdPatient());
                         uq=new Update_Queues();
-                        uq.update_new_Patient(client_id,tq,context);
+                        uq.update_new_Patient(client_id,tq,context,true);
                     }
                 });
         builder.create();

@@ -313,7 +313,7 @@ public class queue_search extends AppCompatActivity implements View.OnClickListe
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
                 Update_Queues uq=new Update_Queues();
-                uq.update_waiting_list(client_id,tq,position,context);
+                uq.add_to_waiting_list(client_id,tq,position,context);
             }
         });
         builder.create();

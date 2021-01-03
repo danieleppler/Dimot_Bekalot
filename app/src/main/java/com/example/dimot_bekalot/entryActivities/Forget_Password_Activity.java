@@ -8,9 +8,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
-import android.content.pm.ActivityInfo;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -22,9 +20,7 @@ import com.example.dimot_bekalot.Firebase.DB_LockUser;
 import com.example.dimot_bekalot.R;
 import com.example.dimot_bekalot.dataObjects.Login_Input_Data;
 import com.example.dimot_bekalot.Tools.Strings_Tools;
-import com.example.dimot_bekalot.Tools.validationTools;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
+import com.example.dimot_bekalot.Tools.validation_Tools;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -75,9 +71,9 @@ public class Forget_Password_Activity extends AppCompatActivity {
                 String email = email_input_and_password_2.getText().toString().trim();
 
                 /*checking if the inputs is valid inputs*/
-                if (!validationTools.isForgetPasswordInputValid_User_email(userName_ID, email,
+                if (!validation_Tools.isForgetPasswordInputValid_User_email(userName_ID, email,
                         userName_ID_input_and_password_1, email_input_and_password_2)) { return; }
-                if (!validationTools.CheckIfNumber(Strings_Tools.only_number_at_ID(userName_ID), userName_ID_input_and_password_1)) { return; }
+                if (!validation_Tools.CheckIfNumber(Strings_Tools.only_number_at_ID(userName_ID), userName_ID_input_and_password_1)) { return; }
                 /*end_validation_checking*/
 
                 InputToChangePassword = new Login_Input_Data(Strings_Tools.createNOTCleanUserName(userName_ID,1,":"), email);
@@ -149,8 +145,8 @@ public class Forget_Password_Activity extends AppCompatActivity {
                     String newPassword_2 = email_input_and_password_2.getText().toString().trim();
 
                     /*checking if the inputs is valid inputs*/
-                    if (!validationTools.isForgetPasswordInputValid(newPassword_1, userName_ID_input_and_password_1)) { return; }
-                    if (!validationTools.isForgetPasswordInputValid(newPassword_2, email_input_and_password_2)) { return; }
+                    if (!validation_Tools.isForgetPasswordInputValid(newPassword_1, userName_ID_input_and_password_1)) { return; }
+                    if (!validation_Tools.isForgetPasswordInputValid(newPassword_2, email_input_and_password_2)) { return; }
                     /*end_validation_checking*/
 
                     if (!newPassword_1.equals(newPassword_2)) {

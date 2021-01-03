@@ -1,9 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="com.example.dimot_bekalot">
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.CALL_PHONE"/>
+
 
     <application
         android:allowBackup="true"
@@ -19,8 +21,6 @@
         <activity android:name=".entryActivities.Forget_Password_Activity"
             android:screenOrientation="portrait"/>
         <activity android:name=".entryActivities.EMail_Verification_Activity"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".clientActivities.inst_list"
             android:screenOrientation="portrait"/>
         <activity android:name=".InstituteActivity.AddQueueActivity"
             android:screenOrientation="portrait"/>
@@ -42,17 +42,16 @@
             android:screenOrientation="portrait"/>
         <activity android:name=".entryActivities.Register_Main_Activity"
             android:screenOrientation="portrait"/>
-        <activity android:name=".clientActivities.Main_Client_View"
-            android:screenOrientation="portrait"/>
         <activity android:name=".entryActivities.Main_Activity"
             android:screenOrientation="portrait"/>
         <activity android:name=".InstituteActivity.WatchingQueueActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".clientActivities.Main_Client_View"
             android:screenOrientation="portrait"/>
         <activity android:name=".InstituteActivity.InstituteMain"
             android:screenOrientation="portrait">
                 <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
@@ -64,6 +63,19 @@
         <meta-data
             android:name="preloaded_fonts"
             android:resource="@array/preloaded_fonts" />
+
+        <service
+            android:name=".SendNotificationPack.MyFirebaseIdService">
+            <intent-filter>
+                <action android:name="com.google.firebase.INSTANCE_ID_EVENT"/>
+            </intent-filter>
+        </service>
+        <service
+            android:name=".SendNotificationPack.MyFireBaseMessagingService">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT"/>
+            </intent-filter>
+        </service>
     </application>
 
 </manifest>

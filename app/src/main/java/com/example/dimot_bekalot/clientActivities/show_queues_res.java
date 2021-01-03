@@ -1,5 +1,6 @@
 package com.example.dimot_bekalot.clientActivities;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.AlertDialog;
@@ -21,36 +22,52 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.dimot_bekalot.R;
+import com.example.dimot_bekalot.SendNotificationPack.ApiInterface;
+import com.example.dimot_bekalot.SendNotificationPack.Client;
+import com.example.dimot_bekalot.SendNotificationPack.Data;
+import com.example.dimot_bekalot.SendNotificationPack.MyNotification;
+import com.example.dimot_bekalot.SendNotificationPack.RootModel;
 import com.example.dimot_bekalot.dataObjects.MyDate;
 import com.example.dimot_bekalot.dataObjects.TreatmentQueue;
 import com.example.dimot_bekalot.dataObjects.Update_Queues;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+import okhttp3.ResponseBody;
+import retrofit2.Callback;
+
 public class show_queues_res extends AppCompatActivity {
-
+    String TAG="show_queue_res";
     ListView listView;
-
+    String token="";
     List<String> queues;
     List<String> queues_id=new ArrayList<>();
     TextView noQueues,Queues;
     Intent intent;
     Context context=this;
     String client_id;
-
+    String client_id_to_notify;
     TreatmentQueue tq=new TreatmentQueue();
     TextView queue_det;
 
-
     String type = "", nameInstitute = "", city = "", day="", year = "20",chosen_queue;
     Update_Queues uq;
+
+    DatabaseReference db_ref;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_show_queues_res);
+
+        db_ref=FirebaseDatabase.getInstance().getReference().child("Queues");
 
         queues=new ArrayList<>();
         intent=getIntent();
@@ -105,9 +122,26 @@ public class show_queues_res extends AppCompatActivity {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
                         parse_treatment(tq);
-                        Log.d("check",tq.getDate()+""+tq.getNameInstitute()+""+tq.getNameInstitute()+""+tq.getCity()+""+tq.getIdPatient());
-                        uq=new Update_Queues();
-                        uq.cancel_patient(client_id,tq,context);
+                        String date = tq.getDate().getDay() + "." + tq.getDate().getMonth() + "." + String.valueOf(tq.getDate().getYear()).substring(2);
+                        String time = tq.getDate().getHour() + ":" + tq.getDate().getMinute();
+                        db_ref.addValueEventListener(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                for (DataSnapshot data:snapshot.getChildren()
+                                     ) {
+                                    if (data.child("institute").getValue().equals(tq.getNameInstitute())
+                                            && data.child("treat_type").getValue().equals(tq.getType()) &&
+                                            data.child("date").getValue().equals(date) && data.child("time").getValue().equals(time))
+                                        client_id_to_notify=(String) data.child("Waiting_list").child("patient_1").getValue();
+                                }
+                                sendNotificationToUser(client_id_to_notify,tq.toString(),context);
+                            }
+
+                            @Override
+                            public void onCancelled(@NonNull DatabaseError error) {
+
+                            }
+                        });
                     }
                 });
         builder.create();
@@ -186,5 +220,39 @@ public class show_queues_res extends AppCompatActivity {
         tq.setDate(date);
         tq.setNameInstitute(type);
         tq.setIdPatient(client_id);
+    }
+
+    private void sendNotificationToUser(String id,String treatment_det,Context context) {
+        FirebaseDatabase.getInstance().getReference().child("Patients").child(id).child("token").
+                addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        token = (String) snapshot.child("token").getValue();
+                        Log.d(TAG,"the token is     "+token);
+                        RootModel rootModel = new RootModel(token, new MyNotification("התור שאליו חיכית התפנה,רשמנו אותך לתור הבא:", treatment_det),
+                                new Data("Name", "30"));
+                        ApiInterface apiService = Client.getClient().create(ApiInterface.class);
+                        retrofit2.Call<ResponseBody> responseBodyCall = apiService.sendNotification(rootModel);
+                        responseBodyCall.enqueue(new Callback<ResponseBody>() {
+                            @Override
+                            public void onResponse(retrofit2.Call<ResponseBody> call, retrofit2.Response<ResponseBody> response) {
+                                Log.d(TAG, "success");
+                            }
+
+                            @Override
+                            public void onFailure(retrofit2.Call<ResponseBody> call, Throwable t) {
+                                Log.d(TAG, "failure");
+                            }
+                        });
+                        uq=new Update_Queues();
+                        uq.cancel_patient(client_id,tq,context);
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+
+                    }
+                });
+
     }
 }

@@ -8,7 +8,6 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Context;
 import android.content.Intent;
-import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -19,9 +18,9 @@ import android.widget.Toast;
 
 import com.example.dimot_bekalot.R;
 import com.example.dimot_bekalot.dataObjects.Address;
-import com.example.dimot_bekalot.dataObjects.Costumer_Details_Patient;
+import com.example.dimot_bekalot.dataObjects.CostumerDetailsPatient;
 import com.example.dimot_bekalot.dataObjects.LockedAccount;
-import com.example.dimot_bekalot.Tools.validationTools;
+import com.example.dimot_bekalot.Tools.validation_Tools;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
@@ -46,7 +45,7 @@ public class Register_Patient_Activity extends AppCompatActivity {
     private DatabaseReference myDataBase;
     private FirebaseAuth fAuto;
     private static final String PATIENTS = "Patients";
-    private Costumer_Details_Patient costumer_details_patient;
+    private CostumerDetailsPatient costumer_details_patient;
     private Address patientAddress;
     private LockedAccount lockedAccount;
 
@@ -104,12 +103,12 @@ public class Register_Patient_Activity extends AppCompatActivity {
                 String age = ageInput.getText().toString().trim();
 
                 /*checking if the inputs is valid inputs*/
-                if(!validationTools.CheckIfNumber(patientID,patientID_Input)){ return; }
-                if(!validationTools.CheckIfNumber(age,ageInput)){ return; }
-                if(!validationTools.CheckIfNumber(phone,phone_numberInput)){ return; }
-                if (!validationTools.isPatientNamesIsValid(firstName, lastName, patientID,age,
+                if(!validation_Tools.CheckIfNumber(patientID,patientID_Input)){ return; }
+                if(!validation_Tools.CheckIfNumber(age,ageInput)){ return; }
+                if(!validation_Tools.CheckIfNumber(phone,phone_numberInput)){ return; }
+                if (!validation_Tools.isPatientNamesIsValid(firstName, lastName, patientID,age,
                         first_nameInput, last_nameInput, patientID_Input,ageInput)) { return; }
-                if (!validationTools.isAllCostumersNeedfulInputIsValid(email, password, phone, emailInput,
+                if (!validation_Tools.isAllCostumersNeedfulInputIsValid(email, password, phone, emailInput,
                         passwordInput, phone_numberInput)) { return; }
                 /*end_validation_checking*/
 
@@ -131,8 +130,10 @@ public class Register_Patient_Activity extends AppCompatActivity {
                             /*create a new Patient*/
                             patientAddress = new Address(cityLiving, streetLiving, houseNumber);
                             lockedAccount  =new LockedAccount("false","0");
-                            costumer_details_patient = new Costumer_Details_Patient(email, phone, password,
-                                    patientAddress,lockedAccount, firstName, lastName, age, "p:"+patientID);
+
+                            costumer_details_patient = new CostumerDetailsPatient(email, phone, password,
+                                    patientAddress,lockedAccount, firstName, lastName, age,
+                                    "p:"+patientID);
 
                             /**all the needful details are enters, can move to register
                              *the user to the fireBase
@@ -196,5 +197,8 @@ public class Register_Patient_Activity extends AppCompatActivity {
     private void registerPatientToRealDB(String Uid) {
         myDataBase.child(costumer_details_patient.getPatientID()).setValue(this.costumer_details_patient);
         myDataBase.child(costumer_details_patient.getPatientID()).child("Uid").setValue(Uid);
+        myDataBase.child(costumer_details_patient.getPatientID()).child("ActiveQueues").child("NumberOfWaitingQueues").setValue("0");
+        myDataBase.child(costumer_details_patient.getPatientID()).child("ActiveQueues").child("NumberOfQueues").setValue("0");
+
     }
 }
