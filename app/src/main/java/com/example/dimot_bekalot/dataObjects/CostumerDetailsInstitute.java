@@ -5,16 +5,16 @@ import java.io.Serializable;
 /**
  * This class represent Costumer Details of Institute
  */
-public class Costumer_Details_Institute extends Costumer_Details implements Serializable {
+public class CostumerDetailsInstitute extends Costumer_Details implements Serializable {
 
     private String institute_name;
     private String instituteID;
 
-    public Costumer_Details_Institute(){super();}
+    public CostumerDetailsInstitute(){super();}
 
-    public Costumer_Details_Institute(String email, String phone_number, String password,
-                                      Address address, LockedAccount lockedAccount,
-                                      String institute_name, String instituteID) {
+    public CostumerDetailsInstitute(String email, String phone_number, String password,
+                                    Address address, LockedAccount lockedAccount,
+                                    String institute_name, String instituteID) {
         super(email, phone_number, password, address, lockedAccount);
         this.institute_name = institute_name;
         this.instituteID = instituteID;
