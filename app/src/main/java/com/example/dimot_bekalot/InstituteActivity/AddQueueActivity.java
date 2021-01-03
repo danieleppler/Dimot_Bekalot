@@ -3,6 +3,7 @@ package com.example.dimot_bekalot.InstituteActivity;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
@@ -11,6 +12,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -37,6 +39,9 @@ public class AddQueueActivity extends AppCompatActivity implements View.OnClickL
     private FirebaseDatabase dataBase;
     private DatabaseReference dbRef_queue_institute;
 
+    private ImageButton logOut;
+    Context context = this;
+
     private String institute_id;
 
     private int STOP_RUN = 0;
@@ -46,13 +51,13 @@ public class AddQueueActivity extends AppCompatActivity implements View.OnClickL
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_queue);
 
-//        Intent intent = getIntent();
-//        institute_id = intent.getExtras().getString("instituteID");
-        institute_id = "i:123456781"; // Debuging
+        Intent intent = getIntent();
+        institute_id = intent.getExtras().getString("instituteID");
+//        institute_id = "i:123456781"; // Debuging
         /* <Spinner> */
         spinner = (Spinner) findViewById(R.id.chooseTreatmentType);
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource
-                (this, R.array.treatment_type, android.R.layout.simple_spinner_item);
+                (context, R.array.treatment_type, android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(adapter);
         spinner.setOnItemSelectedListener(this);
@@ -67,6 +72,16 @@ public class AddQueueActivity extends AppCompatActivity implements View.OnClickL
         dbRef_queue_institute = dataBase.getReference(Queues);
 
         addClientToQueue.setOnClickListener(this);
+
+        logOut = (ImageButton) findViewById(R.id.logOutButton);
+        logOut.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent logOutIntent = new Intent(context, com.example.dimot_bekalot.entryActivities.Main_Activity.class);
+                startActivity(logOutIntent);
+            }
+        });
+
     }
 
     @Override
@@ -109,14 +124,20 @@ public class AddQueueActivity extends AppCompatActivity implements View.OnClickL
                                 } else { // child(date) not exist
                                     STOP_RUN = 1;
                                     add_DB_Date_time(institute_id, theDate, theTime, id_patient_input);
+                                    Toast.makeText(AddQueueActivity.this,
+                                            "התור נקבע בהצלחה!", Toast.LENGTH_SHORT).show();
                                 }
                             } else { // child(type) not exist
                                 STOP_RUN = 1;
                                 add_DB_Type(institute_id, theDate, theTime, id_patient_input);
+                                Toast.makeText(AddQueueActivity.this,
+                                        "התור נקבע בהצלחה!", Toast.LENGTH_SHORT).show();
                             }
                         }else { // child(institute_id) not exist
                             STOP_RUN = 1;
                             add_DB_ID(institute_id, theDate, theTime, id_patient_input);
+                            Toast.makeText(AddQueueActivity.this,
+                                    "התור נקבע בהצלחה!", Toast.LENGTH_SHORT).show();
                         }
                     }
                 }
@@ -182,20 +203,30 @@ public class AddQueueActivity extends AppCompatActivity implements View.OnClickL
     private void add_DB_ID(String institute_id, String theDate, String theTime, String id_patient_input){
         UpdatesAndAddsQueues a = new UpdatesAndAddsQueues(institute_id, id_patient_input, theDate, theTime, type);
         a.addID();
+        goBackToNewAdd();
     }
 
     private void add_DB_Type(String institute_id, String theDate, String theTime, String id_patient_input){
         UpdatesAndAddsQueues a = new UpdatesAndAddsQueues(institute_id, id_patient_input, theDate, theTime, type);
         a.addType();
+        goBackToNewAdd();
     }
 
     private void add_DB_Date_time(String institute_id, String theDate, String theTime, String id_patient_input) {
         UpdatesAndAddsQueues a = new UpdatesAndAddsQueues(institute_id, id_patient_input, theDate, theTime, type);
         a.addDate();
+        goBackToNewAdd();
     }
 
     private void add_DB_time(String institute_id, String theDate, String theTime, String id_patient_input) {
         UpdatesAndAddsQueues a = new UpdatesAndAddsQueues(institute_id, id_patient_input, theDate, theTime, type);
         a.addTime();
+        goBackToNewAdd();
+    }
+
+    private void goBackToNewAdd(){
+        Intent goBackToNewAddIntent = new Intent();
+        goBackToNewAddIntent.putExtra("instituteID", institute_id);
+        startActivity(goBackToNewAddIntent);
     }
 }

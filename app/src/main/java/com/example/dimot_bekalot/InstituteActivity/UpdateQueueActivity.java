@@ -1,5 +1,6 @@
 package com.example.dimot_bekalot.InstituteActivity;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
@@ -8,6 +9,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -26,6 +28,9 @@ import com.google.firebase.database.ValueEventListener;
 public class UpdateQueueActivity extends AppCompatActivity implements View.OnClickListener{
     TextView IDInput, dateInput, timeInput, typeInput;
     Button updateClientToQueue;
+
+    private ImageButton logOut;
+    Context context = this;
 
     private static final String Queues = "Queues_institute";
     private FirebaseDatabase dataBase;
@@ -71,6 +76,15 @@ public class UpdateQueueActivity extends AppCompatActivity implements View.OnCli
         dbRef_queue_institute = dataBase.getReference(Queues);
 
         updateClientToQueue.setOnClickListener(this);
+
+        logOut = (ImageButton) findViewById(R.id.logOutButton);
+        logOut.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent logOutIntent = new Intent(context, com.example.dimot_bekalot.entryActivities.Main_Activity.class);
+                startActivity(logOutIntent);
+            }
+        });
     } // onCreate
 
     @Override

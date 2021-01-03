@@ -15,6 +15,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CalendarView;
+import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -23,6 +24,7 @@ import android.widget.Toast;
 //import com.example.dimot_bekalot.ListQueuesInstituteActivity;
 import com.example.dimot_bekalot.Tools.Strings_Tools;
 import com.example.dimot_bekalot.R;
+import com.example.dimot_bekalot.entryActivities.Main_Activity;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -40,12 +42,13 @@ public class WatchingQueueActivity extends AppCompatActivity implements AdapterV
     private static final String QUEUE = "Queues_institute";
     private String typeOfTreatment;
     private String institute_id;
+    private ImageButton logOut;
+    Context context = this;
 
     private FirebaseDatabase dataBase;
     private DatabaseReference ref_queue;
 
     CalendarView calendar_view;
-    Context context = this;
     Spinner spinner;
 
     List<String> queueWithHourAndNumID;
@@ -72,6 +75,15 @@ public class WatchingQueueActivity extends AppCompatActivity implements AdapterV
         spinner.setAdapter(adapter);
         spinner.setOnItemSelectedListener(this);
         /* </Spinner> */
+
+        logOut = (ImageButton) findViewById(R.id.logOutButton);
+        logOut.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent logOutIntent = new Intent(context, com.example.dimot_bekalot.entryActivities.Main_Activity.class);
+                startActivity(logOutIntent);
+            }
+        });
 
         dataBase = FirebaseDatabase.getInstance();
         ref_queue = dataBase.getReference(QUEUE);

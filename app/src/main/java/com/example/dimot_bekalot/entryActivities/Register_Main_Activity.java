@@ -5,11 +5,13 @@ package com.example.dimot_bekalot.entryActivities;
  */
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 
 import com.example.dimot_bekalot.R;
 
@@ -17,6 +19,9 @@ public class Register_Main_Activity extends AppCompatActivity {
 
     private Button main_register_patient_button;
     private Button main_register_institute_button;
+
+    private ImageButton logOut;
+    Context context = this;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,6 +48,16 @@ public class Register_Main_Activity extends AppCompatActivity {
         });
         /*end_institute_register_button*/
 
+        /*Bottun_log-out*/
+        logOut = (ImageButton) findViewById(R.id.logOutButton);
+        logOut.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent logOutIntent = new Intent(context, com.example.dimot_bekalot.entryActivities.Main_Activity.class);
+                startActivity(logOutIntent);
+            }
+        });
+        /*end_Bottun_log-out*/
     }
 
     @Override

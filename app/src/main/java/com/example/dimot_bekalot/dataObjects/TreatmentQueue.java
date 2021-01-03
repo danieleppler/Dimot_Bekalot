@@ -5,7 +5,7 @@ public class TreatmentQueue {
     public MyDate _date;
     private String _type,
             _nameInstitute, _city,
-            _idPatient;
+            _idPatient,_queue_id="";
 
     public TreatmentQueue(){}
 
@@ -42,6 +42,11 @@ public class TreatmentQueue {
         this._type = _type;
     }
 
+    public void setQueue_id(String queue_id)
+    {
+        this._queue_id=queue_id;
+    }
+
     public String getNameInstitute() {
         return _nameInstitute;
     }
@@ -60,7 +65,7 @@ public class TreatmentQueue {
 
     public String toString()
     {
-        return _nameInstitute+"     "+_city+"       "+_date.toString();
+        return _nameInstitute+"    "+_city+"   "+_type+"    "+_date.toString();
     }
 
 }

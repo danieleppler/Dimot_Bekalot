@@ -1,24 +1,30 @@
 package com.example.dimot_bekalot.clientActivities;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
-import android.content.pm.ActivityInfo;
-import android.nfc.Tag;
 import android.os.Bundle;
 import android.os.CountDownTimer;
-import android.os.SharedMemory;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.dimot_bekalot.R;
+import com.example.dimot_bekalot.SendNotificationPack.APIService;
+import com.example.dimot_bekalot.SendNotificationPack.ApiInterface;
+import com.example.dimot_bekalot.SendNotificationPack.Client;
+import com.example.dimot_bekalot.SendNotificationPack.Client2;
+import com.example.dimot_bekalot.SendNotificationPack.Data;
+import com.example.dimot_bekalot.SendNotificationPack.MyNotification;
+import com.example.dimot_bekalot.SendNotificationPack.MyResponse;
+import com.example.dimot_bekalot.SendNotificationPack.NotificationSender;
+import com.example.dimot_bekalot.SendNotificationPack.RootModel;
 import com.example.dimot_bekalot.SendNotificationPack.Token;
-import com.example.dimot_bekalot.dataObjects.Update_Queues;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -30,7 +36,10 @@ import com.google.firebase.iid.FirebaseInstanceId;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.CountDownLatch;
+
+import okhttp3.ResponseBody;
+import retrofit2.Call;
+import retrofit2.Callback;
 
 
 public class Main_Client_View extends AppCompatActivity implements View.OnClickListener {
@@ -40,51 +49,69 @@ public class Main_Client_View extends AppCompatActivity implements View.OnClickL
     Button queue_order, inst_list, Private_Area;
     TextView client_name;
 
-    String client_id=" ";
+    String client_id = " ";
 
     FirebaseDatabase mDatabase;
     DatabaseReference db_ref;
 
-    Context context=this;
+    private ImageButton logOut;
+    Context context = this;
+
+    Button logOutButton;
 
     String check;
-
+    FirebaseUser firebaseUser;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         mDatabase = FirebaseDatabase.getInstance();
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_client_view);
+        firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
+        check = getIntent().getStringExtra("check");
+        List<String> client_names = new ArrayList<>();
 
-        check=getIntent().getStringExtra("check");
+    //client_id = getIntent().getStringExtra("client_id");// real-time
+          //client_id = "p:121212121"; //debugging
+          client_id="p:111111111";
+         //client_id="p:999999999";//debugging
+        db_ref = mDatabase.getReference().child("Patients").child(client_id);
+        UpdateToken();
+        queue_order = (Button) findViewById(R.id.queue_order);
+        inst_list = (Button) findViewById(R.id.inst_list);
+        Private_Area = (Button) findViewById(R.id.Private_Area);
+        /*Bottun_log-out*/
 
-            List<String> client_names = new ArrayList<>();
-
-            client_id=getIntent().getStringExtra("client_id");// real-time
-            //client_id = "p:111111111"; //debugging
-            db_ref = mDatabase.getReference().child("Patients").child(client_id);
-            UpdateToken();
-            queue_order = (Button) findViewById(R.id.queue_order);
-            inst_list = (Button) findViewById(R.id.inst_list);
-            Private_Area = (Button) findViewById(R.id.Private_Area);
-            queue_order.setOnClickListener(this);
-            inst_list.setOnClickListener(this);
-            Private_Area.setOnClickListener(this);
-
-            db_ref.addListenerForSingleValueEvent(new ValueEventListener() {
+            logOutButton = (Button) findViewById(R.id.logOutButton2);
+            logOutButton.setOnClickListener(new View.OnClickListener() {
                 @Override
-                public void onDataChange(DataSnapshot dataSnapshot) {
-                    client_names.add(dataSnapshot.child("first_name").getValue(String.class));
-                    client_names.add(dataSnapshot.child("second_name").getValue(String.class));
-                    client_name = (TextView) findViewById(R.id.client_name);
-                    client_name.setText(client_names.get(0) + " " + client_names.get(1));
+                public void onClick(View v) {
+                    Intent logOutIntent = new Intent(context, com.example.dimot_bekalot.entryActivities.Main_Activity.class);
+                    startActivity(logOutIntent);
                 }
-
-                @Override
-                public void onCancelled(DatabaseError databaseError) {
-                }
-
             });
-        }
+
+            /*end_Bottun_log-out*/
+
+
+        queue_order.setOnClickListener(this);
+        inst_list.setOnClickListener(this);
+        Private_Area.setOnClickListener(this);
+
+        db_ref.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                client_names.add(dataSnapshot.child("first_name").getValue(String.class));
+                client_names.add(dataSnapshot.child("second_name").getValue(String.class));
+                client_name = (TextView) findViewById(R.id.client_name);
+                client_name.setText(client_names.get(0) + " " + client_names.get(1));
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+            }
+
+        });
+    }
     //}
 
     @Override
@@ -94,6 +121,8 @@ public class Main_Client_View extends AppCompatActivity implements View.OnClickL
             qo_intent.putExtra("id", client_id);
             startActivity(qo_intent);
         }
+
+
 
         if (v == Private_Area) {
             Intent pv_intent = new Intent(this, com.example.dimot_bekalot.clientActivities.Private_Area.class);
@@ -107,13 +136,13 @@ public class Main_Client_View extends AppCompatActivity implements View.OnClickL
         }
     }
 
-    CountDownTimer timer = new CountDownTimer(15 *60 * 1000, 1000) {
+    CountDownTimer timer = new CountDownTimer(15 * 60 * 1000, 1000) {
         public void onTick(long millisUntilFinished) {
             //Some code
         }
 
         public void onFinish() {
-            Intent intent=new Intent(context,com.example.dimot_bekalot.entryActivities.Main_Activity.class);
+            Intent intent = new Intent(context, com.example.dimot_bekalot.entryActivities.Main_Activity.class);
             CharSequence text = "system wasn't used for 15 minutes,logging out";
             int duration = Toast.LENGTH_LONG;
             Toast toast = Toast.makeText(context, text, duration);
@@ -122,12 +151,13 @@ public class Main_Client_View extends AppCompatActivity implements View.OnClickL
         }
     };
 
-    private void UpdateToken(){
-        //FirebaseUser firebaseUser= FirebaseAuth.getInstance().getCurrentUser();
-        String refreshToken= FirebaseInstanceId.getInstance().getToken();
-        Token token= new Token(refreshToken);
-      //  FirebaseDatabase.getInstance().getReference("Patients").child(client_id).child(FirebaseAuth.getInstance().getCurrentUser().getUid()).setValue(token);
-        FirebaseDatabase.getInstance().getReference("Patients").child(client_id).child("token");
+    private void UpdateToken() {
+
+        String refreshToken = FirebaseInstanceId.getInstance().getToken();
+        Token token = new Token(refreshToken);
         FirebaseDatabase.getInstance().getReference("Patients").child(client_id).child("token").setValue(token);
+        Log.d(TAG,"the token is " +token.getToken());
     }
-}
+
+
+    }

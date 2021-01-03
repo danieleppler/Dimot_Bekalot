@@ -21,7 +21,6 @@
 
     </TextView>
 
-
     <TableLayout
         android:background="@color/white"
         android:layout_marginTop="70dp"
@@ -190,6 +189,18 @@
 
 
     </TableLayout>
+
+    <TextView
+        android:id="@+id/pa"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="40dp"
+        android:text="כדי לשנות פרטים אנא ליחצו עליהם"
+        android:textSize="25dp">
+
+    </TextView>
+
 
 
 
