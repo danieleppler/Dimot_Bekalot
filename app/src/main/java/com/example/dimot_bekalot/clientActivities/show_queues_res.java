@@ -124,6 +124,7 @@ public class show_queues_res extends AppCompatActivity {
                         parse_treatment(tq);
                         String date = tq.getDate().getDay() + "." + tq.getDate().getMonth() + "." + String.valueOf(tq.getDate().getYear()).substring(2);
                         String time = tq.getDate().getHour() + ":" + tq.getDate().getMinute();
+                        String newId = "TBD";
                         db_ref.addValueEventListener(new ValueEventListener() {
                             @Override
                             public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -134,7 +135,7 @@ public class show_queues_res extends AppCompatActivity {
                                             data.child("date").getValue().equals(date) && data.child("time").getValue().equals(time))
                                         client_id_to_notify=(String) data.child("Waiting_list").child("patient_1").getValue();
                                 }
-                                sendNotificationToUser(client_id_to_notify,tq.toString(),context);
+                                sendNotificationToUser(client_id_to_notify, tq.toString(), context, newId);
                             }
 
                             @Override
@@ -222,7 +223,7 @@ public class show_queues_res extends AppCompatActivity {
         tq.setIdPatient(client_id);
     }
 
-    private void sendNotificationToUser(String id,String treatment_det,Context context) {
+    private void sendNotificationToUser(String id, String treatment_det, Context context, String newId) {
         FirebaseDatabase.getInstance().getReference().child("Patients").child(id).child("token").
                 addValueEventListener(new ValueEventListener() {
                     @Override
@@ -244,8 +245,8 @@ public class show_queues_res extends AppCompatActivity {
                                 Log.d(TAG, "failure");
                             }
                         });
-                        uq=new Update_Queues();
-                        uq.cancel_patient(client_id,tq,context);
+                        uq = new Update_Queues();
+                        uq.cancel_patient(client_id, tq, context, newId);
                     }
 
                     @Override

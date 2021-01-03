@@ -19,8 +19,8 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
-import okhttp3.ResponseBody;
-import retrofit2.Callback;
+//import okhttp3.ResponseBody;
+//import retrofit2.Callback;
 
 
 public class Update_Queues {
@@ -147,17 +147,17 @@ public class Update_Queues {
         });
     }
 
-    public void cancel_patient(String client_id, TreatmentQueue tq, Context context) {
+    public void cancel_patient(String client_id, TreatmentQueue tq, Context context, String toChange) {
         mDatabase = FirebaseDatabase.getInstance();
 
         String date = tq.getDate().getDay() + "." + tq.getDate().getMonth() + "." + String.valueOf(tq.getDate().getYear()).substring(2);
         String time = tq.getDate().getHour() + ":" + tq.getDate().getMinute();
         Queues_ref = mDatabase.getReference().child("Queues");
-        queues_cancel(client_id, tq, context, date, time);
+        queues_cancel(client_id, tq, context, date, time, toChange);
 
     }
 
-    public void queues_cancel(String client_id, TreatmentQueue tq, Context context, String date, String time) {
+    public void queues_cancel(String client_id, TreatmentQueue tq, Context context, String date, String time, String toChange) {
         Queues_ref.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -165,9 +165,9 @@ public class Update_Queues {
                 ) {
                     if (data.child("institute").getValue().equals(tq.getNameInstitute()) && data.child("date").getValue().equals(date)
                             && data.child("time").getValue().equals(time) && data.child("treat_type").getValue().equals(tq.getType())) {
-                        Queues_ref.child(data.getKey()).child("patient_id_attending").setValue("TBD");
+                        Queues_ref.child(data.getKey()).child("patient_id_attending").setValue(toChange);
                         Log.d("check", "cancelled in queues");
-                        queue_src_cancel(client_id, tq, context, date, time);
+                        queue_src_cancel(client_id, tq, context, date, time, toChange);
                         break;
                     }
                 }
@@ -181,7 +181,7 @@ public class Update_Queues {
         });
     }
 
-    public void queue_src_cancel(String client_id, TreatmentQueue tq, Context context, String date, String time) {
+    public void queue_src_cancel(String client_id, TreatmentQueue tq, Context context, String date, String time, String toChange) {
         queues_src_ref = mDatabase.getReference().child("Queues_search");
         queues_src_ref.child("City").child(tq.getCity()).child("Treat_type").child(tq.getType()).addValueEventListener(new ValueEventListener() {
             @Override
@@ -189,9 +189,9 @@ public class Update_Queues {
                 for (DataSnapshot data2 : snapshot.getChildren()
                 ) {
                     if (data2.child("date").getValue().equals(date) && data2.child("time").getValue().equals(time) && data2.child("institute").getValue().equals(tq.getNameInstitute())) {
-                        queues_src_ref.child("City").child(tq.getCity()).child("Treat_type").child(tq.getType()).child(data2.getKey()).child("patient_id_attending").setValue("TBD");
+                        queues_src_ref.child("City").child(tq.getCity()).child("Treat_type").child(tq.getType()).child(data2.getKey()).child("patient_id_attending").setValue(toChange);
                         Log.d("check", "cancelled in queue_src");
-                        queue_inst_cancel(client_id, tq, context,date,time);
+                        queue_inst_cancel(client_id, tq, context, date, time, toChange);
                         break;
                     }
 
@@ -205,7 +205,7 @@ public class Update_Queues {
         });
     }
 
-    public void queue_inst_cancel(String client_id, TreatmentQueue tq, Context context,String date,String time) {
+    public void queue_inst_cancel(String client_id, TreatmentQueue tq, Context context, String date, String time, String toChange) {
         queues_inst_ref = mDatabase.getReference().child("Queues_institute");
         inst_ref = mDatabase.getReference().child("Institutes");
         inst_ref.addValueEventListener(new ValueEventListener() {
@@ -234,9 +234,9 @@ public class Update_Queues {
                         @Override
                         public void onDataChange(@NonNull DataSnapshot snapshot) {
                             queues_inst_ref.child(inst_id).child("Treat_type").child(tq.getType()).
-                                    child(date2).child(time2).child("patient_id_attending").setValue("TBD");
+                                    child(date2).child(time2).child("patient_id_attending").setValue(toChange);
                             Log.d("check", "cancelled in inst_ref");
-                            Update_waiting_list(tq,date,time,context,client_id);
+                            Update_waiting_list(tq, date, time, context, client_id);
                         }
 
                         @Override

@@ -108,7 +108,6 @@ public class InstituteMain extends AppCompatActivity {
         });
         institute_data = (Button)findViewById(R.id.instData);
         institute_data.setBackgroundColor(getResources().getColor(BLUE));
-//        institute_data.setBackground(getDrawable(R.drawable.blue_electirk));
         institute_data.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

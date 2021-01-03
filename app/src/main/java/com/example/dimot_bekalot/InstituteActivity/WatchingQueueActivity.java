@@ -42,6 +42,7 @@ public class WatchingQueueActivity extends AppCompatActivity implements AdapterV
     private static final String QUEUE = "Queues_institute";
     private String typeOfTreatment;
     private String institute_id;
+    private String client_id;
     private ImageButton logOut;
     Context context = this;
 
@@ -113,8 +114,9 @@ public class WatchingQueueActivity extends AppCompatActivity implements AdapterV
                                 String hour = data.getKey();
                                 String hourToViewInList = Strings_Tools.createNOTCleanUserName(hour, 2, ":");
                                 String id = data.child("patient_id_attending").getValue().toString();
-                                String allQueue = "שעה: " +hourToViewInList + "\n" + "מספר תעודת זהות: " + id;
-                                Log.d("queue", allQueue);
+                                String allQueue = "שעה: " + hourToViewInList + "\n" + "מספר תעודת זהות: " + id;
+                                client_id = id;
+//                                Log.d("queue", allQueue);
                                 queueWithHourAndNumID.add(allQueue);
                             }
                             CreatePopupList();
@@ -164,6 +166,7 @@ public class WatchingQueueActivity extends AppCompatActivity implements AdapterV
         String queueOutput = q.substring(5,7) + "" +q.substring(8); // take just a number for the time
         update_intent.putExtra("queue", queueOutput);
         update_intent.putExtra("date", date);
+        update_intent.putExtra("client_id", client_id);
         startActivity(update_intent);
     }
 
