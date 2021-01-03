@@ -38,7 +38,7 @@ public class Forget_Password_Activity extends AppCompatActivity {
 
     private EditText userName_ID_input_and_password_1;
     private EditText email_input_and_password_2;
-    private TextView forgetPassword_MainTaxt;
+    private TextView forgetPassword_MainText;
 
     private FirebaseDatabase dataBase;
     private DatabaseReference myDataBase;
@@ -80,7 +80,7 @@ public class Forget_Password_Activity extends AppCompatActivity {
                 if (!validationTools.CheckIfNumber(Strings_Tools.only_number_at_ID(userName_ID), userName_ID_input_and_password_1)) { return; }
                 /*end_validation_checking*/
 
-                InputToChangePassword = new Login_Input_Data(Strings_Tools.createNOTCleanUserName(userName_ID), email);
+                InputToChangePassword = new Login_Input_Data(Strings_Tools.createNOTCleanUserName(userName_ID,1,":"), email);
 
                 myDataBase.addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
@@ -89,9 +89,9 @@ public class Forget_Password_Activity extends AppCompatActivity {
                         /**if the input details will match to Patient details*/
                         boolean found_User = false;
                         if (userName_ID.charAt(0) == 'p') {
-                            if (snapshot.child(PATIENTS).child(Strings_Tools.createNOTCleanUserName(userName_ID)).exists()) {
+                            if (snapshot.child(PATIENTS).child(Strings_Tools.createNOTCleanUserName(userName_ID,1,":")).exists()) {
                                 PATIENTSorINSTITUTES = PATIENTS;
-                                found_User = checkValidDetails(snapshot, 'p', Strings_Tools.createNOTCleanUserName(userName_ID));
+                                found_User = checkValidDetails(snapshot, 'p', Strings_Tools.createNOTCleanUserName(userName_ID,1,":"));
                             } else {
                                 Toast.makeText(Forget_Password_Activity.this, "פרטים שגויים, התחל שוב בבקשה", Toast.LENGTH_LONG).show();
                                 goBackToLogin_Activity();
@@ -101,9 +101,9 @@ public class Forget_Password_Activity extends AppCompatActivity {
 
                         /**if the input details will match to institute details*/
                         if (userName_ID.charAt(0) == 'i') {
-                            if (snapshot.child(INSTITUTES).child(Strings_Tools.createNOTCleanUserName(userName_ID)).exists()) {
+                            if (snapshot.child(INSTITUTES).child(Strings_Tools.createNOTCleanUserName(userName_ID,1,":")).exists()) {
                                 PATIENTSorINSTITUTES = INSTITUTES;
-                                found_User = checkValidDetails(snapshot, 'i', Strings_Tools.createNOTCleanUserName(userName_ID));
+                                found_User = checkValidDetails(snapshot, 'i', Strings_Tools.createNOTCleanUserName(userName_ID,1,":"));
                             } else {
                                 Toast.makeText(Forget_Password_Activity.this, "פרטים שגויים, התחל שוב בבקשה", Toast.LENGTH_LONG).show();
                                 goBackToLogin_Activity();
@@ -121,9 +121,9 @@ public class Forget_Password_Activity extends AppCompatActivity {
 
                         send_new_password.setVisibility(View.VISIBLE);
                         send_emailAndUserID_and_newPassword.setVisibility(View.INVISIBLE);
-                        forgetPassword_MainTaxt = (TextView) findViewById(R.id.forget_password_main_text);
-                        forgetPassword_MainTaxt.setText("זיכרו, תוכלו לשנות את הסיסמא רק אם הרפטים הקודמים שמלאתם נכונים");
-                        forgetPassword_MainTaxt.setTextSize(25);
+                        forgetPassword_MainText = (TextView) findViewById(R.id.forget_password_main_text);
+                        forgetPassword_MainText.setText("זיכרו, תוכלו לשנות את הסיסמא רק אם הרפטים הקודמים שמלאתם נכונים");
+                        forgetPassword_MainText.setTextSize(25);
                         userName_ID_input_and_password_1.setText("");
                         email_input_and_password_2.setText("");
                         userName_ID_input_and_password_1.setHint("הכנס סיסמא חדשה");

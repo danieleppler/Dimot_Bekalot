@@ -1,9 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="com.example.dimot_bekalot">
 
     <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.CALL_PHONE" />
+    <uses-permission android:name="android.permission.CALL_PHONE"/>
+
 
     <application
         android:allowBackup="true"
@@ -12,40 +14,68 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Dimot_Bekalot2">
-        <activity android:name=".InstituteActivity.ListQueuesInstituteActivity"></activity>
-        <activity android:name=".clientActivities.edit_client_det" />
-        <activity android:name=".clientActivities.popup_queue_show_res" />
-        <activity android:name=".clientActivities.show_queues_res" />
-        <activity android:name=".entryActivities.Forget_Password_Activity" />
-        <activity android:name=".entryActivities.EMail_Verification_Activity" />
-        <activity android:name=".clientActivities.inst_list" />
-        <activity android:name=".entryActivities.Main_Activity" />
-        <activity android:name=".clientActivities.popup_queue_res" />
-        <activity android:name=".clientActivities.Private_Area" />
-        <activity android:name=".clientActivities.queue_search" />
-        <activity android:name=".clientActivities.queue_src_res" />
-        <activity android:name=".entryActivities.Login_Verification_Activity" />
-        <activity android:name=".connectActivities.Call_To_Institute_Activity" />
-        <activity android:name=".InstituteActivity.UpdateQueueActivity" />
-        <activity android:name=".dataObjects.Institute_data_activity" />
-        <activity android:name=".entryActivities.Register_Institute_Activity" />
-        <activity android:name=".entryActivities.Register_Main_Activity" />
-        <activity android:name=".InstituteActivity.InstituteMain" />
-        <activity android:name=".InstituteActivity.AddQueueActivity" />
-        <activity android:name=".InstituteActivity.WatchingQueueActivity" />
-        <activity android:name=".clientActivities.Main_Client_View">
-            <intent-filter>
+        <activity android:name=".clientActivities.edit_client_det"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".clientActivities.show_queues_res"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".entryActivities.Forget_Password_Activity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".entryActivities.EMail_Verification_Activity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".InstituteActivity.AddQueueActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".clientActivities.Private_Area"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".clientActivities.queue_search"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".clientActivities.queue_src_res"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".entryActivities.Login_Verification_Activity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".connectActivities.Call_To_Institute_Activity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".InstituteActivity.UpdateQueueActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".dataObjects.Institute_data_activity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".entryActivities.Register_Institute_Activity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".entryActivities.Register_Main_Activity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".entryActivities.Main_Activity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".InstituteActivity.InstituteMain"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".InstituteActivity.WatchingQueueActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".clientActivities.Main_Client_View"
+            android:screenOrientation="portrait">
+                <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".entryActivities.Login_Activity" />
-        <activity android:name=".entryActivities.Register_Patient_Activity" />
+        <activity android:name=".entryActivities.Login_Activity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".entryActivities.Register_Patient_Activity"
+            android:screenOrientation="portrait"/>
 
         <meta-data
             android:name="preloaded_fonts"
             android:resource="@array/preloaded_fonts" />
+
+        <service
+            android:name=".SendNotificationPack.MyFirebaseIdService">
+            <intent-filter>
+                <action android:name="com.google.firebase.INSTANCE_ID_EVENT"/>
+            </intent-filter>
+        </service>
+        <service
+            android:name=".SendNotificationPack.MyFireBaseMessagingService">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT"/>
+            </intent-filter>
+        </service>
     </application>
 
 </manifest>

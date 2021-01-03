@@ -19,52 +19,53 @@
         android:textSize="36sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.497"
+        app:layout_constraintHorizontal_bias="0.748"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.167"
+        app:layout_constraintVertical_bias="0.211"
         tools:ignore="MissingConstraints" />
 
     <TextView
         android:id="@+id/name_institute"
-        android:layout_width="300sp"
-        android:layout_height="80sp"
-        android:layout_marginTop="120dp"
-        android:text=""
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="132dp"
         android:textSize="50sp"
         app:layout_constraintBottom_toTopOf="@+id/chooseTreatmentType"
-        app:layout_constraintEnd_toEndOf="@+id/welcome_institute"
-        app:layout_constraintHorizontal_bias="0.517"
-        app:layout_constraintStart_toStartOf="@+id/welcome_institute"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.495"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/include"
         app:layout_constraintVertical_bias="0.005"
         tools:ignore="MissingConstraints" />
 
     <Button
         android:id="@+id/watch_queue"
-        android:layout_width="197dp"
+        android:layout_width="160dp"
         android:layout_height="90dp"
         android:text="צפיה בתורים"
         android:textSize="25sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintHorizontal_bias="0.629"
+        app:layout_constraintStart_toEndOf="@+id/add_queue"
         app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.879"
         tools:ignore="MissingConstraints" />
 
     <Button
         android:id="@+id/add_queue"
-        android:layout_width="197dp"
+        android:layout_width="160dp"
         android:layout_height="90dp"
-        android:layout_marginTop="48dp"
-        android:layout_marginBottom="32dp"
+        android:layout_marginBottom="76dp"
         android:text="הוספת תורים"
         android:textSize="25sp"
-        app:layout_constraintBottom_toTopOf="@+id/instData"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.149"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/watch_queue"
-        app:layout_constraintVertical_bias="0.0"
+        app:layout_constraintTop_toBottomOf="@+id/institute_image"
+        app:layout_constraintVertical_bias="0.986"
         tools:ignore="MissingConstraints" />
 
     <Button
@@ -74,10 +75,35 @@
         android:text="איזור אישי"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.148"
+        app:layout_constraintHorizontal_bias="0.052"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.91"
+        app:layout_constraintVertical_bias="0.116"
         tools:ignore="MissingConstraints" />
+
+    <ImageView
+        android:id="@+id/institute_image"
+        android:layout_width="372dp"
+        android:layout_height="210dp"
+        app:layout_constraintBottom_toTopOf="@+id/watch_queue"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.487"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/name_institute"
+        app:layout_constraintVertical_bias="0.162"
+        app:srcCompat="@android:drawable/ic_menu_report_image" />
+
+    <ImageButton
+        android:id="@+id/get_image_form_app"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="168dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/institute_image"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/institute_image"
+        app:layout_constraintTop_toBottomOf="@+id/institute_image"
+        app:layout_constraintVertical_bias="0.0"
+        app:srcCompat="@android:drawable/ic_menu_camera" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

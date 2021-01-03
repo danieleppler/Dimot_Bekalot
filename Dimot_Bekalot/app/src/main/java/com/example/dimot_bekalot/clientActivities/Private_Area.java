@@ -79,7 +79,7 @@ public class Private_Area extends AppCompatActivity implements View.OnClickListe
                         String temp=data.child("city").getValue()+"     "+data.child("institute").getValue()+"     "+
                                 data.child("treat_type").getValue()+"     "+data.child("date").getValue()
                                 +"     "+data.child("time").getValue();
-                        if (data.child("Patient_id_attending").getValue().equals(client_id)) {
+                        if (data.child("patient_id_attending").getValue().equals(client_id)) {
                             queues.add(temp);
                             queues_id.add(data.getKey());
                         }

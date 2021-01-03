@@ -3,13 +3,14 @@ package com.example.dimot_bekalot.dataObjects;
 
 public class TreatmentQueue {
     public MyDate _date;
-    private String _type, _nameInstitute, _city, _idPatient;
+    private String _type,
+            _nameInstitute, _city,
+            _idPatient,_queue_id="";
 
     public TreatmentQueue(){}
 
 
     public TreatmentQueue(MyDate date, String id, String type, String name, String city){
-
         this._date = date;
         this._idPatient = id;
         this._type = type;
@@ -41,6 +42,11 @@ public class TreatmentQueue {
         this._type = _type;
     }
 
+    public void setQueue_id(String queue_id)
+    {
+        this._queue_id=queue_id;
+    }
+
     public String getNameInstitute() {
         return _nameInstitute;
     }
@@ -55,6 +61,11 @@ public class TreatmentQueue {
 
     public void setCity(String _city) {
         this._city = _city;
+    }
+
+    public String toString()
+    {
+        return _nameInstitute+"    "+_city+"   "+_type+"    "+_date.toString();
     }
 
 }

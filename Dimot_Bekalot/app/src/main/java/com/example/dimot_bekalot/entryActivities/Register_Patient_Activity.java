@@ -6,12 +6,14 @@ package com.example.dimot_bekalot.entryActivities;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
@@ -48,6 +50,9 @@ public class Register_Patient_Activity extends AppCompatActivity {
     private Address patientAddress;
     private LockedAccount lockedAccount;
 
+    private ImageButton logOut;
+    Context context = this;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -74,6 +79,17 @@ public class Register_Patient_Activity extends AppCompatActivity {
         myDataBase = dataBase.getReference(PATIENTS);
         fAuto=FirebaseAuth.getInstance();
         /*end_FireBase_connection*/
+
+        /*Bottun_log-out*/
+        logOut = (ImageButton) findViewById(R.id.logOutButton);
+        logOut.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent logOutIntent = new Intent(context, com.example.dimot_bekalot.entryActivities.Main_Activity.class);
+                startActivity(logOutIntent);
+            }
+        });
+        /*end_Bottun_log-out*/
         //*************************************************************//
 
         registerPatient_button.setOnClickListener(new View.OnClickListener() {
@@ -140,9 +156,9 @@ public class Register_Patient_Activity extends AppCompatActivity {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
-                            registerPatientToRealDB();
                             // Sign in success, update UI with the signed-in user's information
                             FirebaseUser user = fAuto.getCurrentUser();
+                            registerPatientToRealDB(user.getUid());
                             update_Authentication(user);
                         } else {
                             // If sign in fails, display a message to the user.
@@ -177,7 +193,8 @@ public class Register_Patient_Activity extends AppCompatActivity {
     }
 
     /*Adding patient to our Firebase Real DataBase*/
-    private void registerPatientToRealDB() {
+    private void registerPatientToRealDB(String Uid) {
         myDataBase.child(costumer_details_patient.getPatientID()).setValue(this.costumer_details_patient);
+        myDataBase.child(costumer_details_patient.getPatientID()).child("Uid").setValue(Uid);
     }
 }

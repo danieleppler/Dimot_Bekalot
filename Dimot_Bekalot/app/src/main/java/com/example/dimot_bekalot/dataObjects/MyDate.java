@@ -89,4 +89,8 @@ public class MyDate {
         else
             System.out.println("error");
     }
+    public String toString()
+    {
+        return _day+"."+_month+"."+_year+"   "+_hour+":"+_minute;
+    }
 }

@@ -5,9 +5,9 @@ public class Strings_Tools {
      * This class contains help tools String for the project
      */
     /*add to the string that contains the user name , the ":"*/
-    public static String createNOTCleanUserName(String toUserName) {
-        StringBuilder newUserName = new StringBuilder(toUserName);
-        newUserName.insert(1, ":");
+    public static String createNOTCleanUserName(String originalString, int position, String putInOriginal) {
+        StringBuilder newUserName = new StringBuilder(originalString);
+        newUserName.insert(position, putInOriginal);
         return newUserName.toString();
     }
 

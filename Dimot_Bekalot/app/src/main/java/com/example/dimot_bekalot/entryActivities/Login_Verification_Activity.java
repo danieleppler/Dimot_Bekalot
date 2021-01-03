@@ -31,7 +31,6 @@ import com.google.firebase.database.ValueEventListener;
 public class Login_Verification_Activity extends AppCompatActivity {
 
     private Intent retrieveFromLogin;
-    private BlockAccount_Lopper blockAccount_lopper = new BlockAccount_Lopper();
 
     private FirebaseAuth emailCheck;
     private FirebaseDatabase dataBase;
@@ -114,8 +113,8 @@ public class Login_Verification_Activity extends AppCompatActivity {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
                 if (task.isSuccessful()) {
-                    FirebaseUser patient = emailCheck.getCurrentUser();
-                    if (patient.isEmailVerified()) {
+                    FirebaseUser user = emailCheck.getCurrentUser();
+                    if (user.isEmailVerified()) {
                         Toast.makeText(Login_Verification_Activity.this, "ברוכים הבאים !", Toast.LENGTH_LONG).show();
                         DB_LockUser.Unlock_user(SingInUserName, PATIENTSorINSTITUTES);
                         goToRightActivity(SingInUserName, PATIENTorINSTITUTE);

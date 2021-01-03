@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:layout_marginLeft="70dp"
+    android:layout_marginTop="250dp"
+    android:layout_marginRight="70dp"
+    android:background="@color/white">
+
+    <TextView
+        android:text="אנא כתבו כאן את הטקסט אשר תרצו לעדכן;"
+        android:layout_width="match_parent"
+        android:textSize="20dp"
+        android:textStyle="bold"
+        android:layout_height="match_parent" />
+
+    <EditText
+        android:id="@+id/input_data_to_change"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:hint="אנא כיתבו כאן"
+        android:background="@drawable/bg_calen"
+        android:textSize="30dp"/>
+
+        <Button
+            android:id="@+id/yes_update"
+            android:layout_width="wrap_content"
+            android:layout_height="60dp"
+            android:text="עדכן"
+            android:textSize="25dp"/>
+
+
+</LinearLayout>
