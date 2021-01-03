@@ -39,6 +39,8 @@ public class AddQueueActivity extends AppCompatActivity implements View.OnClickL
     private FirebaseDatabase dataBase;
     private DatabaseReference dbRef_queue_institute;
 
+    int BLUE = R.color.blue;
+
     private ImageButton logOut;
     Context context = this;
 
@@ -67,6 +69,7 @@ public class AddQueueActivity extends AppCompatActivity implements View.OnClickL
         dateInput = (TextView) findViewById(R.id.date_input);
         timeInput = (TextView) findViewById(R.id.hour_input);
         addClientToQueue = (Button) findViewById(R.id.adding);
+        addClientToQueue.setBackgroundColor(getResources().getColor(BLUE));
 
         dataBase = FirebaseDatabase.getInstance();
         dbRef_queue_institute = dataBase.getReference(Queues);

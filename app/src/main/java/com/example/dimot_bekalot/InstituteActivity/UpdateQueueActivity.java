@@ -32,6 +32,8 @@ public class UpdateQueueActivity extends AppCompatActivity implements View.OnCli
     private ImageButton logOut;
     Context context = this;
 
+    int BLUE = R.color.blue;
+
     private static final String Queues = "Queues_institute";
     private FirebaseDatabase dataBase;
     private DatabaseReference dbRef_queue_institute;
@@ -76,6 +78,7 @@ public class UpdateQueueActivity extends AppCompatActivity implements View.OnCli
         dbRef_queue_institute = dataBase.getReference(Queues);
 
         updateClientToQueue.setOnClickListener(this);
+        updateClientToQueue.setBackgroundColor(getResources().getColor(BLUE));
 
         logOut = (ImageButton) findViewById(R.id.logOutButton);
         logOut.setOnClickListener(new View.OnClickListener() {

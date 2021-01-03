@@ -2,6 +2,7 @@ package com.example.dimot_bekalot.InstituteActivity;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -35,8 +36,9 @@ public class InstituteMain extends AppCompatActivity {
     private FirebaseDatabase dataBase;
     private DatabaseReference dbRef;
 
-    private ImageButton logOut;
+    private ImageButton logOut, imageButton;
     Context context = this;
+    int BLUE = R.color.blue;
 
     /* Image */
     private ImageView image;
@@ -88,6 +90,7 @@ public class InstituteMain extends AppCompatActivity {
         });
 
         add = (Button)findViewById(R.id.add_queue);
+        add.setBackgroundColor(getResources().getColor(BLUE));
         add.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -96,6 +99,7 @@ public class InstituteMain extends AppCompatActivity {
         });
 
         watching = (Button)findViewById(R.id.watch_queue);
+        watching.setBackgroundColor(getResources().getColor(BLUE));
         watching.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -103,6 +107,8 @@ public class InstituteMain extends AppCompatActivity {
             }
         });
         institute_data = (Button)findViewById(R.id.instData);
+        institute_data.setBackgroundColor(getResources().getColor(BLUE));
+//        institute_data.setBackground(getDrawable(R.drawable.blue_electirk));
         institute_data.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
