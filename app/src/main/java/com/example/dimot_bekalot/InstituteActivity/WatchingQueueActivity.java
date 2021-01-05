@@ -58,8 +58,7 @@ public class WatchingQueueActivity extends AppCompatActivity implements AdapterV
     Dialog dialog;
     private TextView queue;
     ListView lvQueues;
-
-
+    
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -81,7 +80,7 @@ public class WatchingQueueActivity extends AppCompatActivity implements AdapterV
         logOut.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent logOutIntent = new Intent(context, com.example.dimot_bekalot.entryActivities.Main_Activity.class);
+                Intent logOutIntent = new Intent(context, Main_Activity.class);
                 startActivity(logOutIntent);
             }
         });
@@ -116,7 +115,6 @@ public class WatchingQueueActivity extends AppCompatActivity implements AdapterV
                                 String id = data.child("patient_id_attending").getValue().toString();
                                 String allQueue = "שעה: " + hourToViewInList + "\n" + "מספר תעודת זהות: " + id;
                                 client_id = id;
-//                                Log.d("queue", allQueue);
                                 queueWithHourAndNumID.add(allQueue);
                             }
                             CreatePopupList();
@@ -128,7 +126,6 @@ public class WatchingQueueActivity extends AppCompatActivity implements AdapterV
             @Override public void onCancelled(@NonNull DatabaseError error) {}
 
         }); // dbRef.addValueEventListener
-
     }
 
     private void CreatePopupList(){
@@ -179,6 +176,12 @@ public class WatchingQueueActivity extends AppCompatActivity implements AdapterV
     @Override
     public void onNothingSelected(AdapterView<?> parent) { }
     /* </Spinner> */
+
+    @Override
+    public void onBackPressed(){
+        Intent back_to_main = new Intent(context, InstituteMain.class);
+        startActivity(back_to_main);
+    }
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {}

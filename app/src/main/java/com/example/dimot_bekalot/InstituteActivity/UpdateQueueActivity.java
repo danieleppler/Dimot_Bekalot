@@ -30,7 +30,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 
-public class UpdateQueueActivity extends AppCompatActivity implements View.OnClickListener{
+public class UpdateQueueActivity extends AppCompatActivity implements View.OnClickListener {
     TextView IDInput, dateInput, timeInput, typeInput;
     Button updateClientToQueue;
 
@@ -73,6 +73,7 @@ public class UpdateQueueActivity extends AppCompatActivity implements View.OnCli
                 city = snapshot.child(institute_id).child("address").child("city_Name").getValue().toString();
                 nameInstitute = snapshot.child(institute_id).child("institute_name").getValue().toString();
             }
+
             @Override
             public void onCancelled(@NonNull DatabaseError error) {}
         });
@@ -86,15 +87,15 @@ public class UpdateQueueActivity extends AppCompatActivity implements View.OnCli
         String dateOfQueue[] = queue.split("\n");
         theTime = dateOfQueue[0]; // only the number of time
 
-        hour = theTime.substring(0,2);
+        hour = theTime.substring(0, 2);
         minute = theTime.substring(2);
 
-        day = date.substring(0,2);
-        month = date.substring(2,4);
+        day = date.substring(0, 2);
+        month = date.substring(2, 4);
         year = date.substring(4);
 
         StringBuilder timeNew = new StringBuilder(theTime);
-        timeNew.insert(2,":");
+        timeNew.insert(2, ":");
         timeInput.setText(timeNew.toString());
 
         StringBuilder dateNewName = new StringBuilder(date);
@@ -121,38 +122,31 @@ public class UpdateQueueActivity extends AppCompatActivity implements View.OnCli
     @Override
     public void onClick(View v) {
         if (updateClientToQueue == v) {
-            String idOfPatient = IDInput.getText().toString().trim();
-            StringBuilder id_patient_input = new StringBuilder(idOfPatient);
-            if(!idOfPatient.equals("TBD")){
-                id_patient_input.insert(0, "p:");
+            String patient_id = IDInput.getText().toString().trim();
+
+            if (STOP_RUN == 0) {
+//                        Update_Queues update = new Update_Queues();
+//                        MyDate myDate = new MyDate(day, month, year, hour, minute);
+//                        TreatmentQueue tq = new TreatmentQueue(myDate, client_id, typeOfTreatment, nameInstitute, city);
+//                        update.cancel_patient(client_id, tq, context, idOfPatient);
+                if (patient_id.equals("TBD")) {
+                    toWaitingList(date, theTime, patient_id);
+                }else{
+
+                }
+                STOP_RUN = 1;
+                goBackToCalendar();
             }
-
-            dbRef_queue_institute.addValueEventListener(new ValueEventListener() {
-                @Override
-                public void onDataChange(@NonNull DataSnapshot snapshot) {
-                    if (STOP_RUN == 0) {
-                        Update_Queues update = new Update_Queues();
-                        MyDate myDate = new MyDate(day, month, year, hour, minute);
-                        TreatmentQueue tq = new TreatmentQueue(myDate, client_id, typeOfTreatment, nameInstitute, city);
-                        update.cancel_patient(client_id, tq, context, idOfPatient);
-/*                        UpdatesAndAddsQueues up = new UpdatesAndAddsQueues(institute_id, id_patient_input.toString(), date, theTime, typeOfTreatment);
-                          up.update();
-*/                        STOP_RUN = 1;
-                        goBackToCalendar();
-                    }
-                }
-
-                @Override
-                public void onCancelled(@NonNull DatabaseError error) {
-                }
-
-            }); // addValueEventListener
-
         }
-        this.onStop();
     }
 
-    private void goBackToCalendar(){
+    private void toWaitingList(String theDate, String theTime, String id_patient_input) {
+        Log.d("in toWaitingList => ", "YES !!!!");
+        UpdatesAndAddsQueues update = new UpdatesAndAddsQueues(institute_id, id_patient_input, theDate, theTime, typeOfTreatment, city, nameInstitute);
+        update.changeWaitList();
+    }
+
+    private void goBackToCalendar() {
         Intent goBack_intent = new Intent(this, WatchingQueueActivity.class);
         goBack_intent.putExtra("instituteID", institute_id);
         startActivity(goBack_intent);

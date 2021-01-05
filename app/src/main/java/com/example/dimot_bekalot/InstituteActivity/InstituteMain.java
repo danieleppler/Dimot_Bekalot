@@ -57,7 +57,7 @@ public class InstituteMain extends AppCompatActivity {
 
 //       Intent institute_details = getIntent();
 //       institute_id = institute_details.getExtras().getString("instituteID"); //Real-time
-        institute_id = "i:123456781"; //debuging
+        institute_id = "i:123123123"; //debuging
         dataBase = FirebaseDatabase.getInstance();
         dbRef = dataBase.getReference(INSTITUTE);
 
@@ -72,7 +72,6 @@ public class InstituteMain extends AppCompatActivity {
             @Override
             public void onCancelled(@NonNull DatabaseError error) {}
         });
-
 
         image = (ImageView) findViewById(R.id.institute_image);
 

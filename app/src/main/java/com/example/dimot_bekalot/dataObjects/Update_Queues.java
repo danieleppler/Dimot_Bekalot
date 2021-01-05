@@ -39,11 +39,10 @@ public class Update_Queues {
     String client_to_notify="";
     Boolean toUpdate=false;
     String queue_id;
-    public Update_Queues() {
-    }
+
+    public Update_Queues() {}
 
     public void update_new_Patient(String client_id, TreatmentQueue tq, Context context,Boolean toPrint) {
-
         mDatabase = FirebaseDatabase.getInstance();
         Queues_ref = mDatabase.getReference().child("Queues");
         queues_src_ref = mDatabase.getReference().child("Queues_search");
@@ -147,6 +146,7 @@ public class Update_Queues {
         });
     }
 
+
     public void cancel_patient(String client_id, TreatmentQueue tq, Context context, String toChange) {
         mDatabase = FirebaseDatabase.getInstance();
 
@@ -157,7 +157,7 @@ public class Update_Queues {
 
     }
 
-    public void queues_cancel(String client_id, TreatmentQueue tq, Context context, String date, String time, String toChange) {
+    private void queues_cancel(String client_id, TreatmentQueue tq, Context context, String date, String time, String toChange) {
         Queues_ref.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -181,7 +181,7 @@ public class Update_Queues {
         });
     }
 
-    public void queue_src_cancel(String client_id, TreatmentQueue tq, Context context, String date, String time, String toChange) {
+    private void queue_src_cancel(String client_id, TreatmentQueue tq, Context context, String date, String time, String toChange) {
         queues_src_ref = mDatabase.getReference().child("Queues_search");
         queues_src_ref.child("City").child(tq.getCity()).child("Treat_type").child(tq.getType()).addValueEventListener(new ValueEventListener() {
             @Override
@@ -205,7 +205,7 @@ public class Update_Queues {
         });
     }
 
-    public void queue_inst_cancel(String client_id, TreatmentQueue tq, Context context, String date, String time, String toChange) {
+    private void queue_inst_cancel(String client_id, TreatmentQueue tq, Context context, String date, String time, String toChange) {
         queues_inst_ref = mDatabase.getReference().child("Queues_institute");
         inst_ref = mDatabase.getReference().child("Institutes");
         inst_ref.addValueEventListener(new ValueEventListener() {
@@ -445,8 +445,6 @@ public class Update_Queues {
         intent.putExtra("client_id", client_id);
         context.startActivity(intent);
     }
-
-
 
     private void printAndMove(String client_id,String msg,Context context)
     {
