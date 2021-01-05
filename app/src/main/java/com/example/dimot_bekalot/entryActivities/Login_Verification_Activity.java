@@ -1,6 +1,6 @@
 package com.example.dimot_bekalot.entryActivities;
 /**
- *
+ * This activity checkes if the login details is match to the details at the DB
  */
 
 import androidx.annotation.NonNull;
@@ -61,13 +61,12 @@ public class Login_Verification_Activity extends AppCompatActivity {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
 
-                boolean found_Valid_USER = false;
                 /**if the input details will match to Patient details*/
                 if (inputUserFromLoginActivity.getID().charAt(0) == 'p') {
                     if (snapshot.child(PATIENTS).child(inputUserFromLoginActivity.getID()).exists()) {
                         PATIENTSorINSTITUTES = PATIENTS;
                         /*if the user is not locked, can move on*/
-                        found_Valid_USER = ValidUSER(snapshot, inputUserFromLoginActivity.getID(), inputUserFromLoginActivity, PATIENTSorINSTITUTES);
+                        ValidUSER(snapshot, inputUserFromLoginActivity.getID(), inputUserFromLoginActivity, PATIENTSorINSTITUTES);
                     } else {
                         Toast.makeText(Login_Verification_Activity.this, "פרטים שגויים, התחל שוב בבקשה", Toast.LENGTH_LONG).show();
                         goBackToLogin_Activity();
@@ -79,7 +78,7 @@ public class Login_Verification_Activity extends AppCompatActivity {
                     if (snapshot.child(INSTITUTES).child(inputUserFromLoginActivity.getID()).exists()) {
                         PATIENTSorINSTITUTES = INSTITUTES;
                         /*if the user is not locked, can move on*/
-                        found_Valid_USER = ValidUSER(snapshot, inputUserFromLoginActivity.getID(), inputUserFromLoginActivity, PATIENTSorINSTITUTES);
+                        ValidUSER(snapshot, inputUserFromLoginActivity.getID(), inputUserFromLoginActivity, PATIENTSorINSTITUTES);
                     } else {
                         Toast.makeText(Login_Verification_Activity.this, "פרטים שגויים, התחל שוב בבקשה", Toast.LENGTH_LONG).show();
                         goBackToLogin_Activity();
@@ -124,7 +123,8 @@ public class Login_Verification_Activity extends AppCompatActivity {
                         goBackToLogin_Activity();
                     }
                 } else {
-                    Toast.makeText(Login_Verification_Activity.this, "משהו הלך לא קשורה, התחברו שוב בבקשה", Toast.LENGTH_LONG).show();
+                    Toast.makeText(Login_Verification_Activity.this, "משהו הלך לא קשורה, התחברו שוב בבקשה,כניראה האי-מייל כבר נמצא במערכת", Toast.LENGTH_LONG).show();
+                    Toast.makeText(Login_Verification_Activity.this, "בבקשה נסו שנית", Toast.LENGTH_LONG).show();
                     goBackToLogin_Activity();
                 }
             }
@@ -154,8 +154,7 @@ public class Login_Verification_Activity extends AppCompatActivity {
                 /*if the password and the ID is verified, we have to check the email address*/
                 emailVerification(inputUserFromLoginActivity.getID(), inputUserFromLoginActivity.getPassword(), inputUserFromLoginActivity.getEmail(), PATIENTSorINSTITUTES);
                 return true;
-
-                /*else: incurrect password*/
+                /*else: incorrect password*/
             }
             if (LOCK_ACCOUNT == 0) {
                 LOCK_ACCOUNT = 1;

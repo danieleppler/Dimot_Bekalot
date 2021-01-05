@@ -42,13 +42,13 @@
             android:screenOrientation="portrait"/>
         <activity android:name=".entryActivities.Register_Main_Activity"
             android:screenOrientation="portrait"/>
-        <activity android:name=".entryActivities.Main_Activity"
+        <activity android:name=".InstituteActivity.InstituteMain"
             android:screenOrientation="portrait"/>
         <activity android:name=".InstituteActivity.WatchingQueueActivity"
             android:screenOrientation="portrait"/>
         <activity android:name=".clientActivities.Main_Client_View"
             android:screenOrientation="portrait"/>
-        <activity android:name=".InstituteActivity.InstituteMain"
+        <activity android:name=".entryActivities.Main_Activity"
             android:screenOrientation="portrait">
                 <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

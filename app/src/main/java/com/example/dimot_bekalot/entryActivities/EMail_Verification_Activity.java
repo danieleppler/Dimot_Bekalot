@@ -8,7 +8,6 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
-import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.View;
@@ -72,7 +71,7 @@ public class EMail_Verification_Activity extends AppCompatActivity {
 
                                 /**waiting for user permission before move to login activity, so the user can read the text
                                  * and remember the user name*/
-                                Thread.sleep(8000);
+                                Thread.sleep(5000);
                                 mainHandler.post(new Runnable() {
                                     @Override
                                     public void run() {
