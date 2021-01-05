@@ -49,9 +49,6 @@ public class Register_Patient_Activity extends AppCompatActivity {
     private Address patientAddress;
     private LockedAccount lockedAccount;
 
-    private ImageButton logOut;
-    Context context = this;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -78,17 +75,6 @@ public class Register_Patient_Activity extends AppCompatActivity {
         myDataBase = dataBase.getReference(PATIENTS);
         fAuto=FirebaseAuth.getInstance();
         /*end_FireBase_connection*/
-
-        /*Bottun_log-out*/
-        logOut = (ImageButton) findViewById(R.id.logOutButton);
-        logOut.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent logOutIntent = new Intent(context, com.example.dimot_bekalot.entryActivities.Main_Activity.class);
-                startActivity(logOutIntent);
-            }
-        });
-        /*end_Bottun_log-out*/
         //*************************************************************//
 
         registerPatient_button.setOnClickListener(new View.OnClickListener() {

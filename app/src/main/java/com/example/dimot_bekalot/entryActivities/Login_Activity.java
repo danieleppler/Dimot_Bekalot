@@ -1,6 +1,6 @@
 package com.example.dimot_bekalot.entryActivities;
 /**
- *
+ * This activity is main LOGIN activity
  */
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -33,9 +33,6 @@ public class Login_Activity extends AppCompatActivity {
     private EditText passwordInput;
     private EditText emailInput;
 
-    private ImageButton logOut;
-    Context context = this;
-
     private Login_Input_Data loginCostumerInput;
 
     @Override
@@ -52,16 +49,6 @@ public class Login_Activity extends AppCompatActivity {
         forgetButton = (Button) findViewById(R.id.forget_login_button);
         registerButton = (Button) findViewById(R.id.register_button_login);
 
-        /*Bottun_log-out*/
-        logOut = (ImageButton) findViewById(R.id.logOutButton);
-        logOut.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent logOutIntent = new Intent(context, com.example.dimot_bekalot.entryActivities.Main_Activity.class);
-                startActivity(logOutIntent);
-            }
-        });
-        /*end_Bottun_log-out*/
 
         //*************************************************************//
 
