@@ -54,10 +54,10 @@ public class validation_Tools {
      * @param patientID_input
      * @return
      */
-    public static boolean isPatientNamesIsValid(String firstName, String lastName,
-                                                String patientId, String age, EditText first_nameInput,
-                                                EditText last_nameInput, EditText patientID_input,
-                                                EditText ageInput) {
+    public static boolean isPatientIsValidIInput(String firstName, String lastName,
+                                                 String patientId, String age, EditText first_nameInput,
+                                                 EditText last_nameInput, EditText patientID_input,
+                                                 EditText ageInput) {
 
         if (TextUtils.isEmpty(firstName)) {
             first_nameInput.setError("שם פרטי הוא שדה חובה");
@@ -100,8 +100,8 @@ public class validation_Tools {
      * @param instituteID_Input
      * @return
      */
-    public static boolean isInstituteNamesIsValid(String InstituteName, String instituteID,
-                                                  String cityLiving, EditText cityInput,
+    public static boolean isInstituteIsValidInput(String InstituteName, String instituteID,
+                                                  String cityLiving,EditText cityInput,
                                                   EditText institute_nameInput, EditText instituteID_Input) {
 
         if (TextUtils.isEmpty(InstituteName)) {
@@ -114,11 +114,15 @@ public class validation_Tools {
             return false;
         }
 
+        if (Long.valueOf(instituteID) > 999999999 || Long.valueOf(instituteID) < 100000000) {
+            instituteID_Input.setError("מספר רישוי לא תקין");
+            return false;
+        }
+
         if (TextUtils.isEmpty(cityLiving)) {
             cityInput.setError("עיר פעילות המכון הוא שדה חובה");
             return false;
         }
-
         return true;
     }
 

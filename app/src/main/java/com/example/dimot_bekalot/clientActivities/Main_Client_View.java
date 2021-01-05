@@ -70,9 +70,9 @@ public class Main_Client_View extends AppCompatActivity implements View.OnClickL
         check = getIntent().getStringExtra("check");
         List<String> client_names = new ArrayList<>();
 
-//        client_id = getIntent().getStringExtra("client_id");// real-time
+        client_id = getIntent().getStringExtra("client_id");// real-time
 //        client_id = "p:121212121"; //debugging
-        client_id="p:111111111";
+//        client_id="p:111111111";
 //        client_id="p:999999999";//debugging
         db_ref = mDatabase.getReference().child("Patients").child(client_id);
         UpdateToken();

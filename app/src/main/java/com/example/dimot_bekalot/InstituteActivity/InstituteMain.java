@@ -55,6 +55,7 @@ public class InstituteMain extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_institute_main);
 
+
 //       Intent institute_details = getIntent();
 //       institute_id = institute_details.getExtras().getString("instituteID"); //Real-time
         institute_id = "i:123123123"; //debuging
