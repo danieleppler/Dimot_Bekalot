@@ -4,42 +4,43 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/pale_blue_background"
+    android:background="@color/LightCyan"
     tools:context=".clientActivities.Private_Area">
 
     <Button
         android:id="@+id/show_queues"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="196dp"
+        android:layout_height="81dp"
         android:text="הצג תורים שנקבעו"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.32" />
+        app:layout_constraintVertical_bias="0.404" />
 
     <Button
         android:id="@+id/edit_det"
-        android:layout_width="188dp"
-        android:layout_height="43dp"
+        android:layout_width="203dp"
+        android:layout_height="77dp"
         android:text="ערוך פרטיים אישיים"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="@+id/show_queues"
-        app:layout_constraintStart_toStartOf="@+id/show_queues"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.649" />
-
-    <ImageView
-        android:id="@+id/imageView9"
-        android:layout_width="102dp"
-        android:layout_height="86dp"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.948"
+        app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.054"
-        app:srcCompat="@mipmap/dimot_bekalot_logo" />
+        app:layout_constraintVertical_bias="0.688" />
+
+    <ImageView
+        android:id="@+id/imageView8"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.121"
+        app:srcCompat="@mipmap/person_img_foreground" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

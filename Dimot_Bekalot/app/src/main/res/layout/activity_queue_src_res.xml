@@ -4,21 +4,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/pale_blue_background"
+    android:background="@color/LightCyan"
     tools:context=".clientActivities.queue_src_res">
 
-
-    <ImageView
-        android:id="@+id/imageView6"
-        android:layout_width="96dp"
-        android:layout_height="75dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.02"
-        app:srcCompat="@mipmap/dimot_bekalot_logo" />
 
     <TextView
         android:id="@+id/res_num1"
@@ -27,58 +15,49 @@
         android:text="נמצאו"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.864"
+        app:layout_constraintHorizontal_bias="0.468"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.157" />
+        app:layout_constraintVertical_bias="0.123" />
 
     <TextView
         android:id="@+id/res_num2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="TextView"
-        app:layout_constraintBottom_toBottomOf="@+id/res_num1"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.677"
+        app:layout_constraintHorizontal_bias="0.47"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/res_num1"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.192" />
 
     <TextView
         android:id="@+id/res_num3"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="155dp"
+        android:layout_height="28dp"
         android:text="תוצאות העונות לחיפושך"
-        app:layout_constraintBottom_toBottomOf="@+id/res_num2"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.232"
+        app:layout_constraintHorizontal_bias="0.464"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/res_num2" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.253" />
 
     <ListView
         android:id="@+id/results"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:clickable="true"
+        android:divider="@color/aqua"
+        android:dividerHeight="16px"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.499"
-        android:divider="#FF0000"
-        android:dividerHeight="16px"
-        android:clickable="true">
-        tools:ignore="MissingConstraints"></ListView>
-
-    <TextView
-        android:id="@+id/Queues2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="אין תורים העונים להגדרות החיפוש"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="@+id/res_num1"
-        app:layout_constraintStart_toStartOf="@+id/res_num3"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.141" />
+        app:layout_constraintVertical_bias="0.499">
+        tools:ignore="MissingConstraints">
+    </ListView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

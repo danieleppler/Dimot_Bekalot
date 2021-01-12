@@ -5,7 +5,11 @@
 
     <TextView
         android:id="@+id/textView"
+        android:minWidth="246dp"
         android:layout_width="wrap_content"
+        android:gravity="left|center_vertical"
+        android:textSize="20sp"
+        android:paddingLeft="4dp"
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:text="TextView" />

@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/pale_blue_background"
+    android:background="@color/LightCyan"
     tools:context=".clientActivities.edit_client_det">
 
     <TextView
@@ -111,23 +111,11 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.721" />
 
-    <ImageView
-        android:id="@+id/imageView5"
-        android:layout_width="96dp"
-        android:layout_height="75dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.02"
-        app:srcCompat="@mipmap/dimot_bekalot_logo" />
-
     <TextView
         android:id="@+id/textView7"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="שם פרטים"
+        android:text="שם פרטי"
         app:layout_constraintBottom_toTopOf="@+id/name2"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.905"

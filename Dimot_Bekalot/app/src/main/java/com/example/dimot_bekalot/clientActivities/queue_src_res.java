@@ -4,19 +4,15 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.AlertDialog;
-import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.os.CountDownTimer;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -24,7 +20,7 @@ import android.widget.Toast;
 import com.example.dimot_bekalot.R;
 import com.example.dimot_bekalot.dataObjects.MyDate;
 import com.example.dimot_bekalot.dataObjects.TreatmentQueue;
-import com.example.dimot_bekalot.dataObjects.Update_Queues;
+import com.example.dimot_bekalot.generalActivities.UpdateQueues;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -32,7 +28,6 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.List;
 
 public class queue_src_res extends AppCompatActivity implements View.OnClickListener {
@@ -43,7 +38,7 @@ public class queue_src_res extends AppCompatActivity implements View.OnClickList
     List<String> queues;
     String  client_id;
     TextView num_of_options;
-    TextView queues2;
+
     TextView temp1;
     TextView temp2;
     ListView listView;
@@ -58,7 +53,6 @@ public class queue_src_res extends AppCompatActivity implements View.OnClickList
     TreatmentQueue tq=new TreatmentQueue();
     TextView queue_det;
     String type = "", nameInstitute = "", city = "", day="", year = "20",chosen_queue;
-    Update_Queues uq;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -83,17 +77,11 @@ public class queue_src_res extends AppCompatActivity implements View.OnClickList
             temp1 = (TextView) findViewById(R.id.res_num1);
             temp2 = (TextView) findViewById(R.id.res_num3);
             num_of_options.setText(String.valueOf(queues.size()));
-            queues2 = (TextView) findViewById(R.id.Queues2);
+
 
             results = new String[queues.size()];
             listView = (ListView) findViewById(R.id.results);
 
-            if (queues.size() == 0) {
-                num_of_options.setVisibility(View.INVISIBLE);
-                temp1.setVisibility(View.INVISIBLE);
-                temp2.setVisibility(View.INVISIBLE);
-            } else {
-                queues2.setVisibility(View.INVISIBLE);
                 queues_DB.addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -123,7 +111,6 @@ public class queue_src_res extends AppCompatActivity implements View.OnClickList
                     public void onCancelled(@NonNull DatabaseError error) {
                     }
                 });
-            }
         }
 
 
@@ -135,6 +122,7 @@ public class queue_src_res extends AppCompatActivity implements View.OnClickList
     void showPopup(int position)
     {
         chosen_queue=results[position];
+        parse_treatment(tq);
         LayoutInflater inflater = this.getLayoutInflater();
         View view = inflater.inflate(R.layout.activity_popup_queue_res, null);
         queue_det = (TextView)view.findViewById(R.id.queue_det);
@@ -154,10 +142,12 @@ public class queue_src_res extends AppCompatActivity implements View.OnClickList
                 .setPositiveButton("קבע", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
-                        parse_treatment(tq);
-                        Log.d("check",tq.getDate()+""+tq.getNameInstitute()+""+tq.getNameInstitute()+""+tq.getCity()+""+tq.getIdPatient());
-                        uq=new Update_Queues();
-                        uq.update_new_Patient(client_id,tq,context,true);
+                        Intent intent=new Intent(context, UpdateQueues.class);
+                        intent.putExtra("client_id",client_id);
+                        intent.putExtra("tq",tq.toString());
+                        intent.putExtra("flag","book");
+                        intent.putExtra("toPrint",true);
+                        startActivity(intent);
                     }
                 });
         builder.create();

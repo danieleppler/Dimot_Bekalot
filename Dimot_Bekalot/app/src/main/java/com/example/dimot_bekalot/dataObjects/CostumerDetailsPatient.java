@@ -5,20 +5,22 @@ import java.io.Serializable;
 /**
  * This class represent Costumer Details of Patient
  */
-public class Costumer_Details_Patient extends Costumer_Details implements Serializable {
+public class CostumerDetailsPatient extends Costumer_Details implements Serializable {
     private String first_name;
     private String second_name;
     private String age;
     private String patientID;
     private String Uid;//unique id created by GOOGLE
 
-    public Costumer_Details_Patient(){
+
+
+    public CostumerDetailsPatient(){
         super();
     }
 
-    public Costumer_Details_Patient(String email, String phone_number, String password, Address address,
-                                    LockedAccount lockedAccount, String first_name,
-                                    String second_name, String age, String patientID) {
+    public CostumerDetailsPatient(String email, String phone_number, String password, Address address,
+                                  LockedAccount lockedAccount, String first_name,
+                                  String second_name, String age, String patientID) {
         super(email, phone_number, password, address, lockedAccount);
         this.first_name = first_name;
         this.second_name = second_name;

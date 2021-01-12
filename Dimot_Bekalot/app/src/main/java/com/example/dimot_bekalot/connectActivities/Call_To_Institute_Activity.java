@@ -22,7 +22,7 @@ import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.example.dimot_bekalot.R;
-import com.example.dimot_bekalot.dataObjects.Costumer_Details_Institute;
+import com.example.dimot_bekalot.dataObjects.CostumerDetailsInstitute;
 import com.example.dimot_bekalot.entryActivities.Main_Activity;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -37,7 +37,7 @@ public class Call_To_Institute_Activity extends AppCompatActivity implements Ada
     private static final String INSTITUTES = "Institutes";
     private ArrayList<String> InstitutesPhoneList;
     private ArrayAdapter<String> InstitutesPhoneListAdapter;
-    private Costumer_Details_Institute instituteToCall;
+    private CostumerDetailsInstitute instituteToCall;
     private static final int REQUEST_CALL = 1;
 
     private ImageButton logOut;
@@ -53,7 +53,7 @@ public class Call_To_Institute_Activity extends AppCompatActivity implements Ada
         setContentView(R.layout.call_to_institute_activity);
 
         InstitutesPhoneList = new ArrayList<>();
-        instituteToCall = new Costumer_Details_Institute();
+        instituteToCall = new CostumerDetailsInstitute();
         /*create a drop sown menu*/
         chooseInstituteSpinner = findViewById(R.id.dropdown_menu_instituties);
 
@@ -89,7 +89,7 @@ public class Call_To_Institute_Activity extends AppCompatActivity implements Ada
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 InstitutesPhoneList.add("בחר מכון רצוי בבקשה");
                 for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
-                    instituteToCall = dataSnapshot.getValue(Costumer_Details_Institute.class);
+                    instituteToCall = dataSnapshot.getValue(CostumerDetailsInstitute.class);
                     InstitutesPhoneList.add(instituteToCall.getInstitute_name() + "  :  " + instituteToCall.getPhone_number());
                 }
                 InstitutesPhoneListAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);

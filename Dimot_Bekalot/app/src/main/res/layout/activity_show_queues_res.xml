@@ -4,21 +4,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/pale_blue_background"
+    android:background="@color/LightCyan"
     tools:context=".clientActivities.show_queues_res">
 
-
-    <ImageView
-        android:id="@+id/imageView7"
-        android:layout_width="96dp"
-        android:layout_height="75dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.02"
-        app:srcCompat="@mipmap/dimot_bekalot_logo" />
 
     <ListView
         android:id="@+id/queues"
@@ -40,23 +28,25 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="לחץ על תור כדי לבטלו"
+        android:textAppearance="@style/TextAppearance.AppCompat.Large"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintHorizontal_bias="0.459"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.146" />
+        app:layout_constraintVertical_bias="0.269" />
 
     <TextView
         android:id="@+id/noQueues"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="239dp"
+        android:layout_height="49dp"
         android:text="אין תורים שנקבעו"
+        android:textAppearance="@style/TextAppearance.AppCompat.Large"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="@+id/Queues"
-        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintHorizontal_bias="0.825"
         app:layout_constraintStart_toStartOf="@+id/Queues"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.146" />
+        app:layout_constraintVertical_bias="0.171" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

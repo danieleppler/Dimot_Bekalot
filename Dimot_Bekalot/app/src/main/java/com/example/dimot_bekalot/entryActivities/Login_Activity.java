@@ -7,7 +7,6 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Context;
 import android.content.Intent;
-import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
@@ -18,7 +17,7 @@ import android.widget.ImageButton;
 import com.example.dimot_bekalot.R;
 import com.example.dimot_bekalot.dataObjects.Login_Input_Data;
 import com.example.dimot_bekalot.Tools.Strings_Tools;
-import com.example.dimot_bekalot.Tools.validationTools;
+import com.example.dimot_bekalot.Tools.validation_Tools;
 
 public class Login_Activity extends AppCompatActivity {
 
@@ -74,10 +73,10 @@ public class Login_Activity extends AppCompatActivity {
                 email = emailInput.getText().toString().trim();
 
                 /*checking if the inputs is valid inputs*/
-                if (!validationTools.isLoginInputValid(UserName, password, UsernameInput, passwordInput)) {
+                if (!validation_Tools.isLoginInputValid(UserName, password, UsernameInput, passwordInput)) {
                     return;
                 }
-                if (!validationTools.CheckIfNumber(Strings_Tools.only_number_at_ID(UserName), UsernameInput)) {
+                if (!validation_Tools.CheckIfNumber(Strings_Tools.only_number_at_ID(UserName), UsernameInput)) {
                     return;
                 }
                 if (TextUtils.isEmpty(email)) {

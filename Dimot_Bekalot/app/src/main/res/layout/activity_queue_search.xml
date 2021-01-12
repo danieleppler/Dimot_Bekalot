@@ -4,30 +4,18 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/pale_blue_background"
+    android:background="@color/LightCyan"
     tools:context=".clientActivities.queue_search">
     <!--android:entries="@array/treat_type__array"-->
-    <ImageView
-        android:id="@+id/imageView8"
-        android:layout_width="96dp"
-        android:layout_height="75dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.02"
-        app:srcCompat="@mipmap/dimot_bekalot_logo" />
 
     <Spinner
         android:id="@+id/treat_type_spinner"
         android:layout_width="131dp"
         android:layout_height="25dp"
-        android:layout_marginEnd="72dp"
         android:entries="@array/treatment_type"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/treat_type"
-        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.592"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.225" />
@@ -37,12 +25,12 @@
         android:layout_width="131dp"
         android:layout_height="25dp"
         android:entries="@array/city__array"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toBottomOf="@+id/city"
         app:layout_constraintEnd_toStartOf="@+id/city"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="@+id/treat_type_spinner"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.379" />
+        app:layout_constraintTop_toTopOf="@+id/city"
+        app:layout_constraintVertical_bias="0.0" />
 
     <Button
         android:id="@+id/search_btn"
@@ -51,10 +39,10 @@
         android:text="חפש"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.485"
+        app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.927" />
+        app:layout_constraintVertical_bias="0.829" />
 
     <TextView
         android:id="@+id/treat_type"
@@ -63,24 +51,25 @@
         android:text="סוג בדיקה"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.778"
+        app:layout_constraintHorizontal_bias="0.98"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.231" />
+        app:layout_constraintVertical_bias="0.223" />
 
     <TextView
         android:id="@+id/queue_search_sign"
-        android:layout_width="176dp"
-        android:layout_height="29dp"
+        android:layout_width="223dp"
+        android:layout_height="89dp"
         android:text="מערכת זימון תורים"
+        android:textAppearance="@style/TextAppearance.AppCompat.Display1"
         android:textIsSelectable="false"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.387"
+        app:layout_constraintHorizontal_bias="0.719"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.113" />
+        app:layout_constraintVertical_bias="0.047" />
 
     <TextView
         android:id="@+id/city"
@@ -89,10 +78,10 @@
         android:text="עיר"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="@+id/treat_type"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="@+id/treat_type"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.379" />
+        app:layout_constraintVertical_bias="0.393" />
 
     <TextView
         android:id="@+id/from_date2"
@@ -100,10 +89,10 @@
         android:layout_height="wrap_content"
         android:text="מתאריך"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="@+id/city"
-        app:layout_constraintStart_toStartOf="@+id/city"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.518" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.98"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/toDate2"
@@ -111,34 +100,46 @@
         android:layout_height="wrap_content"
         android:text="עד תאריך"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="@+id/from_date2"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="@+id/from_date2"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.98"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.626" />
+        app:layout_constraintVertical_bias="0.622" />
 
     <TextView
         android:id="@+id/fromDate"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="TextView"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="@+id/city_spinner"
-        app:layout_constraintHorizontal_bias="0.452"
-        app:layout_constraintStart_toStartOf="@+id/city_spinner"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.518" />
+        app:layout_constraintBottom_toBottomOf="@+id/from_date2"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.546"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/city"
+        app:layout_constraintVertical_bias="1.0" />
 
     <TextView
         android:id="@+id/toDate"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="60dp"
+        android:layout_height="15dp"
         android:text="TextView"
+        app:layout_constraintBottom_toBottomOf="@+id/toDate2"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.524"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/from_date2"
+        app:layout_constraintVertical_bias="1.0" />
+
+    <ImageView
+        android:id="@+id/imageView4"
+        android:layout_width="91dp"
+        android:layout_height="83dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="@+id/fromDate"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="@+id/fromDate"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.106"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.616" />
+        app:layout_constraintVertical_bias="0.066"
+        app:srcCompat="@mipmap/calender_logo_foreground" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

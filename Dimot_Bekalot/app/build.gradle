@@ -40,6 +40,9 @@ dependencies {
     implementation 'pl.droidsonroids.gif:android-gif-drawable:1.2.19'
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
     implementation 'com.google.firebase:firebase-storage:19.2.0'
+    
+    implementation 'com.google.android.gms:play-services-base:17.5.0'
+    implementation 'com.google.firebase:firebase-analytics:18.0.0'
 
     implementation 'com.google.firebase:firebase-messaging:20.1.2'
     implementation 'com.squareup.retrofit2:retrofit:2.3.0'

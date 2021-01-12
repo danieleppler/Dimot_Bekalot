@@ -7,7 +7,7 @@ package com.example.dimot_bekalot.Tools;
 import android.text.TextUtils;
 import android.widget.EditText;
 
-public class validationTools {
+public class validation_Tools {
 
     /**
      * This function check if the input at Login Activity is valid and correct
