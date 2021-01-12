@@ -29,16 +29,8 @@ import java.util.List;
 
 public class Main_Client_View extends AppCompatActivity implements View.OnClickListener {
 
-/*
-Main activity of the client side,where he can chose from navigate through to the following activities:
-
-1.Private area
-2.queue search
-3.logging off from the system
-
- */
-
     private static final String TAG = "Main_Client_View";
+    int mutex=0;
     Button queue_order, inst_list, Private_Area;
     TextView client_name;
 
@@ -51,6 +43,7 @@ Main activity of the client side,where he can chose from navigate through to the
 
     Button logOutButton;
 
+    String check;
     FirebaseUser firebaseUser;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,10 +51,11 @@ Main activity of the client side,where he can chose from navigate through to the
             super.onCreate(savedInstanceState);
             setContentView(R.layout.activity_main_client_view);
             firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
+            check = getIntent().getStringExtra("check");
             List<String> client_names = new ArrayList<>();
 
-            client_id = getIntent().getStringExtra("client_id");// real-time
-            //client_id = "p:111111111";
+            //client_id = getIntent().getStringExtra("client_id");// real-time
+            client_id = "p:111111111";
             //client_id="p:121212121"; //debugging
             db_ref = mDatabase.getReference().child("Patients").child(client_id);
             UpdateToken();
@@ -138,9 +132,7 @@ Main activity of the client side,where he can chose from navigate through to the
     };
 
     private void UpdateToken() {
-        /*
-            Updating every client FireBase cloud massaging current token for further notification sending
-         */
+
         String refreshToken = FirebaseInstanceId.getInstance().getToken();
         Token token = new Token(refreshToken);
         FirebaseDatabase.getInstance().getReference("Patients").child(client_id).child("token").setValue(token);

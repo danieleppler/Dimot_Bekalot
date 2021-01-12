@@ -1,4 +1,4 @@
-package com.example.dimot_bekalot.tools;
+package com.example.dimot_bekalot.Tools;
 /**
  * This class contains help tools validation
  * functions to the registers aka Patient or Institute
