@@ -200,7 +200,7 @@ public class queue_search extends AppCompatActivity implements View.OnClickListe
                             if (data.getKey().equals(city)) {
                                 for (DataSnapshot data2 : data.child("Treat_type").getChildren()
                                 ) {
-                                    if (data2.getKey().equals(treat_type))
+                                    if (data2.getKey().equals(treat_type)) {
                                         for (DataSnapshot data3 : data2.getChildren()
                                         ) {
                                             isBetweenDate = false;
@@ -245,21 +245,7 @@ public class queue_search extends AppCompatActivity implements View.OnClickListe
                                                                             }
                                                                         }
                                                                     }
-                                                                else
-                                                                    {
-                                                                        if (queues_id.size() == 0) {
-                                                                            Toast toast = Toast.makeText(getApplicationContext(), "אין תוצאות העונות לחיפושך", Toast.LENGTH_SHORT);
-                                                                            toast.show();
-                                                                        } else {
-                                                                            Intent intent = new Intent(context, com.example.dimot_bekalot.clientActivities.queue_src_res.class);
-                                                                            intent.putExtra("queues", (Serializable) queues_id);
-                                                                            intent.putExtra("client_id", client_id);
-                                                                            intent.putExtra("check", "0");
-                                                                            startActivity(intent);
-                                                                        }
-                                                                    }
                                                                 }
-
                                                                 @Override
                                                                 public void onCancelled(@NonNull DatabaseError error) {
 
@@ -269,7 +255,18 @@ public class queue_search extends AppCompatActivity implements View.OnClickListe
                                                     }
                                             }
                                         }
+                                    }
                                 }
+                                    if (queues_id.size() == 0) {
+                                        Toast toast = Toast.makeText(getApplicationContext(), "אין תוצאות העונות לחיפושך", Toast.LENGTH_SHORT);
+                                        toast.show();
+                                    } else {
+                                        Intent intent = new Intent(context, com.example.dimot_bekalot.clientActivities.queue_src_res.class);
+                                        intent.putExtra("queues", (Serializable) queues_id);
+                                        intent.putExtra("client_id", client_id);
+                                        intent.putExtra("check", "0");
+                                        startActivity(intent);
+                                    }
                             }
 
                         }

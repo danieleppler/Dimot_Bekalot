@@ -54,6 +54,8 @@ public class UpdateQueues extends AppCompatActivity {
             else {
                 client_id=getIntent().getStringExtra("client_id");
                 chosen_queue=getIntent().getStringExtra("tq");
+                tq=new TreatmentQueue();
+                parse_treatment(tq);
                 Boolean toPrint=getIntent().getBooleanExtra("toPrint",true);
                 update_new_Patient(client_id, tq, this, toPrint);
             }
@@ -64,16 +66,17 @@ public class UpdateQueues extends AppCompatActivity {
     public void update_new_Patient(String client_id, TreatmentQueue tq, Context context,Boolean toPrint) {
 
         mDatabase = FirebaseDatabase.getInstance();
-        Queues_ref = mDatabase.getReference().child("Queues");
         queues_src_ref = mDatabase.getReference().child("Queues_search");
         queues_inst_ref = mDatabase.getReference().child("Queues_institute");
         inst_ref = mDatabase.getReference().child("Institutes");
+
         String date = tq.getDate().getDay() + "." + tq.getDate().getMonth() + "." + String.valueOf(tq.getDate().getYear()).substring(2);
         String time = tq.getDate().getHour() + ":" + tq.getDate().getMinute();
         update_new_in_queues(tq,date,time,client_id,toPrint,context);
     }
 
     private void update_new_in_queues(TreatmentQueue tq, String date, String time, String client_id, Boolean toPrint, Context context) {
+        Queues_ref = mDatabase.getReference().child("Queues");
         Queues_ref.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -542,10 +545,10 @@ public class UpdateQueues extends AppCompatActivity {
             i++;
         }
         MyDate date=new MyDate(day,monthT,year,hourT,minuteT);
-        tq.setType(type);
-        tq.setCity(city);
+        tq.setType(nameInstitute);
+        tq.setCity(type);
         tq.setDate(date);
-        tq.setNameInstitute(nameInstitute);
+        tq.setNameInstitute(city);
         tq.setIdPatient(client_id);
     }
 }

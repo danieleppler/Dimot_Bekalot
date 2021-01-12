@@ -6,13 +6,11 @@ package com.example.dimot_bekalot.entryActivities;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageButton;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
@@ -49,9 +47,6 @@ public class Register_Patient_Activity extends AppCompatActivity {
     private Address patientAddress;
     private LockedAccount lockedAccount;
 
-    private ImageButton logOut;
-    Context context = this;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -78,17 +73,6 @@ public class Register_Patient_Activity extends AppCompatActivity {
         myDataBase = dataBase.getReference(PATIENTS);
         fAuto=FirebaseAuth.getInstance();
         /*end_FireBase_connection*/
-
-        /*Bottun_log-out*/
-        logOut = (ImageButton) findViewById(R.id.logOutButton);
-        logOut.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent logOutIntent = new Intent(context, com.example.dimot_bekalot.entryActivities.Main_Activity.class);
-                startActivity(logOutIntent);
-            }
-        });
-        /*end_Bottun_log-out*/
         //*************************************************************//
 
         registerPatient_button.setOnClickListener(new View.OnClickListener() {
@@ -106,7 +90,7 @@ public class Register_Patient_Activity extends AppCompatActivity {
                 if(!validation_Tools.CheckIfNumber(patientID,patientID_Input)){ return; }
                 if(!validation_Tools.CheckIfNumber(age,ageInput)){ return; }
                 if(!validation_Tools.CheckIfNumber(phone,phone_numberInput)){ return; }
-                if (!validation_Tools.isPatientNamesIsValid(firstName, lastName, patientID,age,
+                if (!validation_Tools.isPatientIsValidIInput(firstName, lastName, patientID,age,
                         first_nameInput, last_nameInput, patientID_Input,ageInput)) { return; }
                 if (!validation_Tools.isAllCostumersNeedfulInputIsValid(email, password, phone, emailInput,
                         passwordInput, phone_numberInput)) { return; }
@@ -198,7 +182,5 @@ public class Register_Patient_Activity extends AppCompatActivity {
         myDataBase.child(costumer_details_patient.getPatientID()).setValue(this.costumer_details_patient);
         myDataBase.child(costumer_details_patient.getPatientID()).child("Uid").setValue(Uid);
         myDataBase.child(costumer_details_patient.getPatientID()).child("ActiveQueues").child("NumberOfWaitingQueues").setValue("0");
-        myDataBase.child(costumer_details_patient.getPatientID()).child("ActiveQueues").child("NumberOfQueues").setValue("0");
-
     }
 }

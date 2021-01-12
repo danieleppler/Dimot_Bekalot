@@ -18,25 +18,36 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.dimot_bekalot.R;
+import com.example.dimot_bekalot.dataObjects.MyDate;
+import com.example.dimot_bekalot.dataObjects.TreatmentQueue;
+import com.example.dimot_bekalot.dataObjects.Update_Queues;
 import com.example.dimot_bekalot.dataObjects.UpdatesAndAddsQueues;
+import com.example.dimot_bekalot.entryActivities.Main_Activity;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
-public class UpdateQueueActivity extends AppCompatActivity implements View.OnClickListener{
+
+public class UpdateQueueActivity extends AppCompatActivity implements View.OnClickListener {
     TextView IDInput, dateInput, timeInput, typeInput;
     Button updateClientToQueue;
 
     private ImageButton logOut;
     Context context = this;
 
-    private static final String Queues = "Queues_institute";
+    int BLUE = R.color.blue;
+
+    private static final String Queues = "Queues_institute", INSTITUTE = "Institutes";
     private FirebaseDatabase dataBase;
     private DatabaseReference dbRef_queue_institute;
-    private DatabaseReference dbRef;
-    private String institute_id, queue, date, typeOfTreatment, theTime;
+    private DatabaseReference ref_institute;
+    private String institute_id, queue, date, typeOfTreatment, theTime, client_id;
+    /* for update_queue: */
+    private String city, nameInstitute;
+    private String day, month, year, hour, minute;
+
 
     private int STOP_RUN = 0;
 
@@ -50,6 +61,22 @@ public class UpdateQueueActivity extends AppCompatActivity implements View.OnCli
         typeOfTreatment = intent.getExtras().getString("type");
         date = intent.getExtras().getString("date");
         queue = intent.getExtras().getString("queue");
+        client_id = intent.getExtras().getString("client_id");
+
+        dataBase = FirebaseDatabase.getInstance();
+        dbRef_queue_institute = dataBase.getReference(Queues);
+        ref_institute = dataBase.getReference(INSTITUTE);
+
+        ref_institute.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                city = snapshot.child(institute_id).child("address").child("city_Name").getValue().toString();
+                nameInstitute = snapshot.child(institute_id).child("institute_name").getValue().toString();
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {}
+        });
 
         IDInput = (TextView) findViewById(R.id.id_input);
         dateInput = (TextView) findViewById(R.id.date_input);
@@ -57,31 +84,36 @@ public class UpdateQueueActivity extends AppCompatActivity implements View.OnCli
         typeInput = (TextView) findViewById(R.id.update_chooseTreatmentType);
         updateClientToQueue = (Button) findViewById(R.id.update);
 
-        typeInput.setText(typeOfTreatment);
-
         String dateOfQueue[] = queue.split("\n");
-        theTime = dateOfQueue[0];
+        theTime = dateOfQueue[0]; // only the number of time
+
+        hour = theTime.substring(0, 2);
+        minute = theTime.substring(2);
+
+        day = date.substring(0, 2);
+        month = date.substring(2, 4);
+        year = date.substring(4);
+
         StringBuilder timeNew = new StringBuilder(theTime);
-        timeNew.insert(2,":");
+        timeNew.insert(2, ":");
         timeInput.setText(timeNew.toString());
 
         StringBuilder dateNewName = new StringBuilder(date);
         dateNewName.insert(2, "/");
         dateNewName.insert(5, "/20");
 
+        typeInput.setText(typeOfTreatment);
+
         dateInput.setText(dateNewName.toString());
 
-        dataBase = FirebaseDatabase.getInstance();
-        dbRef = dataBase.getReference();
-        dbRef_queue_institute = dataBase.getReference(Queues);
-
         updateClientToQueue.setOnClickListener(this);
+        updateClientToQueue.setBackgroundColor(getResources().getColor(BLUE));
 
         logOut = (ImageButton) findViewById(R.id.logOutButton);
         logOut.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent logOutIntent = new Intent(context, com.example.dimot_bekalot.entryActivities.Main_Activity.class);
+                Intent logOutIntent = new Intent(context, Main_Activity.class);
                 startActivity(logOutIntent);
             }
         });
@@ -90,34 +122,31 @@ public class UpdateQueueActivity extends AppCompatActivity implements View.OnCli
     @Override
     public void onClick(View v) {
         if (updateClientToQueue == v) {
-            String idOfPatient = IDInput.getText().toString().trim();
-            StringBuilder id_patient_input = new StringBuilder(idOfPatient);
-            if(!idOfPatient.equals("TBD")){
-                id_patient_input.insert(0, "p:");
+            String patient_id = IDInput.getText().toString().trim();
+
+            if (STOP_RUN == 0) {
+//                        Update_Queues update = new Update_Queues();
+//                        MyDate myDate = new MyDate(day, month, year, hour, minute);
+//                        TreatmentQueue tq = new TreatmentQueue(myDate, client_id, typeOfTreatment, nameInstitute, city);
+//                        update.cancel_patient(client_id, tq, context, idOfPatient);
+                if (patient_id.equals("TBD")) {
+                    toWaitingList(date, theTime, patient_id);
+                }else{
+
+                }
+                STOP_RUN = 1;
+                goBackToCalendar();
             }
-
-            dbRef_queue_institute.addValueEventListener(new ValueEventListener() {
-                @Override
-                public void onDataChange(@NonNull DataSnapshot snapshot) {
-                    if (STOP_RUN == 0) {
-                        UpdatesAndAddsQueues up = new UpdatesAndAddsQueues(institute_id, id_patient_input.toString(), date, theTime, typeOfTreatment);
-                        up.update();
-                        STOP_RUN = 1;
-                        goBackToCalendar();
-                    }
-                }
-
-                @Override
-                public void onCancelled(@NonNull DatabaseError error) {
-                }
-
-            }); // addValueEventListener
-
         }
-        this.onStop();
     }
 
-    private void goBackToCalendar(){
+    private void toWaitingList(String theDate, String theTime, String id_patient_input) {
+        Log.d("in toWaitingList => ", "YES !!!!");
+        UpdatesAndAddsQueues update = new UpdatesAndAddsQueues(institute_id, id_patient_input, theDate, theTime, typeOfTreatment, city, nameInstitute);
+        update.changeWaitList();
+    }
+
+    private void goBackToCalendar() {
         Intent goBack_intent = new Intent(this, WatchingQueueActivity.class);
         goBack_intent.putExtra("instituteID", institute_id);
         startActivity(goBack_intent);

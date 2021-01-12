@@ -9,7 +9,7 @@
 
     <include
         android:id="@+id/include"
-        layout="@layout/toolbar" />
+        layout="@layout/toolbar_entry_activities" />
 
     <ImageView
         android:id="@+id/main_Register_Login"

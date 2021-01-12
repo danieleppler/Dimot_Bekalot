@@ -7,6 +7,10 @@
     android:background="@drawable/pale_blue_background"
     tools:context=".entryActivities.Register_Institute_Activity">
 
+    <include
+        android:id="@+id/include5"
+        layout="@layout/toolbar_entry_activities" />
+
     <ImageView
         android:id="@+id/register_icon_2.2"
         android:layout_width="145dp"
@@ -32,9 +36,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/fill_in_text_view_institute" />
 
-    <include
-        android:id="@+id/include5"
-        layout="@layout/toolbar" />
+
 
     <EditText
         android:id="@+id/user_ID_input_register_institute"
@@ -118,7 +120,7 @@
 
     <include
         android:id="@+id/include2"
-        layout="@layout/toolbar" />
+        layout="@layout/toolbar_entry_activities" />
 
     <TextView
         android:id="@+id/welcome_text_view_institute"

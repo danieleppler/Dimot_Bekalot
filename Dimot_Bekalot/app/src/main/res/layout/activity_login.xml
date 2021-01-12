@@ -6,11 +6,11 @@
     android:layout_height="match_parent"
     android:background="@drawable/pale_blue_background"
     tools:context=".entryActivities.Login_Activity">
-    >
+
 
     <include
         android:id="@+id/include"
-        layout="@layout/toolbar" />
+        layout="@layout/toolbar_entry_activities" />
 
     <TextView
         android:id="@+id/welcome_text_login"

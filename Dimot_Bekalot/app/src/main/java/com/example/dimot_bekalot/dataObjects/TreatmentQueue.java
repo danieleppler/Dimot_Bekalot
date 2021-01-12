@@ -65,7 +65,7 @@ public class TreatmentQueue {
 
     public String toString()
     {
-        return _city+"    "+_type+"   "+_nameInstitute+"    "+_date.toString();
+        return _nameInstitute+"    "+_city+"   "+_type+"    "+_date.toString();
     }
 
 }

@@ -42,6 +42,7 @@ public class WatchingQueueActivity extends AppCompatActivity implements AdapterV
     private static final String QUEUE = "Queues_institute";
     private String typeOfTreatment;
     private String institute_id;
+    private String client_id;
     private ImageButton logOut;
     Context context = this;
 
@@ -57,8 +58,7 @@ public class WatchingQueueActivity extends AppCompatActivity implements AdapterV
     Dialog dialog;
     private TextView queue;
     ListView lvQueues;
-
-
+    
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -80,7 +80,7 @@ public class WatchingQueueActivity extends AppCompatActivity implements AdapterV
         logOut.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent logOutIntent = new Intent(context, com.example.dimot_bekalot.entryActivities.Main_Activity.class);
+                Intent logOutIntent = new Intent(context, Main_Activity.class);
                 startActivity(logOutIntent);
             }
         });
@@ -113,8 +113,8 @@ public class WatchingQueueActivity extends AppCompatActivity implements AdapterV
                                 String hour = data.getKey();
                                 String hourToViewInList = Strings_Tools.createNOTCleanUserName(hour, 2, ":");
                                 String id = data.child("patient_id_attending").getValue().toString();
-                                String allQueue = "שעה: " +hourToViewInList + "\n" + "מספר תעודת זהות: " + id;
-                                Log.d("queue", allQueue);
+                                String allQueue = "שעה: " + hourToViewInList + "\n" + "מספר תעודת זהות: " + id;
+                                client_id = id;
                                 queueWithHourAndNumID.add(allQueue);
                             }
                             CreatePopupList();
@@ -126,7 +126,6 @@ public class WatchingQueueActivity extends AppCompatActivity implements AdapterV
             @Override public void onCancelled(@NonNull DatabaseError error) {}
 
         }); // dbRef.addValueEventListener
-
     }
 
     private void CreatePopupList(){
@@ -161,9 +160,10 @@ public class WatchingQueueActivity extends AppCompatActivity implements AdapterV
         update_intent.putExtra("instituteID", institute_id);
         update_intent.putExtra("type", typeOfTreatment);
         String q = tmp.get(position);
-        String queueOutput = q.substring(0,2) + "" +q.substring(3); // erase ":" from time
+        String queueOutput = q.substring(5,7) + "" +q.substring(8); // take just a number for the time
         update_intent.putExtra("queue", queueOutput);
         update_intent.putExtra("date", date);
+        update_intent.putExtra("client_id", client_id);
         startActivity(update_intent);
     }
 
@@ -176,6 +176,12 @@ public class WatchingQueueActivity extends AppCompatActivity implements AdapterV
     @Override
     public void onNothingSelected(AdapterView<?> parent) { }
     /* </Spinner> */
+
+    @Override
+    public void onBackPressed(){
+        Intent back_to_main = new Intent(context, InstituteMain.class);
+        startActivity(back_to_main);
+    }
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {}
