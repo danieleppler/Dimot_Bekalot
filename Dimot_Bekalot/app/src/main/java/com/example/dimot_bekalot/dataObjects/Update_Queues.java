@@ -44,9 +44,9 @@ public class Update_Queues {
 
     public void update_new_Patient(String client_id, TreatmentQueue tq, Context context,Boolean toPrint) {
         mDatabase = FirebaseDatabase.getInstance();
-        Queues_ref = mDatabase.getReference().child("Queues");
-        queues_src_ref = mDatabase.getReference().child("Queues_search");
-        queues_inst_ref = mDatabase.getReference().child("Queues_institute");
+        Queues_ref = mDatabase.getReference().child("Test_Queues");
+        queues_src_ref = mDatabase.getReference().child("Test_Queues_search");
+        queues_inst_ref = mDatabase.getReference().child("Test_Queues_institute");
         inst_ref = mDatabase.getReference().child("Institutes");
         String date = tq.getDate().getDay() + "." + tq.getDate().getMonth() + "." + String.valueOf(tq.getDate().getYear()).substring(2);
         String time = tq.getDate().getHour() + ":" + tq.getDate().getMinute();
@@ -182,7 +182,7 @@ public class Update_Queues {
     }
 
     private void queue_src_cancel(String client_id, TreatmentQueue tq, Context context, String date, String time, String toChange) {
-        queues_src_ref = mDatabase.getReference().child("Queues_search");
+        queues_src_ref = mDatabase.getReference().child("Test_Queues_search");
         queues_src_ref.child("City").child(tq.getCity()).child("Treat_type").child(tq.getType()).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -206,7 +206,7 @@ public class Update_Queues {
     }
 
     private void queue_inst_cancel(String client_id, TreatmentQueue tq, Context context, String date, String time, String toChange) {
-        queues_inst_ref = mDatabase.getReference().child("Queues_institute");
+        queues_inst_ref = mDatabase.getReference().child("Test_Queues_institute");
         inst_ref = mDatabase.getReference().child("Institutes");
         inst_ref.addValueEventListener(new ValueEventListener() {
             @Override
@@ -357,9 +357,9 @@ public class Update_Queues {
 
     public void add_to_waiting_list(String client_id, TreatmentQueue tq, String position, Context context) {
         mDatabase = FirebaseDatabase.getInstance();
-        Queues_ref = mDatabase.getReference().child("Queues");
-        queues_src_ref = mDatabase.getReference().child("Queues_search");
-        queues_inst_ref = mDatabase.getReference().child("Queues_institute");
+        Queues_ref = mDatabase.getReference().child("Test_Queues");
+        queues_src_ref = mDatabase.getReference().child("Test_Queues_search");
+        queues_inst_ref = mDatabase.getReference().child("Test_Queues_institute");
         inst_ref = mDatabase.getReference().child("Institutes");
         int count1=0,count2=0;
         String tempDay=tq.getDate().getDay();

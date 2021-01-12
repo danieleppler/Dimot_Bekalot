@@ -20,9 +20,9 @@ public class UpdatesAndAddsQueues implements Serializable {
     private FirebaseDatabase dataBase;
     private DatabaseReference ref_QueuesInstitute, ref_QueuesSearch, ref_Queues;
     private DatabaseReference ref_institute;
-    private final String queues = "Queues";
-    private final String queues_institute = "Queues_institute";
-    private final String queues_search = "Queues_search";
+    private final String queues = "Test_Queues";
+    private final String queues_institute = "Test_Queues_institute";
+    private final String queues_search = "Test_Queues_search";
     private final String institute = "Institutes";
     private boolean isExist = false;
 
@@ -95,22 +95,29 @@ public class UpdatesAndAddsQueues implements Serializable {
 
     /*end add_queue */
 
-
     /*change_waiting_list*/
 
     public void changeWaitList() {
         initDatabase();
+
         ref_QueuesInstitute.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                if(isTBD("patient_1")){
-                    String tbd = "TBD";
-                    updateIdInQueue(tbd);
-                }
-                else{
-                    String id_patient = snapshot.child(institute_id).child("Treat_type").child(type)
-                            .child(date).child(hour).child("Waiting_list").child("patient_1").getValue().toString();
-                    updateIdInQueue(id_patient);
+                numOfQueue = snapshot.child(institute_id).child("Treat_type")
+                        .child(type).child(date).child(hour).child("number_queue").child(numOfQueue).getValue().toString();
+            }
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {}
+        });
+
+        ref_Queues.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                String id_patient = snapshot.child(numOfQueue).child("Waiting_list").child("patient_1").getValue().toString();
+
+                updateIdInQueue(id_patient);
+
+                if(!id_patient.equals("TBD")){
                     updateWaitList();
                 }
             }
@@ -154,58 +161,52 @@ public class UpdatesAndAddsQueues implements Serializable {
             @Override
             public void onCancelled(@NonNull DatabaseError error) {}
         });
-        ref_QueuesSearch.child("City").child(city)
-                .child("Treat_type").child(type).child(numOfQueue).child("patient_id_attending").setValue(id_patient);
+        ref_QueuesSearch.child("City").child(city).child("Treat_type").child(type)
+                .child(numOfQueue).child("patient_id_attending").setValue(id_patient);
         ref_QueuesInstitute.child(institute_id).child("Treat_type")
                 .child(type).child(date).child(hour).child("patient_id_attending").setValue(id_patient);
         /*update Queues*/
     }
 
     private void updateWaitList() {
-        ref_QueuesSearch.addListenerForSingleValueEvent(new ValueEventListener() {
+        ref_Queues.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 /* check what is inside patient_2 */
-                if(isTBD("patient_2")){
+                String id_for_patient = snapshot.child(numOfQueue)
+                        .child("Waiting_list").child("patient_2").getValue().toString();
+                if(id_for_patient.equals("TBD")){
                     updateCurrentPatient("patient_1", "TBD");
                 }
                 else { // patient_2 == number id:
-                    String id_for_patient_1 = snapshot.child("City").child(city).child("Treat_type").child(type).child(numOfQueue)
-                            .child("Waiting_list").child("patient_2").getValue().toString();
-                    updateCurrentPatient("patient_1", id_for_patient_1);
-
+                    updateCurrentPatient("patient_1", id_for_patient);
 
                     /* check what is inside patient_3 */
-                    if(isTBD("patient_3")){
+                    id_for_patient = snapshot.child(numOfQueue)
+                            .child("Waiting_list").child("patient_3").getValue().toString();
+                    if(id_for_patient.equals("TBD")){
                         updateCurrentPatient("patient_2", "TBD");
                     }
                     else { // patient_3 == number id:
-                        String id_for_patient_2 = snapshot.child("City").child(city).child("Treat_type").child(type).child(numOfQueue)
-                                .child("Waiting_list").child("patient_3").getValue().toString();
-
-                        updateCurrentPatient("patient_2", id_for_patient_2);
-
+                        updateCurrentPatient("patient_2", id_for_patient);
 
                         /* check what is inside patient_4 */
-                        if(isTBD("patient_4")){
+                        id_for_patient = snapshot.child(numOfQueue)
+                                .child("Waiting_list").child("patient_4").getValue().toString();
+                        if(id_for_patient.equals("TBD")){
                             updateCurrentPatient("patient_3", "TBD");
                         }
                         else { // patient_4 == number id:
-                            String id_for_patient_3 = snapshot.child("City").child(city).child("Treat_type").child(type).child(numOfQueue)
-                                    .child("Waiting_list").child("patient_4").getValue().toString();
-
-                            updateCurrentPatient("patient_3", id_for_patient_3);
-
+                            updateCurrentPatient("patient_3", id_for_patient);
 
                             /* check what is inside patient_5 */
-                            if(isTBD("patient_5")){
+                            id_for_patient = snapshot.child(numOfQueue)
+                                    .child("Waiting_list").child("patient_5").getValue().toString();
+                            if(id_for_patient.equals("TBD")){
                                 updateCurrentPatient("patient_4", "TBD");
                             }
                             else { // patient_5 == number id:
-                                String id_for_patient_4 = snapshot.child("City").child(city).child("Treat_type").child(type).child(numOfQueue)
-                                        .child("Waiting_list").child("patient_5").getValue().toString();
-
-                                updateCurrentPatient("patient_4", id_for_patient_4);
+                                updateCurrentPatient("patient_4", id_for_patient);
                                 updateCurrentPatient("patient_5", "TBD");
                             }
                         }
@@ -216,24 +217,6 @@ public class UpdatesAndAddsQueues implements Serializable {
             @Override
             public void onCancelled(@NonNull DatabaseError error) {}
         });
-    }
-
-    private boolean isTBD(String patient) {
-        final boolean[] flag = new boolean[1];
-        ref_QueuesSearch.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                if(snapshot.child("City").child(city).child("Treat_type").child(type).child(numOfQueue)
-                        .child("Waiting_list").child(patient).getValue().toString().equals("TBD"))
-                    flag[0] = true;
-                else
-                    flag[0] = false;
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {}
-        });
-        return flag[0];
     }
 
     private void updateCurrentPatient(String patient, String id) {
