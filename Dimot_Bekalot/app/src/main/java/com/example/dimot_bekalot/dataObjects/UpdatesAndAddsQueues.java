@@ -20,9 +20,9 @@ public class UpdatesAndAddsQueues implements Serializable {
     private FirebaseDatabase dataBase;
     private DatabaseReference ref_QueuesInstitute, ref_QueuesSearch, ref_Queues;
     private DatabaseReference ref_institute;
-    private final String queues = "Test_Queues";
-    private final String queues_institute = "Test_Queues_institute";
-    private final String queues_search = "Test_Queues_search";
+    private final String queues = "Queues";
+    private final String queues_institute = "Queues_institute";
+    private final String queues_search = "Queues_search";
     private final String institute = "Institutes";
     private boolean isExist = false;
 

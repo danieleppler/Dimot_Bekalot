@@ -39,7 +39,7 @@ public class UpdateQueueActivity extends AppCompatActivity implements View.OnCli
 
     int BLUE = R.color.blue;
 
-    private static final String Queues = "Test_Queues_institute", INSTITUTE = "Institutes";
+    private static final String Queues = "Queues_institute", INSTITUTE = "Institutes";
     private FirebaseDatabase dataBase;
     private DatabaseReference dbRef_queue_institute;
     private DatabaseReference ref_institute;

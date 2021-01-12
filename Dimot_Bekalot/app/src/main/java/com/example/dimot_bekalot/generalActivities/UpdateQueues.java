@@ -66,8 +66,8 @@ public class UpdateQueues extends AppCompatActivity {
     public void update_new_Patient(String client_id, TreatmentQueue tq, Context context,Boolean toPrint) {
 
         mDatabase = FirebaseDatabase.getInstance();
-        queues_src_ref = mDatabase.getReference().child("Test_Queues_search");
-        queues_inst_ref = mDatabase.getReference().child("Test_Queues_institute");
+        queues_src_ref = mDatabase.getReference().child("Queues_search");
+        queues_inst_ref = mDatabase.getReference().child("Queues_institute");
         inst_ref = mDatabase.getReference().child("Institutes");
 
         String date = tq.getDate().getDay() + "." + tq.getDate().getMonth() + "." + String.valueOf(tq.getDate().getYear()).substring(2);
@@ -76,7 +76,7 @@ public class UpdateQueues extends AppCompatActivity {
     }
 
     private void update_new_in_queues(TreatmentQueue tq, String date, String time, String client_id, Boolean toPrint, Context context) {
-        Queues_ref = mDatabase.getReference().child("Test_Queues");
+        Queues_ref = mDatabase.getReference().child("Queues");
         Queues_ref.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -217,7 +217,7 @@ public class UpdateQueues extends AppCompatActivity {
     }
 
     public void queue_src_cancel(String client_id, TreatmentQueue tq, Context context, String date, String time) {
-        queues_src_ref = mDatabase.getReference().child("Test_Queues_search");
+        queues_src_ref = mDatabase.getReference().child("Queues_search");
         queues_src_ref.child("City").child(tq.getCity()).child("Treat_type").child(tq.getType()).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -239,7 +239,7 @@ public class UpdateQueues extends AppCompatActivity {
     }
 
     public void queue_inst_cancel(String client_id, TreatmentQueue tq, Context context,String date,String time) {
-        queues_inst_ref = mDatabase.getReference().child("Test_Queues_institute");
+        queues_inst_ref = mDatabase.getReference().child("Queues_institute");
         inst_ref = mDatabase.getReference().child("Institutes");
         inst_ref.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -383,9 +383,9 @@ public class UpdateQueues extends AppCompatActivity {
         chosen_queue=getIntent().getStringExtra("chosen_queue");
         parse_treatment(tq);
         mDatabase = FirebaseDatabase.getInstance();
-        Queues_ref = mDatabase.getReference().child("Test_Queues");
-        queues_src_ref = mDatabase.getReference().child("Test_Queues_search");
-        queues_inst_ref = mDatabase.getReference().child("Test_Queues_institute");
+        Queues_ref = mDatabase.getReference().child("Queues");
+        queues_src_ref = mDatabase.getReference().child("Queues_search");
+        queues_inst_ref = mDatabase.getReference().child("Queues_institute");
         inst_ref = mDatabase.getReference().child("Institutes");
         mutexinst=0;
         mutexQueues=0;

@@ -39,7 +39,7 @@ import java.util.Vector;
 public class WatchingQueueActivity extends AppCompatActivity implements AdapterView.OnItemClickListener, AdapterView.OnItemSelectedListener {
 
     private String date = "";
-    private static final String QUEUE = "Test_Queues_institute";
+    private static final String QUEUE = "Queues_institute";
     private String typeOfTreatment;
     private String institute_id;
     private String client_id;
