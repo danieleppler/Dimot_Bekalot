@@ -450,7 +450,11 @@ public class UpdateQueues extends AppCompatActivity {
                                                         .child(tq.getDate().getHour() + tq.getDate().getMinute()).child("Waiting_list").child(position).setValue(client_id);
                                                 mDatabase.getReference("Patients").child(client_id).child("ActiveQueues").child("NumberOfWaitingQueues").setValue("1");
                                                 Toast.makeText(context, "נכנסת בהצלחה לרשימת ההמתנה", Toast.LENGTH_LONG).show();
-                                                Intent intent = new Intent(context, com.example.dimot_bekalot.clientActivities.Main_Client_View.class);
+                                                Intent intent;
+                                                if(getIntent().getStringExtra("flag2").equals("patient"))
+                                                    intent= new Intent(context, com.example.dimot_bekalot.clientActivities.Main_Client_View.class);
+                                                else
+                                                    intent= new Intent(context, com.example.dimot_bekalot.InstituteActivity.InstituteMain.class);
                                                 intent.putExtra("client_id", client_id);
                                                 context.startActivity(intent);
                                             }

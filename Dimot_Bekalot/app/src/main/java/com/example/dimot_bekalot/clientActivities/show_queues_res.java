@@ -270,6 +270,7 @@ public class show_queues_res extends AppCompatActivity {
                         intent.putExtra("client_id",client_id);
                         intent.putExtra("tq",tq.toString());
                         intent.putExtra("flag","cancel");
+                        intent.putExtra("flag2","patient");
                         startActivity(intent);
                     }
 
