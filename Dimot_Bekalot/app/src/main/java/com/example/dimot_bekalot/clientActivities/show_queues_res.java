@@ -1,5 +1,7 @@
 package com.example.dimot_bekalot.clientActivities;
-
+     /*
+    this is the screen where the patient booked queues are showed
+     */
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -95,7 +97,7 @@ public class show_queues_res extends AppCompatActivity {
             }
         });
     }
-
+    //when patient clicking on a booked queue, this popup pops and ask him if he sure he want to cancel this queue
     void showPopup(int position)
     {
         chosen_queue=queues.get(position);
@@ -188,7 +190,7 @@ public class show_queues_res extends AppCompatActivity {
             startActivity(intent);
         }
     };
-
+    //in this function we parsing a string that indicating queue to an Treatment_queue object
     public void parse_treatment(TreatmentQueue tq) {
         int i = 0;
         String hourT = "",minuteT = "",monthT = "";
@@ -243,7 +245,8 @@ public class show_queues_res extends AppCompatActivity {
         tq.setNameInstitute(type);
         tq.setIdPatient(client_id);
     }
-
+    //if the patient canceled his queue and there is a another patient waiting for this queue, we are booking the queue automatically for him
+    //and sending him a nonfiction using FireBase cloud massaging tokens
     private void sendNotificationToUser(String id,String treatment_det,Context context) {
         FirebaseDatabase.getInstance().getReference().child("Patients").child(id).child("token").
                 addValueEventListener(new ValueEventListener() {

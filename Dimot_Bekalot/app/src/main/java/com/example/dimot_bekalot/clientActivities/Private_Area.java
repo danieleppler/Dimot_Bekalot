@@ -1,5 +1,11 @@
 package com.example.dimot_bekalot.clientActivities;
 
+     /*
+    this is the private area of the patient, can navigate to the following screens:
+    1.patient details editing screen
+    2.showing queues that had been booked by the patient
+     */
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -75,17 +81,17 @@ public class Private_Area extends AppCompatActivity implements View.OnClickListe
                     queues=new ArrayList<>();
                     queues_id=new ArrayList<>();
                     for (DataSnapshot data:snapshot.getChildren()
-                         ) {
+                         ) { //searching for all the queues matching the patient id
                         String temp=data.child("city").getValue()+"     "+data.child("institute").getValue()+"     "+
                                 data.child("treat_type").getValue()+"     "+data.child("date").getValue()
                                 +"     "+data.child("time").getValue();
                         if (data.child("patient_id_attending").getValue().equals(client_id)) {
-                            queues.add(temp);
+                            queues.add(temp);//adding the queues to a container
                             queues_id.add(data.getKey());
                         }
                     }
                     Intent intent=new Intent(context, com.example.dimot_bekalot.clientActivities.show_queues_res.class);
-                    intent.putExtra("queues", (Serializable) queues);
+                    intent.putExtra("queues", (Serializable) queues); //passing the container in the intent
                     intent.putExtra("queues_id", (Serializable) queues_id);
                     intent.putExtra("id",client_id);
                     startActivity(intent);

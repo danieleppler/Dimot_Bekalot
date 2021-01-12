@@ -1,5 +1,9 @@
 package com.example.dimot_bekalot.clientActivities;
 
+     /*
+    this is the screen where the client can search for queues
+     */
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -70,6 +74,7 @@ public class queue_search extends AppCompatActivity implements View.OnClickListe
         fromDate2= (TextView) findViewById(R.id.fromDate);
         fromDate2.setText("בחר");
         toDate2.setText("בחר");
+        //using Calendar objects to save the patient dates choice
         toCalendar = Calendar.getInstance();
         fromCalendar=Calendar.getInstance();
         from_dateListener = new DatePickerDialog.OnDateSetListener() {
@@ -210,21 +215,21 @@ public class queue_search extends AppCompatActivity implements View.OnClickListe
                                             int day = Integer.parseInt(tempDate.substring(0, 2));
                                             String hour = data3.child("time").getValue().toString().substring(0, 2);
                                             String minute = data3.child("time").getValue().toString().substring(3, 5);
-                                            if (fromDate != null && toDate != null) {
+                                            if (fromDate != null && toDate != null) {//if not null,checking if the current queue is between the selected dates
                                                 if ((year >= fromDate.getYear() && year <= toDate.getYear())
                                                         && (month >= (fromDate.getMonth() + 1) && month <= (toDate.getMonth() + 1))
                                                         && (day >= fromDate.getDate() && day <= toDate.getDate())) {
                                                     isBetweenDate = true;
                                                 } else isBetweenDate = false;
-                                            } else isBetweenDate = true;
-                                            if (data3.child("patient_id_attending").getValue().toString().equals("TBD")) {
+                                            } else isBetweenDate = true; //if dates was'nt selected, act like this variable is true
+                                            if (data3.child("patient_id_attending").getValue().toString().equals("TBD")) { //if the queue is not taken
                                                 if (isBetweenDate)
-                                                    queues_id.add(data3.getKey());
-                                            } else {
-                                                if (!data3.child("patient_id_attending").getValue().toString().equals(client_id))
+                                                    queues_id.add(data3.getKey()); //add the correct queue to container
+                                            } else { //else,check option for waiting list
+                                                if (!data3.child("patient_id_attending").getValue().toString().equals(client_id))//if the queue is not taken by this searching patient himself
                                                     if (isBetweenDate) {
                                                         for (DataSnapshot data4 : data3.child("Waiting_list").getChildren()
-                                                        ) {
+                                                        ) {//checking if the patient is already on the waiting list
                                                             if (data4.getKey().equals(client_id))
                                                                 alreadyOnTheList = true;
                                                         }
@@ -233,6 +238,7 @@ public class queue_search extends AppCompatActivity implements View.OnClickListe
                                                             pt_ref.child(client_id).addListenerForSingleValueEvent(new ValueEventListener() {
                                                                 @Override
                                                                 public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                                                    //every patient can wait only for one queue per time, checking this condition
                                                                     if (snapshot.child("ActiveQueues").child("NumberOfWaitingQueues").getValue().equals("0")) {
                                                                         for (DataSnapshot data4 : data3.child("Waiting_list").getChildren()
                                                                         ) {
@@ -257,6 +263,7 @@ public class queue_search extends AppCompatActivity implements View.OnClickListe
                                         }
                                     }
                                 }
+                                    //if not sent to add to waiting list, sending to update patient in updateQueues activity
                                     if (queues_id.size() == 0) {
                                         Toast toast = Toast.makeText(getApplicationContext(), "אין תוצאות העונות לחיפושך", Toast.LENGTH_SHORT);
                                         toast.show();
@@ -297,7 +304,7 @@ public class queue_search extends AppCompatActivity implements View.OnClickListe
             startActivity(intent);
         }
     };
-
+    //showing popup that ask if the patient is sure he want to enter waiting list
     void Showpopup(TreatmentQueue tq,String position)
     {
         LayoutInflater inflater = this.getLayoutInflater();

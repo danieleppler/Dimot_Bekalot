@@ -125,23 +125,31 @@ public class UpdateQueueActivity extends AppCompatActivity implements View.OnCli
             String patient_id = IDInput.getText().toString().trim();
 
             if (STOP_RUN == 0) {
-//                        Update_Queues update = new Update_Queues();
-//                        MyDate myDate = new MyDate(day, month, year, hour, minute);
-//                        TreatmentQueue tq = new TreatmentQueue(myDate, client_id, typeOfTreatment, nameInstitute, city);
-//                        update.cancel_patient(client_id, tq, context, idOfPatient);
                 if (patient_id.equals("TBD")) {
-                    toWaitingList(date, theTime, patient_id);
-                }else{
-
+//                    Update_Queues update = new Update_Queues();
+                    MyDate myDate = new MyDate(day, month, year, hour, minute);
+                    TreatmentQueue tq = new TreatmentQueue(myDate, client_id, typeOfTreatment, nameInstitute, city);
+                    updateQueue(tq);
+//                    update.cancel_patient(client_id, tq, context, patient_id);
+    //                toWaitingList(date, theTime, patient_id);
                 }
+                else{}
                 STOP_RUN = 1;
                 goBackToCalendar();
             }
         }
     }
 
+   private void updateQueue(TreatmentQueue tq) {
+        Intent update = new Intent(this, com.example.dimot_bekalot.generalActivities.UpdateQueues.class);
+        update.putExtra("client_id",client_id);
+        update.putExtra("tq",tq.toString());
+        update.putExtra("flag","cancel");
+        update.putExtra("flag2",nameInstitute);
+        startActivity(update);
+    }
+
     private void toWaitingList(String theDate, String theTime, String id_patient_input) {
-        Log.d("in toWaitingList => ", "YES !!!!");
         UpdatesAndAddsQueues update = new UpdatesAndAddsQueues(institute_id, id_patient_input, theDate, theTime, typeOfTreatment, city, nameInstitute);
         update.changeWaitList();
     }
