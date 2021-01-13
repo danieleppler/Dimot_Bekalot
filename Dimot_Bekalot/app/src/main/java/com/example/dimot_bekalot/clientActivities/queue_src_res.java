@@ -1,5 +1,9 @@
 package com.example.dimot_bekalot.clientActivities;
 
+     /*
+    this is the screen where the queue search results are showed
+     */
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -119,6 +123,7 @@ public class queue_src_res extends AppCompatActivity implements View.OnClickList
 
     }
 
+    //when patient click on queue that he want to book, this function pops
     void showPopup(int position)
     {
         chosen_queue=results[position];
@@ -169,6 +174,8 @@ public class queue_src_res extends AppCompatActivity implements View.OnClickList
             startActivity(intent);
         }
     };
+
+    //in this function we parsing a string that indicating queue to an Treatment_queue object
     private void parse_treatment(TreatmentQueue tq) {
         int i = 0;
         String hourT = "",minuteT = "",monthT = "";

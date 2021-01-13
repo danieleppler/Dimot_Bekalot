@@ -1,5 +1,9 @@
 package com.example.dimot_bekalot.clientActivities;
 
+     /*
+    this is the details editing screen of the client
+     */
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
