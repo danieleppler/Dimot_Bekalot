@@ -14,7 +14,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="התורים של היום"
-        android:textColor="@color/white"
+        android:textColor="@color/White"
         android:textSize="32sp"
         android:layout_marginBottom="15dp"
         />
@@ -30,7 +30,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="נא ללחוץ על תור כדי לעדכן אותו"
-        android:textColor="@color/white"
+        android:textColor="@color/White"
         android:textSize="20sp"
         android:layout_marginBottom="20dp"
         />

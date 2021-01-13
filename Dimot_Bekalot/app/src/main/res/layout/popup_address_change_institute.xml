@@ -9,7 +9,7 @@
     android:layout_marginLeft="70dp"
     android:layout_marginTop="250dp"
     android:layout_marginRight="70dp"
-    android:background="@color/white">
+    android:background="@color/White">
 
     <TextView
         android:text="אנא כתבו כאן את הטקסט אשר תרצו לעדכן;"
@@ -28,7 +28,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:hint="שם העיר"
-        android:background="@drawable/bg_calen"
+        android:background="@color/White"
         android:textSize="30dp"/>
 
     <EditText
@@ -36,7 +36,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:hint="שם הרחוב"
-        android:background="@drawable/bg_calen"
+        android:background="@color/White"
         android:textSize="30dp"/>
 
     <EditText
@@ -44,7 +44,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:hint="מספר הבית"
-        android:background="@drawable/bg_calen"
+        android:background="@color/White"
         android:textSize="30dp"/>
 
     <Button
@@ -52,6 +52,7 @@
         android:layout_width="wrap_content"
         android:layout_height="60dp"
         android:text="עדכן"
+        android:textColor="@color/White"
         android:textSize="25dp"/>
 
 </LinearLayout>

@@ -1,19 +1,16 @@
 package com.example.dimot_bekalot.InstituteActivity;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
-import android.content.pm.ActivityInfo;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.CalendarView;
 import android.widget.ImageButton;
 import android.widget.ListView;
@@ -21,7 +18,6 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
-//import com.example.dimot_bekalot.ListQueuesInstituteActivity;
 import com.example.dimot_bekalot.Tools.Strings_Tools;
 import com.example.dimot_bekalot.R;
 import com.example.dimot_bekalot.entryActivities.Main_Activity;
@@ -31,18 +27,13 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Vector;
 
 public class WatchingQueueActivity extends AppCompatActivity implements AdapterView.OnItemClickListener, AdapterView.OnItemSelectedListener {
 
-    private String date = "";
     private static final String QUEUE = "Queues_institute";
-    private String typeOfTreatment;
-    private String institute_id;
-    private String client_id;
+    private String type_treatment, institute_id, client_id, date = "";
     private ImageButton logOut;
     Context context = this;
 
@@ -52,20 +43,23 @@ public class WatchingQueueActivity extends AppCompatActivity implements AdapterV
     CalendarView calendar_view;
     Spinner spinner;
 
+//    private final int WHITE = R.color.White;
+
     List<String> queueWithHourAndNumID;
 
     // for popup
     Dialog dialog;
-    private TextView queue;
     ListView lvQueues;
     
+    @SuppressLint("ResourceAsColor")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_watching_queue);
 
-        Intent intent = getIntent();
-        institute_id = intent.getExtras().getString("instituteID");
+//        Intent intent = getIntent();
+//        institute_id = intent.getExtras().getString("instituteID");
+        institute_id = "i:123451234";
 
         /* <Spinner> */
         spinner = (Spinner) findViewById(R.id.watching_chooseTreatmentType);
@@ -91,7 +85,7 @@ public class WatchingQueueActivity extends AppCompatActivity implements AdapterV
 
         queueWithHourAndNumID = new ArrayList<>();
 
-        // touch date on the screen:
+        // touch a date on the calendar:
         ref_queue.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -105,11 +99,11 @@ public class WatchingQueueActivity extends AppCompatActivity implements AdapterV
                         else{ date += month + "";}
                         date += ""+ String.valueOf(year).substring(2);
 
-                        if(typeOfTreatment.equals("בחר סוג טיפול"))
+                        if(type_treatment.equals("בחר סוג טיפול"))
                             Toast.makeText(context,
                                     "נא לבחור סוג טיפול", Toast.LENGTH_SHORT).show();
                         else {
-                            for (DataSnapshot data : snapshot.child(institute_id).child("Treat_type").child(typeOfTreatment).child(date).getChildren()) {
+                            for (DataSnapshot data : snapshot.child(institute_id).child("Treat_type").child(type_treatment).child(date).getChildren()) {
                                 String hour = data.getKey();
                                 String hourToViewInList = Strings_Tools.createNOTCleanUserName(hour, 2, ":");
                                 String id = data.child("patient_id_attending").getValue().toString();
@@ -128,6 +122,7 @@ public class WatchingQueueActivity extends AppCompatActivity implements AdapterV
         }); // dbRef.addValueEventListener
     }
 
+    /* This list shows the queues for that day when you click on a specific day */
     private void CreatePopupList(){
             dialog = new Dialog(this);
             dialog.setContentView(R.layout.popup_queue_per_day);
@@ -156,9 +151,9 @@ public class WatchingQueueActivity extends AppCompatActivity implements AdapterV
     }
 
     private void open_updateActivity(int position, List<String> tmp){
-        Intent update_intent = new Intent(context, UpdateQueueActivity.class);
+        Intent update_intent = new Intent(context, UpdateQueueActivity.class); // if we want we can update queue
         update_intent.putExtra("instituteID", institute_id);
-        update_intent.putExtra("type", typeOfTreatment);
+        update_intent.putExtra("type", type_treatment);
         String q = tmp.get(position);
         String queueOutput = q.substring(5,7) + "" +q.substring(8); // take just a number for the time
         update_intent.putExtra("queue", queueOutput);
@@ -170,8 +165,8 @@ public class WatchingQueueActivity extends AppCompatActivity implements AdapterV
     /* <Spinner> */
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-        typeOfTreatment = parent.getItemAtPosition(position).toString();
-        Toast.makeText(parent.getContext(), typeOfTreatment, Toast.LENGTH_SHORT).show();
+        type_treatment = parent.getItemAtPosition(position).toString();
+        Toast.makeText(parent.getContext(), type_treatment, Toast.LENGTH_SHORT).show();
     }
     @Override
     public void onNothingSelected(AdapterView<?> parent) { }

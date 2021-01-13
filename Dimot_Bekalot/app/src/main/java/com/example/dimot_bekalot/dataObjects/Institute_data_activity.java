@@ -33,7 +33,6 @@ public class Institute_data_activity extends AppCompatActivity implements View.O
     private FirebaseDatabase dataBase;
     private DatabaseReference ref_institute;
     private final String INSTITUTES = "Institutes";
-    private FirebaseAuth passwordAuth;
 
     private ImageButton logOut;
     Context context = this;
@@ -49,7 +48,7 @@ public class Institute_data_activity extends AppCompatActivity implements View.O
     private EditText firstTimePassword, secondTimePassword;
     private Button passwordDialog_yes;
 
-    // for popup
+    // for popup of other data
     Dialog dialog;
     private EditText data_to_change;
     private Button yes;
@@ -72,7 +71,6 @@ public class Institute_data_activity extends AppCompatActivity implements View.O
 
         dataBase = FirebaseDatabase.getInstance();
         ref_institute = dataBase.getReference(INSTITUTES);
-        passwordAuth = FirebaseAuth.getInstance();
 
         ref_institute.addValueEventListener(new ValueEventListener() {
             @Override
@@ -115,6 +113,18 @@ public class Institute_data_activity extends AppCompatActivity implements View.O
 
     }
 
+
+    /* on click for all button */
+    /**
+     *
+     * @param v
+     * in choice we put a string for
+     * "updateInDatabase" function
+     *
+     * we have 3 different dialog;
+     * password, address, other
+     *
+     */
     @Override
     public void onClick(View v) {
         if (password == v) {
@@ -213,6 +223,9 @@ public class Institute_data_activity extends AppCompatActivity implements View.O
         dialog.show();
     }
 
+    /**
+     * @param choice => for know what we need to change in DB
+     */
     private void updateInDatabase(String choice) {
         ref_institute.addValueEventListener(new ValueEventListener() {
             @Override
@@ -240,6 +253,7 @@ public class Institute_data_activity extends AppCompatActivity implements View.O
         });
     }
 
+    /* we need to change the password in Authentication too */
     private void updatePassword(String newPassword, Login_Input_Data data_institute) {
         DB_ChangePassword.changePasswordAtAuthentication(INSTITUTES, data_institute, newPassword);
         /*wait until the Firebase Authentication will update the password*/

@@ -142,6 +142,7 @@
         android:layout_width="125dp"
         android:layout_height="67dp"
         android:text="עדכן"
+        android:textColor="@color/White"
         android:textSize="25sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

@@ -5,23 +5,17 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Context;
 import android.content.Intent;
-import android.content.pm.ActivityInfo;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageButton;
-import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.dimot_bekalot.R;
-import com.example.dimot_bekalot.dataObjects.MyDate;
-import com.example.dimot_bekalot.dataObjects.TreatmentQueue;
-import com.example.dimot_bekalot.dataObjects.Update_Queues;
 import com.example.dimot_bekalot.dataObjects.UpdatesAndAddsQueues;
 import com.example.dimot_bekalot.entryActivities.Main_Activity;
 import com.google.firebase.database.DatabaseReference;
@@ -33,11 +27,10 @@ import com.google.firebase.database.ValueEventListener;
 
 public class AddQueueActivity extends AppCompatActivity implements View.OnClickListener, AdapterView.OnItemSelectedListener {
     Spinner spinner;
-    TextView IDInput, dateInput, timeInput;
+    TextView ID_input, date_input, time_input;
     Button addClientToQueue;
-    String type;
-    private static final String Queues = "Queues_institute";
-    private static final String INSTITUTE = "Institutes";
+    private String institute_id, city, institute_name, type;
+    private static final String INSTITUTE = "Institutes", QUEUE_INSTITUTE = "Queues_institute";
     private FirebaseDatabase dataBase;
     private DatabaseReference dbRef_queue_institute;
     private DatabaseReference dbRef_institute;
@@ -47,7 +40,6 @@ public class AddQueueActivity extends AppCompatActivity implements View.OnClickL
     private ImageButton logOut;
     Context context = this;
 
-    private String institute_id, city, name_institute;
 
     private int STOP_RUN = 0;
 
@@ -58,7 +50,6 @@ public class AddQueueActivity extends AppCompatActivity implements View.OnClickL
 
         Intent intent = getIntent();
         institute_id = intent.getExtras().getString("instituteID");
-//        institute_id = "i:123156787"; // Debuging
 
         /* <Spinner> */
         spinner = (Spinner) findViewById(R.id.chooseTreatmentType);
@@ -69,16 +60,14 @@ public class AddQueueActivity extends AppCompatActivity implements View.OnClickL
         spinner.setOnItemSelectedListener(this);
         /* </Spinner> */
 
-
-
-        IDInput = (TextView) findViewById(R.id.id_input);
-        dateInput = (TextView) findViewById(R.id.date_input);
-        timeInput = (TextView) findViewById(R.id.hour_input);
+        ID_input = (TextView) findViewById(R.id.id_input);
+        date_input = (TextView) findViewById(R.id.date_input);
+        time_input = (TextView) findViewById(R.id.hour_input);
         addClientToQueue = (Button) findViewById(R.id.adding);
         addClientToQueue.setBackgroundColor(getResources().getColor(BLUE));
 
         dataBase = FirebaseDatabase.getInstance();
-        dbRef_queue_institute = dataBase.getReference(Queues);
+        dbRef_queue_institute = dataBase.getReference(QUEUE_INSTITUTE);
         dbRef_institute = dataBase.getReference(INSTITUTE);
 
         final String[] data_institute = new String[2];
@@ -88,12 +77,10 @@ public class AddQueueActivity extends AppCompatActivity implements View.OnClickL
                 data_institute[0] = snapshot.child(institute_id).child("address").child("city_Name").getValue().toString();
                 data_institute[1] = snapshot.child(institute_id).child("institute_name").getValue().toString();
                 city = data_institute[0];
-                name_institute = data_institute[1];
+                institute_name = data_institute[1];
             }
             @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
+            public void onCancelled(@NonNull DatabaseError error) {}
         });
 
         addClientToQueue.setOnClickListener(this);
@@ -111,9 +98,9 @@ public class AddQueueActivity extends AppCompatActivity implements View.OnClickL
     @Override
     public void onClick(View v) {
         if (v == addClientToQueue) {
-            String id_patient_input = IDInput.getText().toString().trim();
-            String date_input = dateInput.getText().toString().trim();
-            String time_input = timeInput.getText().toString().trim();
+            String id_patient_input = ID_input.getText().toString().trim();
+            String date_input = this.date_input.getText().toString().trim();
+            String time_input = this.time_input.getText().toString().trim();
 
             String str_date[] = date_input.split("/", 3);
             String theDate = str_date[0] + "" + str_date[1] + "" + str_date[2];
@@ -186,7 +173,7 @@ public class AddQueueActivity extends AppCompatActivity implements View.OnClickL
     /* </Spinner> */
 
     private void add_DB(String institute_id, String theDate, String theTime, String id_patient_input){
-        UpdatesAndAddsQueues a = new UpdatesAndAddsQueues(institute_id, id_patient_input, theDate, theTime, type, city, name_institute);
+        UpdatesAndAddsQueues a = new UpdatesAndAddsQueues(institute_id, id_patient_input, theDate, theTime, type, city, institute_name);
         a.add();
         goBackToNewAdd();
     }
