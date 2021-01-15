@@ -22,6 +22,7 @@ import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.example.dimot_bekalot.R;
+import com.example.dimot_bekalot.clientActivities.Main_Client_View;
 import com.example.dimot_bekalot.dataObjects.CostumerDetailsInstitute;
 import com.example.dimot_bekalot.entryActivities.Main_Activity;
 import com.google.firebase.database.DataSnapshot;
@@ -73,14 +74,6 @@ public class Call_To_Institute_Activity extends AppCompatActivity implements Ada
         });
         /*end_Bottun_log-out*/
 
-//        /*asking for permission to use the dialer of the user*/
-//        if(ContextCompat.checkSelfPermission(Call_To_Institute_Activity.this,
-//                Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED){
-//            ActivityCompat.requestPermissions(Call_To_Institute_Activity.this,
-//                    new String[]{Manifest.permission.CALL_PHONE}, REQUEST_CALL);
-//        }
-//        /*end asking permission*/
-
         /*create a adapter to show the institutes names and phone numbers */
         InstitutesPhoneListAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, InstitutesPhoneList);
 
@@ -128,9 +121,9 @@ public class Call_To_Institute_Activity extends AppCompatActivity implements Ada
 
     @Override
     public void onBackPressed() {
-        Intent open_login = new Intent(this, Main_Activity.class);
-        open_login.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-        startActivity(open_login);
+        Intent open_client = new Intent(this, Main_Client_View.class);
+        open_client.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        startActivity(open_client);
     }
 
     /************private function************/

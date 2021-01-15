@@ -7,7 +7,6 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
-import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.widget.Toast;
 
@@ -101,7 +100,7 @@ public class Login_Verification_Activity extends AppCompatActivity {
 
     /************private function************/
     /**
-     *
+     * checks if the email address is correct and if so, if it verified
      * @param SingInUserName
      * @param SingInPassword
      * @param SingInEmail
@@ -142,7 +141,7 @@ public class Login_Verification_Activity extends AppCompatActivity {
     }
 
     /**
-     *
+     * checks if the user is a valid user and if the user is not locked
      * @param snapshot
      * @param user_ID
      * @param inputUserFromLoginActivity
@@ -192,7 +191,7 @@ public class Login_Verification_Activity extends AppCompatActivity {
         startActivity(open_login);
     }
 
-    /**/
+    /*go to the Patient menu or to the Institute*/
     private void goToRightActivity(String ID, String PATIENTorINSTITUTE) {
         if (PATIENTorINSTITUTE.equals(PATIENTS)) {
             openPatientMenu_Activity(ID);
